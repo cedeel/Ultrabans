@@ -58,16 +58,9 @@ Sync:
   #Timing is in Long format Example:#
   #1 Hour = 60 Seconds * 60 Minutes * 20 ServerTickRatePerSec = 72000L
   Timing: 72000L
-#Enable Ultrabans Live Server#
-Live:
-  Enabled: false
-  Port: 9981
 #Auto Updater#
 AutoUpdater:
   Enabled: true
-#Error / Usage Tracking#
-GoogleAnalytics:
-  Enable: true
 #Chat#
 Chat:
   #Checks Chat Messages for a valid IP address#

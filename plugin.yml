@@ -1,11 +1,12 @@
 name: Ultrabans
-version: 2.0.2
+version: 2.0.@VERSION@
 website: http://modcrafting.com
 author: Deathmarine
 description: >
              Administration Plugin for Bukkit.
 main: com.modcrafting.ultrabans.Ultrabans
 softdepend: [Essentials]
+
 commands:
 #Actions#
   ban:
