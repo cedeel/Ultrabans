@@ -15,21 +15,24 @@
  */
 package com.modcrafting.ultrabans.util;
 
-public enum BanType {
-	BAN(0),
-	IPBAN(1),
-	WARN(2),
-	KICK(3),
-	UNBAN(5),
-	JAIL(6),
-	MUTE(7),
-	INFO(8),
-	PERMA(9);
-	int id;
-	private BanType(int i){
-		id=i;
+public class BanInfo {
+
+	public int id;
+	public String name;
+	public String reason;
+	public String admin;
+	public long time;
+	public long endTime;
+	public int type;
+	
+	public BanInfo(int id, String name, String reason, String admin, long time, long endTime, int type){
+		this.id = id;
+		this.name = name;
+		this.reason = reason;
+		this.admin = admin;
+		this.time = time;
+		this.endTime = endTime;
+		this.type = type;
 	}
-	public int getId(){
-		return id;
-	}
+		
 }
