@@ -21,22 +21,22 @@ import org.bukkit.command.CommandSender;
 import com.modcrafting.ultrabans.Ultrabans;
 import com.modcrafting.ultrabans.util.Formatting;
 
-public class Clean extends CommandHandler{
-	public Clean(Ultrabans ultraBan) {
-		super(ultraBan);
-	}
-	
-	public String command(final CommandSender sender, Command command, String[] args) {
-		int count = 0;
-		for(String name:plugin.cache.keySet()){
-			OfflinePlayer of = plugin.getServer().getOfflinePlayer(name);
-			if(of!=null && Formatting.deletePlyrdat(of.getName())) 
-				count++;
-		}
-		String msg = lang.getString("Clean.Complete");
-		if(msg.contains(Ultrabans.AMOUNT)) 
-			msg = msg.replace(Ultrabans.AMOUNT, String.valueOf(count));
-		return msg;
-	}
+public class Clean extends CommandHandler {
+    public Clean(Ultrabans ultraBan) {
+        super(ultraBan);
+    }
+
+    public String command(final CommandSender sender, Command command, String[] args) {
+        int count = 0;
+        for (String name : plugin.cache.keySet()) {
+            OfflinePlayer of = plugin.getServer().getOfflinePlayer(name);
+            if (of != null && Formatting.deletePlyrdat(of.getName()))
+                count++;
+        }
+        String msg = lang.getString("Clean.Complete");
+        if (msg.contains(Ultrabans.AMOUNT))
+            msg = msg.replace(Ultrabans.AMOUNT, String.valueOf(count));
+        return msg;
+    }
 
 }

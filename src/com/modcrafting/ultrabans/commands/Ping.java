@@ -17,63 +17,64 @@ package com.modcrafting.ultrabans.commands;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.modcrafting.ultrabans.Ultrabans;
 
-public class Ping extends CommandHandler{
-	public Ping(Ultrabans instance) {
-		super(instance);
-	}
+public class Ping extends CommandHandler {
+    public Ping(Ultrabans instance) {
+        super(instance);
+    }
 
-	public String command(final CommandSender sender, Command command, String[] args) {
-		if(args.length>0){
-			Player p = plugin.getServer().getPlayer(args[0]);
-			if(p!=null){
-				String ping = null;
-	            for(Method meth:p.getClass().getMethods()){
-	            	if(meth.getName().equals("getHandle")){
-						try {
-							Object obj = meth.invoke(p, (Object[]) null);
-		            		for(Field field:obj.getClass().getFields())
-		            			if(field.getName().equals("ping"))
-		            				ping = String.valueOf(field.getInt(obj));
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-	            	}
-	            }
-	            String msg = lang.getString("Ping.Personal");
-	            if(msg.contains(Ultrabans.VICTIM))
-	            	msg.replace(Ultrabans.VICTIM, p.getName());
-	            if(msg.contains(Ultrabans.AMOUNT))
-	            	msg.replace(Ultrabans.AMOUNT, String.valueOf(ping));
-				return msg;
-			}
-			return lang.getString("Ping.Failed");
-		}
-		if(sender instanceof Player){
-			Player p = (Player) sender;
-			int ping = 0;
-            for(Method meth:p.getClass().getMethods()){
-            	if(meth.getName().equals("getHandle")){
-					try {
-						Object obj = meth.invoke(p, (Object[]) null);
-	            		for(Field field:obj.getClass().getFields())
-	            			if(field.getName().equals("ping"))
-	            				ping = field.getInt(obj);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-            	}    	
+    public String command(final CommandSender sender, Command command, String[] args) {
+        if (args.length > 0) {
+            Player p = plugin.getServer().getPlayer(args[0]);
+            if (p != null) {
+                String ping = null;
+                for (Method meth : p.getClass().getMethods()) {
+                    if (meth.getName().equals("getHandle")) {
+                        try {
+                            Object obj = meth.invoke(p, (Object[]) null);
+                            for (Field field : obj.getClass().getFields())
+                                if (field.getName().equals("ping"))
+                                    ping = String.valueOf(field.getInt(obj));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                String msg = lang.getString("Ping.Personal");
+                if (msg.contains(Ultrabans.VICTIM))
+                    msg.replace(Ultrabans.VICTIM, p.getName());
+                if (msg.contains(Ultrabans.AMOUNT))
+                    msg.replace(Ultrabans.AMOUNT, String.valueOf(ping));
+                return msg;
+            }
+            return lang.getString("Ping.Failed");
+        }
+        if (sender instanceof Player) {
+            Player p = (Player) sender;
+            int ping = 0;
+            for (Method meth : p.getClass().getMethods()) {
+                if (meth.getName().equals("getHandle")) {
+                    try {
+                        Object obj = meth.invoke(p, (Object[]) null);
+                        for (Field field : obj.getClass().getFields())
+                            if (field.getName().equals("ping"))
+                                ping = field.getInt(obj);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
             String msg = lang.getString("Ping.Personal");
-            if(msg.contains(Ultrabans.AMOUNT))
-            	msg.replace(Ultrabans.AMOUNT, String.valueOf(ping));
-			return msg;
-		}
-		return lang.getString("Ping.Failed");
-	}
+            if (msg.contains(Ultrabans.AMOUNT))
+                msg.replace(Ultrabans.AMOUNT, String.valueOf(ping));
+            return msg;
+        }
+        return lang.getString("Ping.Failed");
+    }
 }

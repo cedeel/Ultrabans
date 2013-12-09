@@ -17,44 +17,46 @@ package com.modcrafting.ultrabans.commands;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import com.modcrafting.ultrabans.Ultrabans;
 
-public class CheckIP extends CommandHandler{
-	public CheckIP(Ultrabans ultraBan) {
-		super(ultraBan);
-	}
-	public String command(final CommandSender sender, Command command, final String[] args) {
-		if (args.length < 1) 
-			return lang.getString("CheckIP.Arguments");
-		try {
-			String p = args[0];
-			String ip = plugin.getUBDatabase().getAddress(p);
-			InetAddress inet = null;
-			if(ip != null){
-				inet = InetAddress.getByName(ip);
-			}else{
-				OfflinePlayer n = plugin.getServer().getOfflinePlayer(p);
-				if(n!=null && n.isOnline()){
-					inet = n.getPlayer().getAddress().getAddress();
-					ip = inet.getHostAddress();
-					plugin.getUBDatabase().setAddress(n.getName().toLowerCase(), ip);
-				}else{
-					return lang.getString("CheckIP.NoPlayer");
-				}
-			}
-			sender.sendMessage(ChatColor.YELLOW + "------["+p+"]------");
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lang.getString("CheckIP.MSG1")) 
-					+ ChatColor.GRAY + ip);
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lang.getString("CheckIP.MSG2")) 
-					+ ChatColor.GRAY + inet.getHostName());
-		} catch (UnknownHostException e) {
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lang.getString("CheckIP.Exception")));
-		}
-		
-		return null;		
-	}
+public class CheckIP extends CommandHandler {
+    public CheckIP(Ultrabans ultraBan) {
+        super(ultraBan);
+    }
+
+    public String command(final CommandSender sender, Command command, final String[] args) {
+        if (args.length < 1)
+            return lang.getString("CheckIP.Arguments");
+        try {
+            String p = args[0];
+            String ip = plugin.getUBDatabase().getAddress(p);
+            InetAddress inet;
+            if (ip != null) {
+                inet = InetAddress.getByName(ip);
+            } else {
+                OfflinePlayer n = plugin.getServer().getOfflinePlayer(p);
+                if (n != null && n.isOnline()) {
+                    inet = n.getPlayer().getAddress().getAddress();
+                    ip = inet.getHostAddress();
+                    plugin.getUBDatabase().setAddress(n.getName().toLowerCase(), ip);
+                } else {
+                    return lang.getString("CheckIP.NoPlayer");
+                }
+            }
+            sender.sendMessage(ChatColor.YELLOW + "------[" + p + "]------");
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lang.getString("CheckIP.MSG1"))
+                    + ChatColor.GRAY + ip);
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lang.getString("CheckIP.MSG2"))
+                    + ChatColor.GRAY + inet.getHostName());
+        } catch (UnknownHostException e) {
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lang.getString("CheckIP.Exception")));
+        }
+
+        return null;
+    }
 }

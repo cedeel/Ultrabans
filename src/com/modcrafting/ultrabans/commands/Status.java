@@ -20,20 +20,20 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import com.modcrafting.ultrabans.Ultrabans;
 
-public class Status extends CommandHandler{
-	public Status(Ultrabans instance) {
-		super(instance);
-	}
+public class Status extends CommandHandler {
+    public Status(Ultrabans instance) {
+        super(instance);
+    }
 
-	public String command(final CommandSender sender, Command command, String[] args) {
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lang.getString("Status.CacheHeader")));
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lang.getString("Status.CacheBans")
-				.replace(Ultrabans.AMOUNT,String.valueOf(plugin.cache.size()))));
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lang.getString("Status.CacheIPBans")
-				.replace(Ultrabans.AMOUNT,String.valueOf(plugin.cacheIP.size()))));
-		int counter=0;
-		counter = counter+plugin.cache.toString().getBytes().length;
-		counter = counter+plugin.cacheIP.toString().getBytes().length;
-		return lang.getString("Status.Usage").replace(Ultrabans.AMOUNT, String.valueOf(counter));
-	}
+    public String command(final CommandSender sender, Command command, String[] args) {
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lang.getString("Status.CacheHeader")));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lang.getString("Status.CacheBans")
+                .replace(Ultrabans.AMOUNT, String.valueOf(plugin.cache.size()))));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lang.getString("Status.CacheIPBans")
+                .replace(Ultrabans.AMOUNT, String.valueOf(plugin.cacheIP.size()))));
+        int counter = 0;
+        counter = counter + plugin.cache.toString().getBytes().length;
+        counter = counter + plugin.cacheIP.toString().getBytes().length;
+        return lang.getString("Status.Usage").replace(Ultrabans.AMOUNT, String.valueOf(counter));
+    }
 }

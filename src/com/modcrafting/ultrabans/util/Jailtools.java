@@ -21,28 +21,30 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import com.modcrafting.ultrabans.Ultrabans;
 
 public class Jailtools {
-	Ultrabans plugin;
-    public Jailtools(Ultrabans ultraBan) {
-		this.plugin = ultraBan;
-	}
+    Ultrabans plugin;
 
-	public void setJail(Location location, String label) {
-		YamlConfiguration config = (YamlConfiguration) plugin.getConfig();
-        config.set(label+".x", (int) location.getX());
-        config.set(label+".y", (int) location.getY());
-        config.set(label+".z", (int) location.getZ());
-        config.set(label+".world", location.getWorld().getName());
+    public Jailtools(Ultrabans ultraBan) {
+        this.plugin = ultraBan;
+    }
+
+    public void setJail(Location location, String label) {
+        YamlConfiguration config = (YamlConfiguration) plugin.getConfig();
+        config.set(label + ".x", (int) location.getX());
+        config.set(label + ".y", (int) location.getY());
+        config.set(label + ".z", (int) location.getZ());
+        config.set(label + ".world", location.getWorld().getName());
         plugin.saveConfig();
 
     }
-    public Location getJail(String label){
-    	YamlConfiguration config = (YamlConfiguration) plugin.getConfig();
+
+    public Location getJail(String label) {
+        YamlConfiguration config = (YamlConfiguration) plugin.getConfig();
         Location setlp = new Location(
                 plugin.getServer().getWorld(
-                	config.getString(label+".world", plugin.getServer().getWorlds().get(0).getName())),
-                config.getInt(label+".x", 0),
-                config.getInt(label+".y", 0),
-                config.getInt(label+".z", 0));
-        	return setlp;
+                        config.getString(label + ".world", plugin.getServer().getWorlds().get(0).getName())),
+                config.getInt(label + ".x", 0),
+                config.getInt(label + ".y", 0),
+                config.getInt(label + ".z", 0));
+        return setlp;
     }
 }

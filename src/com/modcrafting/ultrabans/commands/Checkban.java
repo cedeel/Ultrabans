@@ -26,36 +26,36 @@ import com.modcrafting.ultrabans.util.BanInfo;
 import com.modcrafting.ultrabans.util.BanType;
 import com.modcrafting.ultrabans.util.Formatting;
 
-public class Checkban extends CommandHandler{
-	public Checkban(Ultrabans ultraBan) {
-		super(ultraBan);
-	}
+public class Checkban extends CommandHandler {
+    public Checkban(Ultrabans ultraBan) {
+        super(ultraBan);
+    }
 
-	public String command(final CommandSender sender, Command command, String[] args) {
-		if (args.length < 1)
-			return lang.getString("CheckBan.Arguments");
-		String name = args[0];
-		name = Formatting.expandName(name);
-		OfflinePlayer check = plugin.getServer().getOfflinePlayer(name);
-		if(check != null)
-			name = check.getName();
-		List<BanInfo> bans = plugin.getUBDatabase().listRecords(name);
-		if (bans.isEmpty()) {
-			String msg = lang.getString("CheckBan.None");
-			if (msg.contains(Ultrabans.AMOUNT))
-				msg = msg.replace(Ultrabans.AMOUNT, String.valueOf(bans.size()));
-			if (msg.contains(Ultrabans.VICTIM))
-				msg = msg.replace(Ultrabans.VICTIM, name);
-			return msg;
-		}
-		String msg = lang.getString("CheckBan.Header");
-		if(msg.contains(Ultrabans.AMOUNT)) msg=msg.replace(Ultrabans.AMOUNT, String.valueOf(bans.size()));
-		if(msg.contains(Ultrabans.VICTIM)) msg=msg.replace(Ultrabans.VICTIM, bans.get(0).getName());
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-		for(BanInfo ban : bans){
-			sender.sendMessage(ChatColor.RED + BanType.toCode(ban.getType()) + ": " + ChatColor.GREEN + ban.getReason() + ChatColor.AQUA +" by " + ban.getAdmin());
-		}
-		return null;
-	}
-	
+    public String command(final CommandSender sender, Command command, String[] args) {
+        if (args.length < 1)
+            return lang.getString("CheckBan.Arguments");
+        String name = args[0];
+        name = Formatting.expandName(name);
+        OfflinePlayer check = plugin.getServer().getOfflinePlayer(name);
+        if (check != null)
+            name = check.getName();
+        List<BanInfo> bans = plugin.getUBDatabase().listRecords(name);
+        if (bans.isEmpty()) {
+            String msg = lang.getString("CheckBan.None");
+            if (msg.contains(Ultrabans.AMOUNT))
+                msg = msg.replace(Ultrabans.AMOUNT, String.valueOf(bans.size()));
+            if (msg.contains(Ultrabans.VICTIM))
+                msg = msg.replace(Ultrabans.VICTIM, name);
+            return msg;
+        }
+        String msg = lang.getString("CheckBan.Header");
+        if (msg.contains(Ultrabans.AMOUNT)) msg = msg.replace(Ultrabans.AMOUNT, String.valueOf(bans.size()));
+        if (msg.contains(Ultrabans.VICTIM)) msg = msg.replace(Ultrabans.VICTIM, bans.get(0).getName());
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+        for (BanInfo ban : bans) {
+            sender.sendMessage(ChatColor.RED + BanType.toCode(ban.getType()) + ": " + ChatColor.GREEN + ban.getReason() + ChatColor.AQUA + " by " + ban.getAdmin());
+        }
+        return null;
+    }
+
 }

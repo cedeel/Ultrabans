@@ -19,14 +19,14 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import com.modcrafting.ultrabans.Ultrabans;
 
-public class Version  extends CommandHandler {
-	public Version(Ultrabans instance) {
-		super(instance);
-	}
-	
-	public String command(CommandSender sender, Command command, String[] args) {
-		plugin.getServer().dispatchCommand(sender, "version Ultrabans");
-		return null;
-	}
+public class Version extends CommandHandler {
+    public Version(Ultrabans instance) {
+        super(instance);
+    }
+
+    public String command(CommandSender sender, Command command, String[] args) {
+        plugin.getServer().dispatchCommand(sender, "version Ultrabans");
+        return null;
+    }
 }
 

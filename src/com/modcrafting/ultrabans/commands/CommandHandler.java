@@ -24,41 +24,42 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.modcrafting.ultrabans.Ultrabans;
 
-public abstract class CommandHandler implements CommandExecutor{
-	Ultrabans plugin;
-	FileConfiguration config;
-	YamlConfiguration lang;
-	public CommandHandler(Ultrabans instance){
-		plugin=instance;
-		config=instance.getConfig();
-		lang=instance.getLangConfig();
-	}
+public abstract class CommandHandler implements CommandExecutor {
+    Ultrabans plugin;
+    FileConfiguration config;
+    YamlConfiguration lang;
 
-	public boolean onCommand(final CommandSender sender, final Command command, String label, final String[] args) {
-		if(!sender.hasPermission(command.getPermission())){
-			sender.sendMessage(Ultrabans.DEFAULT_DENY_MESSAGE);
-			return true;
-		}
+    public CommandHandler(Ultrabans instance) {
+        plugin = instance;
+        config = instance.getConfig();
+        lang = instance.getLangConfig();
+    }
 
-		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
-			@Override
-			public void run() {
-				String message = command(sender, command, args);
-				if(message != null){
-					message = ChatColor.translateAlternateColorCodes('&', message);
-					if(message.contains("%n%")){
-						for(String m : message.split("%n%"))
-							sender.sendMessage(m);
-					}else{
-						sender.sendMessage(message);
-					}
-				}
-			}
-		});
-		return true;
-		
-	}
-	
-	public abstract String command(CommandSender sender,Command command, String[] args);
+    public boolean onCommand(final CommandSender sender, final Command command, String label, final String[] args) {
+        if (!sender.hasPermission(command.getPermission())) {
+            sender.sendMessage(Ultrabans.DEFAULT_DENY_MESSAGE);
+            return true;
+        }
+
+        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+            @Override
+            public void run() {
+                String message = command(sender, command, args);
+                if (message != null) {
+                    message = ChatColor.translateAlternateColorCodes('&', message);
+                    if (message.contains("%n%")) {
+                        for (String m : message.split("%n%"))
+                            sender.sendMessage(m);
+                    } else {
+                        sender.sendMessage(message);
+                    }
+                }
+            }
+        });
+        return true;
+
+    }
+
+    public abstract String command(CommandSender sender, Command command, String[] args);
 
 }

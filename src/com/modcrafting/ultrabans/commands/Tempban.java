@@ -26,89 +26,89 @@ import com.modcrafting.ultrabans.util.BanType;
 import com.modcrafting.ultrabans.util.Formatting;
 
 public class Tempban extends CommandHandler {
-	public Tempban(Ultrabans instance) {
-		super(instance);
-	}
+    public Tempban(Ultrabans instance) {
+        super(instance);
+    }
 
-	public String command(CommandSender sender, Command command, String[] args) {
-		if (args.length < 3)
-			return lang.getString("Tempban.Arguments");
-		boolean broadcast = true;
-		String admin = Ultrabans.DEFAULT_ADMIN;
-		String reason = Ultrabans.DEFAULT_REASON;
-		if (sender instanceof Player)
-			admin = sender.getName();
-		String name = args[0];
-		name = Formatting.expandName(name);
-		if(name.equalsIgnoreCase(admin))
-			return lang.getString("Tempban.Emo");
-		long tempTime = 0;
-		String amt = new String();
-		String mode = new String();
-			if(args.length > 3){
-				if(args[1].equalsIgnoreCase("-s")
-						&&sender.hasPermission(command.getPermission()+".silent"))
-					broadcast = false;
-				if(args[1].equalsIgnoreCase("-a")
-						&&sender.hasPermission(command.getPermission()+".anon"))
-					admin = Ultrabans.DEFAULT_ADMIN;
-				amt=args[2];
-				mode=args[3];
-				reason = Formatting.combineSplit(4, args);
-				tempTime = Formatting.parseTimeSpec(amt,mode);
-			}else if(args.length > 2){
-				amt=args[1];
-				mode=args[2];
-				tempTime = Formatting.parseTimeSpec(amt, mode);
-				reason = Formatting.combineSplit(3, args);
-			}
-		if(tempTime == 0) 
-			return lang.getString("Tempban.TimeFail");
-		long temp = System.currentTimeMillis()/1000+tempTime;
+    public String command(CommandSender sender, Command command, String[] args) {
+        if (args.length < 3)
+            return lang.getString("Tempban.Arguments");
+        boolean broadcast = true;
+        String admin = Ultrabans.DEFAULT_ADMIN;
+        String reason = Ultrabans.DEFAULT_REASON;
+        if (sender instanceof Player)
+            admin = sender.getName();
+        String name = args[0];
+        name = Formatting.expandName(name);
+        if (name.equalsIgnoreCase(admin))
+            return lang.getString("Tempban.Emo");
+        long tempTime = 0;
+        String amt;
+        String mode;
+        if (args.length > 3) {
+            if (args[1].equalsIgnoreCase("-s")
+                    && sender.hasPermission(command.getPermission() + ".silent"))
+                broadcast = false;
+            if (args[1].equalsIgnoreCase("-a")
+                    && sender.hasPermission(command.getPermission() + ".anon"))
+                admin = Ultrabans.DEFAULT_ADMIN;
+            amt = args[2];
+            mode = args[3];
+            reason = Formatting.combineSplit(4, args);
+            tempTime = Formatting.parseTimeSpec(amt, mode);
+        } else if (args.length > 2) {
+            amt = args[1];
+            mode = args[2];
+            tempTime = Formatting.parseTimeSpec(amt, mode);
+            reason = Formatting.combineSplit(3, args);
+        }
+        if (tempTime == 0)
+            return lang.getString("Tempban.TimeFail");
+        long temp = System.currentTimeMillis() / 1000 + tempTime;
 
-		if(plugin.cache.containsKey(name.toLowerCase())){
-			for(BanInfo info: plugin.cache.get(name.toLowerCase())){
-				if(info.getType() == BanType.TEMPBAN.getId() 
-				|| info.getType() == BanType.BAN.getId()){
-					String failed = lang.getString("Tempban.Failed");
-					if(failed.contains(Ultrabans.VICTIM))
-						failed = failed.replace(Ultrabans.VICTIM, name);
-					return failed;
-					
-				}
-			}
-		}
-		
-		OfflinePlayer victim = plugin.getServer().getOfflinePlayer(name);
-		if(victim != null){
-			if(victim.isOnline()){
-				if(victim.getPlayer().hasPermission("ultraban.override.tempban") &&
-						!admin.equalsIgnoreCase(Ultrabans.ADMIN))
-					return lang.getString("Tempban.Denied");
-				String vicmsg = lang.getString("Tempban.MsgToVictim");
-				if(vicmsg.contains(Ultrabans.ADMIN))
-					vicmsg = vicmsg.replace(Ultrabans.ADMIN, admin);
-				if(vicmsg.contains(Ultrabans.REASON)) 
-					vicmsg = vicmsg.replace(Ultrabans.REASON, reason);
-				victim.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', vicmsg));
-			}
-			name = victim.getName();
-		}
-		plugin.getAPI().tempbanPlayer(name, reason, temp, admin);
-		String bcmsg = ChatColor.translateAlternateColorCodes('&', lang.getString("Tempban.MsgToBroadcast"));
-		if(bcmsg.contains(Ultrabans.ADMIN)) 
-			bcmsg = bcmsg.replace(Ultrabans.ADMIN, admin);
-		if(bcmsg.contains(Ultrabans.REASON)) 
-			bcmsg = bcmsg.replace(Ultrabans.REASON, reason);
-		if(bcmsg.contains(Ultrabans.VICTIM)) 
-			bcmsg = bcmsg.replace(Ultrabans.VICTIM, name);
-		if(broadcast){
-			plugin.getServer().broadcastMessage(bcmsg);
-		}else{
-			sender.sendMessage(ChatColor.ITALIC + "Silent: " + bcmsg);
-		}
-		if(plugin.getLog())
-			plugin.getLogger().info(ChatColor.stripColor(bcmsg));
-		return null;
-	}
+        if (plugin.cache.containsKey(name.toLowerCase())) {
+            for (BanInfo info : plugin.cache.get(name.toLowerCase())) {
+                if (info.getType() == BanType.TEMPBAN.getId()
+                        || info.getType() == BanType.BAN.getId()) {
+                    String failed = lang.getString("Tempban.Failed");
+                    if (failed.contains(Ultrabans.VICTIM))
+                        failed = failed.replace(Ultrabans.VICTIM, name);
+                    return failed;
+
+                }
+            }
+        }
+
+        OfflinePlayer victim = plugin.getServer().getOfflinePlayer(name);
+        if (victim != null) {
+            if (victim.isOnline()) {
+                if (victim.getPlayer().hasPermission("ultraban.override.tempban") &&
+                        !admin.equalsIgnoreCase(Ultrabans.ADMIN))
+                    return lang.getString("Tempban.Denied");
+                String vicmsg = lang.getString("Tempban.MsgToVictim");
+                if (vicmsg.contains(Ultrabans.ADMIN))
+                    vicmsg = vicmsg.replace(Ultrabans.ADMIN, admin);
+                if (vicmsg.contains(Ultrabans.REASON))
+                    vicmsg = vicmsg.replace(Ultrabans.REASON, reason);
+                victim.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', vicmsg));
+            }
+            name = victim.getName();
+        }
+        plugin.getAPI().tempbanPlayer(name, reason, temp, admin);
+        String bcmsg = ChatColor.translateAlternateColorCodes('&', lang.getString("Tempban.MsgToBroadcast"));
+        if (bcmsg.contains(Ultrabans.ADMIN))
+            bcmsg = bcmsg.replace(Ultrabans.ADMIN, admin);
+        if (bcmsg.contains(Ultrabans.REASON))
+            bcmsg = bcmsg.replace(Ultrabans.REASON, reason);
+        if (bcmsg.contains(Ultrabans.VICTIM))
+            bcmsg = bcmsg.replace(Ultrabans.VICTIM, name);
+        if (broadcast) {
+            plugin.getServer().broadcastMessage(bcmsg);
+        } else {
+            sender.sendMessage(ChatColor.ITALIC + "Silent: " + bcmsg);
+        }
+        if (plugin.getLog())
+            plugin.getLogger().info(ChatColor.stripColor(bcmsg));
+        return null;
+    }
 }

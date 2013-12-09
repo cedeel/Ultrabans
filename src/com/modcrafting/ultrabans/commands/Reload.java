@@ -19,17 +19,17 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import com.modcrafting.ultrabans.Ultrabans;
 
-public class Reload extends CommandHandler{
-	public Reload(Ultrabans instance) {
-		super(instance);
-	}
+public class Reload extends CommandHandler {
+    public Reload(Ultrabans instance) {
+        super(instance);
+    }
 
-	public String command(final CommandSender sender, Command command, String[] args) {
-		plugin.reloadConfig();
-		plugin.getServer().getPluginManager().disablePlugin(plugin);
-		plugin.getServer().getPluginManager().enablePlugin(plugin);
-		if(plugin.getLog())
-			plugin.getLogger().info("Reloaded.");
-		return lang.getString("Reload");
-	}
+    public String command(final CommandSender sender, Command command, String[] args) {
+        plugin.reloadConfig();
+        plugin.getServer().getPluginManager().disablePlugin(plugin);
+        plugin.getServer().getPluginManager().enablePlugin(plugin);
+        if (plugin.getLog())
+            plugin.getLogger().info("Reloaded.");
+        return lang.getString("Reload");
+    }
 }

@@ -16,49 +16,61 @@
 package com.modcrafting.ultrabans.util;
 
 public enum BanType {
-	BAN(0),
-	IPBAN(1),
-	WARN(2),
-	KICK(3),
-	UNBAN(5),
-	JAIL(6),
-	MUTE(7),
-	INFO(8),
-	PERMA(9),
-	TEMPBAN(10),
-	TEMPIPBAN(11),
-	TEMPJAIL(12);
-	int id;
-	private BanType(int i){
-		id=i;
-	}
-	public int getId(){
-		return id;
-	}
-	
-	public String toCode(){
-		return toCode(id);
-	}
-	
-	public static BanType fromID(int type){
-		for(BanType tp:BanType.values())
-			if(tp.getId()==type)
-				return tp;
-		return BAN;
-	}
+    BAN(0),
+    IPBAN(1),
+    WARN(2),
+    KICK(3),
+    UNBAN(5),
+    JAIL(6),
+    MUTE(7),
+    INFO(8),
+    PERMA(9),
+    TEMPBAN(10),
+    TEMPIPBAN(11),
+    TEMPJAIL(12);
+    int id;
 
-	public static String toCode(int num){
-		switch(num){
-			case 0: return "B";
-			case 1: return "IP";
-			case 2: return "W";
-			case 3: return "K";
-			case 4: return "F";
-			case 5: return "UN";
-			case 6: return "J";
-			case 7: return "M";
-			case 9: return "PB";
-			default: return "?";
-		}
-	}
+    private BanType(int i) {
+        id = i;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String toCode() {
+        return toCode(id);
+    }
+
+    public static BanType fromID(int type) {
+        for (BanType tp : BanType.values())
+            if (tp.getId() == type)
+                return tp;
+        return BAN;
+    }
+
+    public static String toCode(int num) {
+        switch (num) {
+            case 0:
+                return "B";
+            case 1:
+                return "IP";
+            case 2:
+                return "W";
+            case 3:
+                return "K";
+            case 4:
+                return "F";
+            case 5:
+                return "UN";
+            case 6:
+                return "J";
+            case 7:
+                return "M";
+            case 9:
+                return "PB";
+            default:
+                return "?";
+        }
+    }
 }

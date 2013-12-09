@@ -22,30 +22,30 @@ import org.bukkit.entity.Player;
 import com.modcrafting.ultrabans.Ultrabans;
 import com.modcrafting.ultrabans.util.Formatting;
 
-public class Starve extends CommandHandler{
-	public Starve(Ultrabans instance) {
-		super(instance);
-	}
+public class Starve extends CommandHandler {
+    public Starve(Ultrabans instance) {
+        super(instance);
+    }
 
-	public String command(final CommandSender sender, Command command, String[] args) {
-		if (args.length < 1)
-			return lang.getString("Starve.Arguments");
-		String admin = Ultrabans.DEFAULT_ADMIN;
-		if(sender instanceof Player)
-			admin = sender.getName();
-		String name = Formatting.expandName(args[0]); 
-		Player victim = plugin.getServer().getPlayer(name);
-		if(victim == null){
-			return lang.getString("Starve.Failed");
-		}
-		victim.sendMessage(ChatColor.translateAlternateColorCodes('&', lang.getString("Starve.MsgToVictim")));
-		victim.setFoodLevel(0);	
-		
-		String bcmsg = lang.getString("Starve.MsgToSender");
-		if(bcmsg.contains(Ultrabans.ADMIN)) 
-			bcmsg = bcmsg.replace(Ultrabans.ADMIN, admin);
-		if(bcmsg.contains(Ultrabans.VICTIM)) 
-			bcmsg = bcmsg.replace(Ultrabans.VICTIM, name);
-		return bcmsg;
-	}
+    public String command(final CommandSender sender, Command command, String[] args) {
+        if (args.length < 1)
+            return lang.getString("Starve.Arguments");
+        String admin = Ultrabans.DEFAULT_ADMIN;
+        if (sender instanceof Player)
+            admin = sender.getName();
+        String name = Formatting.expandName(args[0]);
+        Player victim = plugin.getServer().getPlayer(name);
+        if (victim == null) {
+            return lang.getString("Starve.Failed");
+        }
+        victim.sendMessage(ChatColor.translateAlternateColorCodes('&', lang.getString("Starve.MsgToVictim")));
+        victim.setFoodLevel(0);
+
+        String bcmsg = lang.getString("Starve.MsgToSender");
+        if (bcmsg.contains(Ultrabans.ADMIN))
+            bcmsg = bcmsg.replace(Ultrabans.ADMIN, admin);
+        if (bcmsg.contains(Ultrabans.VICTIM))
+            bcmsg = bcmsg.replace(Ultrabans.VICTIM, name);
+        return bcmsg;
+    }
 }

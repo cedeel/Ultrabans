@@ -25,42 +25,42 @@ import com.modcrafting.ultrabans.util.BanInfo;
 import com.modcrafting.ultrabans.util.BanType;
 import com.modcrafting.ultrabans.util.Formatting;
 
-public class Pardon extends CommandHandler{
-	public Pardon(Ultrabans instance) {
-		super(instance);
-	}
-	
-	public String command(CommandSender sender, Command command, String[] args) {
-		if (args.length < 1) 
-			return lang.getString("Pardon.Arguments");
-		String admin = Ultrabans.DEFAULT_ADMIN;
-		if (sender instanceof Player)
-			admin = sender.getName();
-		String name = Formatting.expandName(args[0]);
-		if(plugin.cache.containsKey(name.toLowerCase())){
-			for(BanInfo info: plugin.cache.get(name.toLowerCase())){
-				if(info.getType() == BanType.JAIL.getId()){
-					plugin.cache.remove(name.toLowerCase());
-					String bcmsg = lang.getString("Pardon.Msg");
-					if(bcmsg.contains(Ultrabans.ADMIN)) 
-						bcmsg = bcmsg.replace(Ultrabans.ADMIN, admin);
-					if(bcmsg.contains(Ultrabans.VICTIM)) 
-						bcmsg = bcmsg.replace(Ultrabans.VICTIM, name);
-					plugin.getAPI().pardonPlayer(name, admin);
-					Player victim = plugin.getServer().getPlayer(name);
-					if(victim != null){
-						Location stlp = plugin.jail.getJail("release");
-						if(stlp != null){
-							victim.teleport(stlp);
-						}else{
-							victim.teleport(victim.getBedSpawnLocation());
-						}
-						victim.sendMessage(bcmsg);
-					}
-					return bcmsg;
-				}
-			}
-		}
-		return lang.getString("Pardon.Failed");
-	}
+public class Pardon extends CommandHandler {
+    public Pardon(Ultrabans instance) {
+        super(instance);
+    }
+
+    public String command(CommandSender sender, Command command, String[] args) {
+        if (args.length < 1)
+            return lang.getString("Pardon.Arguments");
+        String admin = Ultrabans.DEFAULT_ADMIN;
+        if (sender instanceof Player)
+            admin = sender.getName();
+        String name = Formatting.expandName(args[0]);
+        if (plugin.cache.containsKey(name.toLowerCase())) {
+            for (BanInfo info : plugin.cache.get(name.toLowerCase())) {
+                if (info.getType() == BanType.JAIL.getId()) {
+                    plugin.cache.remove(name.toLowerCase());
+                    String bcmsg = lang.getString("Pardon.Msg");
+                    if (bcmsg.contains(Ultrabans.ADMIN))
+                        bcmsg = bcmsg.replace(Ultrabans.ADMIN, admin);
+                    if (bcmsg.contains(Ultrabans.VICTIM))
+                        bcmsg = bcmsg.replace(Ultrabans.VICTIM, name);
+                    plugin.getAPI().pardonPlayer(name, admin);
+                    Player victim = plugin.getServer().getPlayer(name);
+                    if (victim != null) {
+                        Location stlp = plugin.jail.getJail("release");
+                        if (stlp != null) {
+                            victim.teleport(stlp);
+                        } else {
+                            victim.teleport(victim.getBedSpawnLocation());
+                        }
+                        victim.sendMessage(bcmsg);
+                    }
+                    return bcmsg;
+                }
+            }
+        }
+        return lang.getString("Pardon.Failed");
+    }
 }

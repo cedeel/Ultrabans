@@ -21,17 +21,17 @@ import org.bukkit.command.CommandSender;
 
 import com.modcrafting.ultrabans.Ultrabans;
 
-public class Help extends CommandHandler{
-	public Help(Ultrabans instance) {
-		super(instance);
-	}
+public class Help extends CommandHandler {
+    public Help(Ultrabans instance) {
+        super(instance);
+    }
 
-	public String command(CommandSender sender, Command command, String[] args) {
-		if(args.length>0){
-			Bukkit.getServer().dispatchCommand(sender, "help Ultrabans " + args[0]);
-		}else{
-			Bukkit.getServer().dispatchCommand(sender, "help Ultrabans");
-		}
-		return null;
-	}
+    public String command(CommandSender sender, Command command, String[] args) {
+        if (args.length > 0) {
+            Bukkit.getServer().dispatchCommand(sender, "help Ultrabans " + args[0]);
+        } else {
+            Bukkit.getServer().dispatchCommand(sender, "help Ultrabans");
+        }
+        return null;
+    }
 }

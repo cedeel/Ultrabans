@@ -26,79 +26,79 @@ import com.modcrafting.ultrabans.util.BanType;
 import com.modcrafting.ultrabans.util.Formatting;
 
 public class Perma extends CommandHandler {
-	public Perma(Ultrabans instance) {
-		super(instance);
-	}
+    public Perma(Ultrabans instance) {
+        super(instance);
+    }
 
-	public String command(CommandSender sender, Command command, String[] args) {
-		if (args.length < 1)
-			return lang.getString("PermaBan.Arguments");
-		boolean broadcast = true;
-		String admin = Ultrabans.DEFAULT_ADMIN;
-		String reason = Ultrabans.DEFAULT_REASON;
-		if (sender instanceof Player)
-			admin = sender.getName();
-		String name = args[0];
-		name = Formatting.expandName(name);
-		if(name.equalsIgnoreCase(admin))
-			return lang.getString("PermaBan.Emo");
-		if (args.length > 1) {
-			if (args[1].equalsIgnoreCase("-s")){
-				if(	sender.hasPermission(command.getPermission() + ".silent"))
-					broadcast = false;
-				reason = Formatting.combineSplit(2, args);	
-			} else if (args[1].equalsIgnoreCase("-a")){
-				if(sender.hasPermission(command.getPermission() + ".anon"))
-					admin = Ultrabans.DEFAULT_ADMIN;
-				reason = Formatting.combineSplit(2, args);	
-			} else {
-				reason = Formatting.combineSplit(1, args);
-			}
-		}
-		if(plugin.cache.containsKey(name.toLowerCase())){
-			for(BanInfo info: plugin.cache.get(name.toLowerCase())){
-				if(info.getType() == BanType.BAN.getId()){
-					String failed = lang.getString("PermaBan.Failed");
-					if(failed.contains(Ultrabans.VICTIM))
-						failed = failed.replace(Ultrabans.VICTIM, name);
-					return failed; 					
-				}
-			}
-		}
-		OfflinePlayer victim = plugin.getServer().getOfflinePlayer(name);
-		if(victim != null){
-			if(victim.isOnline()){
-				if(victim.getPlayer().hasPermission("ultraban.override.permaban") &&
-						!admin.equalsIgnoreCase(Ultrabans.ADMIN))
-					return lang.getString("PermaBan.Denied");
-				String vicmsg = lang.getString("PermaBan.MsgToVictim");
-				if(vicmsg.contains(Ultrabans.ADMIN))
-					vicmsg = vicmsg.replace(Ultrabans.ADMIN, admin);
-				if(vicmsg.contains(Ultrabans.REASON)) 
-					vicmsg = vicmsg.replace(Ultrabans.REASON, reason);
-				victim.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', vicmsg));
-			}
-			name = victim.getName();
-		}
-		plugin.getAPI().permabanPlayer(name, reason, admin);
-		String bcmsg = ChatColor.translateAlternateColorCodes('&', lang.getString("PermaBan.MsgToBroadcast"));
-		if(bcmsg.contains(Ultrabans.ADMIN)) 
-			bcmsg = bcmsg.replace(Ultrabans.ADMIN, admin);
-		if(bcmsg.contains(Ultrabans.REASON)) 
-			bcmsg = bcmsg.replace(Ultrabans.REASON, reason);
-		if(bcmsg.contains(Ultrabans.VICTIM)) 
-			bcmsg = bcmsg.replace(Ultrabans.VICTIM, name);
-		if(config.getBoolean("CleanOnBan")) 
-			Formatting.deletePlyrdat(name);
-		if(config.getBoolean("ClearWarnOnBan",false)) 
-			plugin.getAPI().clearWarn(name);
-		if(broadcast){
-			plugin.getServer().broadcastMessage(bcmsg);
-		}else{
-			sender.sendMessage(ChatColor.ITALIC + "Silent: " + bcmsg);
-		}
-		if(plugin.getLog())
-			plugin.getLogger().info(ChatColor.stripColor(bcmsg));
-		return null;
-	}
+    public String command(CommandSender sender, Command command, String[] args) {
+        if (args.length < 1)
+            return lang.getString("PermaBan.Arguments");
+        boolean broadcast = true;
+        String admin = Ultrabans.DEFAULT_ADMIN;
+        String reason = Ultrabans.DEFAULT_REASON;
+        if (sender instanceof Player)
+            admin = sender.getName();
+        String name = args[0];
+        name = Formatting.expandName(name);
+        if (name.equalsIgnoreCase(admin))
+            return lang.getString("PermaBan.Emo");
+        if (args.length > 1) {
+            if (args[1].equalsIgnoreCase("-s")) {
+                if (sender.hasPermission(command.getPermission() + ".silent"))
+                    broadcast = false;
+                reason = Formatting.combineSplit(2, args);
+            } else if (args[1].equalsIgnoreCase("-a")) {
+                if (sender.hasPermission(command.getPermission() + ".anon"))
+                    admin = Ultrabans.DEFAULT_ADMIN;
+                reason = Formatting.combineSplit(2, args);
+            } else {
+                reason = Formatting.combineSplit(1, args);
+            }
+        }
+        if (plugin.cache.containsKey(name.toLowerCase())) {
+            for (BanInfo info : plugin.cache.get(name.toLowerCase())) {
+                if (info.getType() == BanType.BAN.getId()) {
+                    String failed = lang.getString("PermaBan.Failed");
+                    if (failed.contains(Ultrabans.VICTIM))
+                        failed = failed.replace(Ultrabans.VICTIM, name);
+                    return failed;
+                }
+            }
+        }
+        OfflinePlayer victim = plugin.getServer().getOfflinePlayer(name);
+        if (victim != null) {
+            if (victim.isOnline()) {
+                if (victim.getPlayer().hasPermission("ultraban.override.permaban") &&
+                        !admin.equalsIgnoreCase(Ultrabans.ADMIN))
+                    return lang.getString("PermaBan.Denied");
+                String vicmsg = lang.getString("PermaBan.MsgToVictim");
+                if (vicmsg.contains(Ultrabans.ADMIN))
+                    vicmsg = vicmsg.replace(Ultrabans.ADMIN, admin);
+                if (vicmsg.contains(Ultrabans.REASON))
+                    vicmsg = vicmsg.replace(Ultrabans.REASON, reason);
+                victim.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', vicmsg));
+            }
+            name = victim.getName();
+        }
+        plugin.getAPI().permabanPlayer(name, reason, admin);
+        String bcmsg = ChatColor.translateAlternateColorCodes('&', lang.getString("PermaBan.MsgToBroadcast"));
+        if (bcmsg.contains(Ultrabans.ADMIN))
+            bcmsg = bcmsg.replace(Ultrabans.ADMIN, admin);
+        if (bcmsg.contains(Ultrabans.REASON))
+            bcmsg = bcmsg.replace(Ultrabans.REASON, reason);
+        if (bcmsg.contains(Ultrabans.VICTIM))
+            bcmsg = bcmsg.replace(Ultrabans.VICTIM, name);
+        if (config.getBoolean("CleanOnBan"))
+            Formatting.deletePlyrdat(name);
+        if (config.getBoolean("ClearWarnOnBan", false))
+            plugin.getAPI().clearWarn(name);
+        if (broadcast) {
+            plugin.getServer().broadcastMessage(bcmsg);
+        } else {
+            sender.sendMessage(ChatColor.ITALIC + "Silent: " + bcmsg);
+        }
+        if (plugin.getLog())
+            plugin.getLogger().info(ChatColor.stripColor(bcmsg));
+        return null;
+    }
 }

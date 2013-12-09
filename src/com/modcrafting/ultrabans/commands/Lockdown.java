@@ -20,39 +20,39 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import com.modcrafting.ultrabans.Ultrabans;
 
-public class Lockdown extends CommandHandler{
-	public Lockdown(Ultrabans instance) {
-		super(instance);
-	}
-	
-	public String command(CommandSender sender, Command command, String[] args) {
-		if (args.length < 1) 
-			return lang.getString("Lockdown.Arguments");
-		String admin = Ultrabans.DEFAULT_ADMIN;
-		if (sender instanceof Player)
-			admin = sender.getName();
-		boolean locked = config.getBoolean("Lockdown", false);
-		String toggle = args[0];
-		if (toggle.equalsIgnoreCase("on")){ 
-			if(!locked){ 
-				plugin.getConfig().set("Lockdown",(boolean) true);
-		        plugin.saveConfig();
-				if(plugin.getLog())
-					plugin.getLogger().info(admin + " initiated lockdown.");
-				return lang.getString("Lockdown.Start");
-			}
-			return lang.getString("Lockdown.LoginMsg");
-		}
-		if (toggle.equalsIgnoreCase("off")){
-			if(locked){
-				plugin.getConfig().set("Lockdown",(boolean) false);
-		        plugin.saveConfig();
-				if(plugin.getLog())
-					plugin.getLogger().info(admin + " disabled lockdown.");
-				return lang.getString("Lockdown.End");
-			}
-			return lang.getString("Lockdown.Status");
-		}
-		return locked?lang.getString("Lockdown.LoginMsg"):lang.getString("Lockdown.Status");
-	}
+public class Lockdown extends CommandHandler {
+    public Lockdown(Ultrabans instance) {
+        super(instance);
+    }
+
+    public String command(CommandSender sender, Command command, String[] args) {
+        if (args.length < 1)
+            return lang.getString("Lockdown.Arguments");
+        String admin = Ultrabans.DEFAULT_ADMIN;
+        if (sender instanceof Player)
+            admin = sender.getName();
+        boolean locked = config.getBoolean("Lockdown", false);
+        String toggle = args[0];
+        if (toggle.equalsIgnoreCase("on")) {
+            if (!locked) {
+                plugin.getConfig().set("Lockdown", true);
+                plugin.saveConfig();
+                if (plugin.getLog())
+                    plugin.getLogger().info(admin + " initiated lockdown.");
+                return lang.getString("Lockdown.Start");
+            }
+            return lang.getString("Lockdown.LoginMsg");
+        }
+        if (toggle.equalsIgnoreCase("off")) {
+            if (locked) {
+                plugin.getConfig().set("Lockdown", false);
+                plugin.saveConfig();
+                if (plugin.getLog())
+                    plugin.getLogger().info(admin + " disabled lockdown.");
+                return lang.getString("Lockdown.End");
+            }
+            return lang.getString("Lockdown.Status");
+        }
+        return locked ? lang.getString("Lockdown.LoginMsg") : lang.getString("Lockdown.Status");
+    }
 }

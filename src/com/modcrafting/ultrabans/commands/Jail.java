@@ -25,88 +25,88 @@ import com.modcrafting.ultrabans.util.BanInfo;
 import com.modcrafting.ultrabans.util.BanType;
 import com.modcrafting.ultrabans.util.Formatting;
 
-public class Jail extends CommandHandler{
-	public Jail(Ultrabans instance) {
-		super(instance);
-	}
+public class Jail extends CommandHandler {
+    public Jail(Ultrabans instance) {
+        super(instance);
+    }
 
-	public String command(final CommandSender sender, final Command command, final String[] args) {
-		if (args.length < 1) 
-			return lang.getString("Jail.Arguments");
-		if(args[0].equalsIgnoreCase("setjail")){
-			if(!(sender instanceof Player))
-				return lang.getString("Jail.SetFail");
-			plugin.jail.setJail(((Player) sender).getLocation(), "jail");
-			return lang.getString("Jail.SetJail");
-		}
-		if(args[0].equalsIgnoreCase("setrelease")){
-			if(!(sender instanceof Player))
-				return lang.getString("Jail.SetFail");
-			plugin.jail.setJail(((Player) sender).getLocation(), "release");
-			return lang.getString("Jail.SetRelease");
-		}
-		boolean broadcast = true;
-		String admin = Ultrabans.DEFAULT_ADMIN;
-		String reason = Ultrabans.DEFAULT_REASON;
-		if (sender instanceof Player)
-			admin = sender.getName();
-		String name = Formatting.expandName(args[0]);
-		if (args.length > 1) {
-			if (args[1].equalsIgnoreCase("-s")){
-				if(	sender.hasPermission(command.getPermission() + ".silent"))
-					broadcast = false;
-				reason = Formatting.combineSplit(2, args);	
-			} else if (args[1].equalsIgnoreCase("-a")){
-				if(sender.hasPermission(command.getPermission() + ".anon"))
-					admin = Ultrabans.DEFAULT_ADMIN;
-				reason = Formatting.combineSplit(2, args);	
-			} else {
-				reason = Formatting.combineSplit(1, args);
-			}
-		}
-		if(name.equalsIgnoreCase(admin))
-			return lang.getString("Jail.Emo");
-		if(plugin.cache.containsKey(name.toLowerCase())){
-			for(BanInfo info: plugin.cache.get(name.toLowerCase())){
-				if(info.getType() == BanType.JAIL.getId()){
-					String msg = lang.getString("Jail.Failed");
-					if(msg.contains(Ultrabans.VICTIM)) 
-						msg = msg.replace(Ultrabans.VICTIM, name);
-					return msg;
-				}
-			}
-		}
-		OfflinePlayer victim = plugin.getServer().getOfflinePlayer(name);
-		if(victim !=null){
-			name = victim.getName();
-			if(victim.isOnline()){
-				if(victim.getPlayer().hasPermission("ultraban.override.jail"))
-					return lang.getString("Jail.Denied");
-				String msgvic = lang.getString("Jail.MsgToVictim");
-				if(msgvic.contains(Ultrabans.ADMIN)) 
-					msgvic = msgvic.replace(Ultrabans.ADMIN, admin);
-				if(msgvic.contains(Ultrabans.REASON)) 
-					msgvic = msgvic.replace(Ultrabans.REASON, reason);
-				victim.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', msgvic));
-				victim.getPlayer().teleport(plugin.jail.getJail("jail"));
-			} 
-		}		
-		String bcmsg = lang.getString("Jail.MsgToBroadcast");
-		if(bcmsg.contains(Ultrabans.ADMIN)) 
-			bcmsg = bcmsg.replace(Ultrabans.ADMIN, admin);
-		if(bcmsg.contains(Ultrabans.REASON))
-			bcmsg = bcmsg.replace(Ultrabans.REASON, reason);
-		if(bcmsg.contains(Ultrabans.VICTIM)) 
-			bcmsg = bcmsg.replace(Ultrabans.VICTIM, name);
-		if(broadcast){
-			plugin.getServer().broadcastMessage(bcmsg);
-		}else{
-			sender.sendMessage(ChatColor.ITALIC + "Silent: " + bcmsg);
-		}
-		if(plugin.getLog())
-			plugin.getLogger().info(ChatColor.stripColor(bcmsg));
-		return null;
-	}
+    public String command(final CommandSender sender, final Command command, final String[] args) {
+        if (args.length < 1)
+            return lang.getString("Jail.Arguments");
+        if (args[0].equalsIgnoreCase("setjail")) {
+            if (!(sender instanceof Player))
+                return lang.getString("Jail.SetFail");
+            plugin.jail.setJail(((Player) sender).getLocation(), "jail");
+            return lang.getString("Jail.SetJail");
+        }
+        if (args[0].equalsIgnoreCase("setrelease")) {
+            if (!(sender instanceof Player))
+                return lang.getString("Jail.SetFail");
+            plugin.jail.setJail(((Player) sender).getLocation(), "release");
+            return lang.getString("Jail.SetRelease");
+        }
+        boolean broadcast = true;
+        String admin = Ultrabans.DEFAULT_ADMIN;
+        String reason = Ultrabans.DEFAULT_REASON;
+        if (sender instanceof Player)
+            admin = sender.getName();
+        String name = Formatting.expandName(args[0]);
+        if (args.length > 1) {
+            if (args[1].equalsIgnoreCase("-s")) {
+                if (sender.hasPermission(command.getPermission() + ".silent"))
+                    broadcast = false;
+                reason = Formatting.combineSplit(2, args);
+            } else if (args[1].equalsIgnoreCase("-a")) {
+                if (sender.hasPermission(command.getPermission() + ".anon"))
+                    admin = Ultrabans.DEFAULT_ADMIN;
+                reason = Formatting.combineSplit(2, args);
+            } else {
+                reason = Formatting.combineSplit(1, args);
+            }
+        }
+        if (name.equalsIgnoreCase(admin))
+            return lang.getString("Jail.Emo");
+        if (plugin.cache.containsKey(name.toLowerCase())) {
+            for (BanInfo info : plugin.cache.get(name.toLowerCase())) {
+                if (info.getType() == BanType.JAIL.getId()) {
+                    String msg = lang.getString("Jail.Failed");
+                    if (msg.contains(Ultrabans.VICTIM))
+                        msg = msg.replace(Ultrabans.VICTIM, name);
+                    return msg;
+                }
+            }
+        }
+        OfflinePlayer victim = plugin.getServer().getOfflinePlayer(name);
+        if (victim != null) {
+            name = victim.getName();
+            if (victim.isOnline()) {
+                if (victim.getPlayer().hasPermission("ultraban.override.jail"))
+                    return lang.getString("Jail.Denied");
+                String msgvic = lang.getString("Jail.MsgToVictim");
+                if (msgvic.contains(Ultrabans.ADMIN))
+                    msgvic = msgvic.replace(Ultrabans.ADMIN, admin);
+                if (msgvic.contains(Ultrabans.REASON))
+                    msgvic = msgvic.replace(Ultrabans.REASON, reason);
+                victim.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', msgvic));
+                victim.getPlayer().teleport(plugin.jail.getJail("jail"));
+            }
+        }
+        String bcmsg = lang.getString("Jail.MsgToBroadcast");
+        if (bcmsg.contains(Ultrabans.ADMIN))
+            bcmsg = bcmsg.replace(Ultrabans.ADMIN, admin);
+        if (bcmsg.contains(Ultrabans.REASON))
+            bcmsg = bcmsg.replace(Ultrabans.REASON, reason);
+        if (bcmsg.contains(Ultrabans.VICTIM))
+            bcmsg = bcmsg.replace(Ultrabans.VICTIM, name);
+        if (broadcast) {
+            plugin.getServer().broadcastMessage(bcmsg);
+        } else {
+            sender.sendMessage(ChatColor.ITALIC + "Silent: " + bcmsg);
+        }
+        if (plugin.getLog())
+            plugin.getLogger().info(ChatColor.stripColor(bcmsg));
+        return null;
+    }
 
 }
 
