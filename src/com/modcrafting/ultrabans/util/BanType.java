@@ -50,24 +50,24 @@ public enum BanType {
     }
 
     public static String toCode(int num) {
-        switch (num) {
-            case 0:
+        switch (fromID(num)) {
+            case BAN:
                 return "B";
-            case 1:
+            case IPBAN:
                 return "IP";
-            case 2:
+            case WARN:
                 return "W";
-            case 3:
+            case KICK:
                 return "K";
-            case 4:
-                return "F";
-            case 5:
+            case INFO:
+                return "I";
+            case UNBAN:
                 return "UN";
-            case 6:
+            case JAIL:
                 return "J";
-            case 7:
+            case MUTE:
                 return "M";
-            case 9:
+            case PERMA:
                 return "PB";
             default:
                 return "?";

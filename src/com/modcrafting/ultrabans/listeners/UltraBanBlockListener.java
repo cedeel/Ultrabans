@@ -18,6 +18,7 @@ package com.modcrafting.ultrabans.listeners;
 import java.util.Date;
 import java.util.List;
 
+import com.modcrafting.ultrabans.util.Formatting;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -82,8 +83,8 @@ public class UltraBanBlockListener implements Listener {
             Location stlp = plugin.jail.getJail("release");
             player.teleport(stlp);
             String bcmsg = plugin.getConfig().getString("Messages.Pardon.Msg", "%victim% was released from jail by %admin%!");
-            if (bcmsg.contains(Ultrabans.ADMIN)) bcmsg = bcmsg.replaceAll(Ultrabans.ADMIN, Ultrabans.DEFAULT_ADMIN);
-            if (bcmsg.contains(Ultrabans.VICTIM)) bcmsg = bcmsg.replaceAll(Ultrabans.VICTIM, player.getName());
+            if (bcmsg.contains(Formatting.ADMIN)) bcmsg = bcmsg.replaceAll(Formatting.ADMIN, Ultrabans.DEFAULT_ADMIN);
+            if (bcmsg.contains(Formatting.VICTIM)) bcmsg = bcmsg.replaceAll(Formatting.VICTIM, player.getName());
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', bcmsg));
             return true;
         }

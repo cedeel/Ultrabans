@@ -42,15 +42,15 @@ public class Checkban extends CommandHandler {
         List<BanInfo> bans = plugin.getUBDatabase().listRecords(name);
         if (bans.isEmpty()) {
             String msg = lang.getString("CheckBan.None");
-            if (msg.contains(Ultrabans.AMOUNT))
-                msg = msg.replace(Ultrabans.AMOUNT, String.valueOf(bans.size()));
-            if (msg.contains(Ultrabans.VICTIM))
-                msg = msg.replace(Ultrabans.VICTIM, name);
+            if (msg.contains(Formatting.AMOUNT))
+                msg = msg.replace(Formatting.AMOUNT, String.valueOf(bans.size()));
+            if (msg.contains(Formatting.VICTIM))
+                msg = msg.replace(Formatting.VICTIM, name);
             return msg;
         }
         String msg = lang.getString("CheckBan.Header");
-        if (msg.contains(Ultrabans.AMOUNT)) msg = msg.replace(Ultrabans.AMOUNT, String.valueOf(bans.size()));
-        if (msg.contains(Ultrabans.VICTIM)) msg = msg.replace(Ultrabans.VICTIM, bans.get(0).getName());
+        if (msg.contains(Formatting.AMOUNT)) msg = msg.replace(Formatting.AMOUNT, String.valueOf(bans.size()));
+        if (msg.contains(Formatting.VICTIM)) msg = msg.replace(Formatting.VICTIM, bans.get(0).getName());
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
         for (BanInfo ban : bans) {
             sender.sendMessage(ChatColor.RED + BanType.toCode(ban.getType()) + ": " + ChatColor.GREEN + ban.getReason() + ChatColor.AQUA + " by " + ban.getAdmin());

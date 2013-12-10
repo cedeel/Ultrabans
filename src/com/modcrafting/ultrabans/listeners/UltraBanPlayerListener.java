@@ -69,10 +69,10 @@ public class UltraBanPlayerListener implements Listener {
                     if (reason.equals(info.getReason()))
                         reason = info.getReason();
                     String bcmsg = lang.getString("IPBan.Login");
-                    if (bcmsg.contains(Ultrabans.ADMIN))
-                        bcmsg = bcmsg.replaceAll(Ultrabans.ADMIN, admin);
-                    if (bcmsg.contains(Ultrabans.REASON))
-                        bcmsg = bcmsg.replaceAll(Ultrabans.REASON, reason);
+                    if (bcmsg.contains(Formatting.ADMIN))
+                        bcmsg = bcmsg.replaceAll(Formatting.ADMIN, admin);
+                    if (bcmsg.contains(Formatting.REASON))
+                        bcmsg = bcmsg.replaceAll(Formatting.REASON, reason);
                     event.disallow(PlayerLoginEvent.Result.KICK_BANNED, ChatColor.translateAlternateColorCodes('&', bcmsg));
                 }
             }
@@ -89,10 +89,10 @@ public class UltraBanPlayerListener implements Listener {
                     if (reason.equals(info.getReason()))
                         reason = info.getReason();
                     String bcmsg = lang.getString("Ban.Login");
-                    if (bcmsg.contains(Ultrabans.ADMIN))
-                        bcmsg = bcmsg.replaceAll(Ultrabans.ADMIN, admin);
-                    if (bcmsg.contains(Ultrabans.REASON))
-                        bcmsg = bcmsg.replaceAll(Ultrabans.REASON, reason);
+                    if (bcmsg.contains(Formatting.ADMIN))
+                        bcmsg = bcmsg.replaceAll(Formatting.ADMIN, admin);
+                    if (bcmsg.contains(Formatting.REASON))
+                        bcmsg = bcmsg.replaceAll(Formatting.REASON, reason);
                     event.disallow(PlayerLoginEvent.Result.KICK_BANNED, ChatColor.translateAlternateColorCodes('&', bcmsg));
                 }
 
@@ -140,10 +140,10 @@ public class UltraBanPlayerListener implements Listener {
                     if (reason.equals(info.getReason()))
                         reason = info.getReason();
                     String bcmsg = lang.getString("IPBan.Login");
-                    if (bcmsg.contains(Ultrabans.ADMIN))
-                        bcmsg = bcmsg.replaceAll(Ultrabans.ADMIN, admin);
-                    if (bcmsg.contains(Ultrabans.REASON))
-                        bcmsg = bcmsg.replaceAll(Ultrabans.REASON, reason);
+                    if (bcmsg.contains(Formatting.ADMIN))
+                        bcmsg = bcmsg.replaceAll(Formatting.ADMIN, admin);
+                    if (bcmsg.contains(Formatting.REASON))
+                        bcmsg = bcmsg.replaceAll(Formatting.REASON, reason);
                     event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED, ChatColor.translateAlternateColorCodes('&', bcmsg));
                 }
             }
@@ -199,13 +199,13 @@ public class UltraBanPlayerListener implements Listener {
             }
         }
         if (config.getBoolean("Chat.IPCheck.Enable", true)) {
-            ipcheck(player, message, event);
+            ipCheck(player, message, event);
         }
         if (config.getBoolean("Chat.SpamCheck.Enable", true)) {
-            spamcheck(player, message, event);
+            spamCheck(player, message, event);
         }
         if (config.getBoolean("Chat.SwearCensor.Enable", true)) {
-            swearcheck(player, message, event);
+            swearCheck(player, message, event);
         }
     }
 
@@ -221,8 +221,8 @@ public class UltraBanPlayerListener implements Listener {
             Location stlp = plugin.jail.getJail("release");
             player.teleport(stlp);
             String bcmsg = plugin.getConfig().getString("Messages.Pardon.Msg", "%victim% was released from jail by %admin%!");
-            if (bcmsg.contains(Ultrabans.ADMIN)) bcmsg = bcmsg.replaceAll(Ultrabans.ADMIN, Ultrabans.DEFAULT_ADMIN);
-            if (bcmsg.contains(Ultrabans.VICTIM)) bcmsg = bcmsg.replaceAll(Ultrabans.VICTIM, player.getName());
+            if (bcmsg.contains(Formatting.ADMIN)) bcmsg = bcmsg.replaceAll(Formatting.ADMIN, Ultrabans.DEFAULT_ADMIN);
+            if (bcmsg.contains(Formatting.VICTIM)) bcmsg = bcmsg.replaceAll(Formatting.VICTIM, player.getName());
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', bcmsg));
             return true;
         }
@@ -234,7 +234,7 @@ public class UltraBanPlayerListener implements Listener {
         return false;
     }
 
-    private void ipcheck(Player player, String message, AsyncPlayerChatEvent event) {
+    private void ipCheck(Player player, String message, AsyncPlayerChatEvent event) {
         String mes = message;
         String[] content = {"\\,", "\\-", "\\_", "\\="};
         for (String aContent : content) {
@@ -271,7 +271,7 @@ public class UltraBanPlayerListener implements Listener {
         }
     }
 
-    private void spamcheck(Player player, String message, AsyncPlayerChatEvent event) {
+    private void spamCheck(Player player, String message, AsyncPlayerChatEvent event) {
         if (!message.equalsIgnoreCase(spamcheck)) {
             spamcheck = event.getMessage();
             spamCount = 0;
@@ -295,7 +295,7 @@ public class UltraBanPlayerListener implements Listener {
 
     }
 
-    private void swearcheck(Player player, String message, AsyncPlayerChatEvent event) {
+    private void swearCheck(Player player, String message, AsyncPlayerChatEvent event) {
         String mes = message;
         String[] string = config.getString("Chat.SwearCensor.Words").split(" ");
         String mode = config.getString("Chat.SwearCensor.Blocking");

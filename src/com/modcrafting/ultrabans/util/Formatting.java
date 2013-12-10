@@ -24,6 +24,14 @@ import org.bukkit.Bukkit;
 import com.modcrafting.ultrabans.Ultrabans;
 
 public class Formatting {
+
+    public static final String ADMIN = "%admin%";
+    public static final String REASON = "%reason%";
+    public static final String VICTIM = "%victim%";
+    public static final String AMOUNT = "%amt%";
+    public static final String MODE = "%mode%";
+    //public static final String TIME = "%time%";
+
     public static Pattern ipv4 = Pattern.compile("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
 
     public static String expandName(String p) {
@@ -81,7 +89,30 @@ public class Formatting {
             return 0;
         }
 
-        if (unit.toLowerCase().startsWith(Ultrabans.getPlugin().getConfig().getString("Mode.Hour", "h").substring(0, 1).toLowerCase())) {
+        char begin = unit.toLowerCase().charAt(0);
+
+        switch(begin) {
+            case 'h':
+                sec *= 60;
+                break;
+            case 'd':
+                sec *= (60 * 24);
+                break;
+            case 'w':
+                sec *= (7 * 60 * 24);
+                break;
+            case 'm':
+                sec *= 1;
+                break;
+            case 's':
+                sec /= 60;
+            default:
+                break;
+        }
+
+        return sec;
+
+        /*if (unit.toLowerCase().startsWith(Ultrabans.getPlugin().getConfig().getString("Mode.Hour", "h").substring(0, 1).toLowerCase())) {
             sec *= 60;
         } else if (unit.toLowerCase().startsWith(Ultrabans.getPlugin().getConfig().getString("Mode.Day", "d").substring(0, 1).toLowerCase())) {
             sec *= (60 * 24);
@@ -94,7 +125,7 @@ public class Formatting {
         } else if (unit.toLowerCase().startsWith(Ultrabans.getPlugin().getConfig().getString("Mode.Second", "s").substring(0, 1).toLowerCase())) {
             sec /= 60;
         }
-        return sec;
+        return sec;*/
     }
 
 

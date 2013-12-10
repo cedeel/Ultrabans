@@ -45,8 +45,8 @@ public class DupeIP extends CommandHandler {
         }
         List<String> list = plugin.getUBDatabase().listPlayers(ip);
         String msg = lang.getString("DupeIP.Header");
-        if (msg.contains(Ultrabans.VICTIM))
-            msg = msg.replace(Ultrabans.VICTIM, name);
+        if (msg.contains(Formatting.VICTIM))
+            msg = msg.replace(Formatting.VICTIM, name);
         if (msg.contains("%ip%"))
             msg = msg.replace("%ip%", ip);
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));

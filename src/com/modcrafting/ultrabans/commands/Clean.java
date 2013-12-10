@@ -34,8 +34,8 @@ public class Clean extends CommandHandler {
                 count++;
         }
         String msg = lang.getString("Clean.Complete");
-        if (msg.contains(Ultrabans.AMOUNT))
-            msg = msg.replace(Ultrabans.AMOUNT, String.valueOf(count));
+        if (msg.contains(Formatting.AMOUNT))
+            msg = msg.replace(Formatting.AMOUNT, String.valueOf(count));
         return msg;
     }
 

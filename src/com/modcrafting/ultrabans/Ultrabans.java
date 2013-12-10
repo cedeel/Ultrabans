@@ -33,34 +33,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.modcrafting.ultrabans.commands.Ban;
-import com.modcrafting.ultrabans.commands.CheckIP;
-import com.modcrafting.ultrabans.commands.Checkban;
-import com.modcrafting.ultrabans.commands.Clean;
-import com.modcrafting.ultrabans.commands.DupeIP;
-import com.modcrafting.ultrabans.commands.Export;
-import com.modcrafting.ultrabans.commands.Help;
-import com.modcrafting.ultrabans.commands.History;
-import com.modcrafting.ultrabans.commands.Import;
-import com.modcrafting.ultrabans.commands.Inventory;
-import com.modcrafting.ultrabans.commands.Ipban;
-import com.modcrafting.ultrabans.commands.Jail;
-import com.modcrafting.ultrabans.commands.Kick;
-import com.modcrafting.ultrabans.commands.Lockdown;
-import com.modcrafting.ultrabans.commands.Mute;
-import com.modcrafting.ultrabans.commands.Pardon;
-import com.modcrafting.ultrabans.commands.Perma;
-import com.modcrafting.ultrabans.commands.Ping;
-import com.modcrafting.ultrabans.commands.Reload;
-import com.modcrafting.ultrabans.commands.Spawn;
-import com.modcrafting.ultrabans.commands.Starve;
-import com.modcrafting.ultrabans.commands.Status;
-import com.modcrafting.ultrabans.commands.Tempban;
-import com.modcrafting.ultrabans.commands.Tempipban;
-import com.modcrafting.ultrabans.commands.Tempjail;
-import com.modcrafting.ultrabans.commands.Unban;
-import com.modcrafting.ultrabans.commands.Version;
-import com.modcrafting.ultrabans.commands.Warn;
+import com.modcrafting.ultrabans.commands.*;
 import com.modcrafting.ultrabans.db.Database;
 import com.modcrafting.ultrabans.db.SQL;
 import com.modcrafting.ultrabans.db.SQLite;
@@ -79,18 +52,12 @@ public class Ultrabans extends JavaPlugin {
     public YamlConfiguration lang;
     private Database db;
 
-    public static final String ADMIN = "%admin%";
-    public static final String REASON = "%reason%";
-    public static final String VICTIM = "%victim%";
-    public static final String AMOUNT = "%amt%";
-    public static final String MODE = "%mode%";
-    //public static final String TIME = "%time%";
+
 
     public static String DEFAULT_ADMIN;
     public static String DEFAULT_REASON;
     public static String DEFAULT_DENY_MESSAGE;
 
-    private static Ultrabans constant;
     private boolean log;
 
     public void onDisable() {
@@ -102,7 +69,7 @@ public class Ultrabans extends JavaPlugin {
 
     public void onEnable() {
         long time = System.currentTimeMillis();
-        setConstant(this);
+//        setConstant(this);
         this.getDataFolder().mkdir();
         this.saveDefaultConfig();
         FileConfiguration config = getConfig();
@@ -192,14 +159,6 @@ public class Ultrabans extends JavaPlugin {
         getCommand("ustatus").setExecutor(new Status(this));
         getCommand("uclean").setExecutor(new Clean(this));
         getCommand("uping").setExecutor(new Ping(this));
-    }
-
-    public static Ultrabans getPlugin() {
-        return constant;
-    }
-
-    private static void setConstant(Ultrabans constant) {
-        Ultrabans.constant = constant;
     }
 
     public Database getUBDatabase() {

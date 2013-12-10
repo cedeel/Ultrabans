@@ -59,8 +59,8 @@ public class Ban extends CommandHandler {
             for (BanInfo info : plugin.cache.get(name.toLowerCase())) {
                 if (info.getType() == BanType.BAN.getId()) {
                     String failed = lang.getString("Ban.Failed");
-                    if (failed.contains(Ultrabans.VICTIM))
-                        failed = failed.replace(Ultrabans.VICTIM, name);
+                    if (failed.contains(Formatting.VICTIM))
+                        failed = failed.replace(Formatting.VICTIM, name);
                     return failed;
                 }
             }
@@ -72,22 +72,22 @@ public class Ban extends CommandHandler {
                         !(sender instanceof ConsoleCommandSender))
                     return lang.getString("Ban.Denied");
                 String vicmsg = lang.getString("Ban.MsgToVictim");
-                if (vicmsg.contains(Ultrabans.ADMIN))
-                    vicmsg = vicmsg.replace(Ultrabans.ADMIN, admin);
-                if (vicmsg.contains(Ultrabans.REASON))
-                    vicmsg = vicmsg.replace(Ultrabans.REASON, reason);
+                if (vicmsg.contains(Formatting.ADMIN))
+                    vicmsg = vicmsg.replace(Formatting.ADMIN, admin);
+                if (vicmsg.contains(Formatting.REASON))
+                    vicmsg = vicmsg.replace(Formatting.REASON, reason);
                 victim.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', vicmsg));
             }
             name = victim.getName();
         }
         plugin.getAPI().banPlayer(name, reason, admin);
         String bcmsg = ChatColor.translateAlternateColorCodes('&', lang.getString("Ban.MsgToBroadcast"));
-        if (bcmsg.contains(Ultrabans.ADMIN))
-            bcmsg = bcmsg.replace(Ultrabans.ADMIN, admin);
-        if (bcmsg.contains(Ultrabans.REASON))
-            bcmsg = bcmsg.replace(Ultrabans.REASON, reason);
-        if (bcmsg.contains(Ultrabans.VICTIM))
-            bcmsg = bcmsg.replace(Ultrabans.VICTIM, name);
+        if (bcmsg.contains(Formatting.ADMIN))
+            bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
+        if (bcmsg.contains(Formatting.REASON))
+            bcmsg = bcmsg.replace(Formatting.REASON, reason);
+        if (bcmsg.contains(Formatting.VICTIM))
+            bcmsg = bcmsg.replace(Formatting.VICTIM, name);
         if (config.getBoolean("CleanOnBan"))
             Formatting.deletePlyrdat(name);
         if (config.getBoolean("ClearWarnOnBan", false))

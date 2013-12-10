@@ -29,7 +29,7 @@ public class UltrabansAPI {
     }
 
     public void addPlayer(final String player_name, final String reason, final String admin, final long time, final BanType type) {
-        plugin.getServer().getScheduler().runTaskAsynchronously(Ultrabans.getPlugin(), new Runnable() {
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
                 plugin.getUBDatabase().addPlayer(player_name, reason, admin, time, type.getId());
@@ -73,7 +73,7 @@ public class UltrabansAPI {
     }
 
     public void pardonPlayer(final String player_name, final String admin) {
-        plugin.getServer().getScheduler().runTaskAsynchronously(Ultrabans.getPlugin(), new Runnable() {
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
                 plugin.getUBDatabase().removeFromJaillist(player_name);
@@ -131,7 +131,7 @@ public class UltrabansAPI {
     }
 
     public void clearWarn(final String player_name) {
-        plugin.getServer().getScheduler().runTaskAsynchronously(Ultrabans.getPlugin(), new Runnable() {
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
                 plugin.getUBDatabase().clearWarns(player_name);

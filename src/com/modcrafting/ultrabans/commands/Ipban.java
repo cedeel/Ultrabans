@@ -58,9 +58,9 @@ public class Ipban extends CommandHandler {
                 pname = name;
             plugin.getAPI().ipbanPlayer(pname, name, reason, admin);
             String bcmsg = lang.getString("IPBan.MsgToBroadcast");
-            if (bcmsg.contains(Ultrabans.ADMIN)) bcmsg = bcmsg.replace(Ultrabans.ADMIN, admin);
-            if (bcmsg.contains(Ultrabans.REASON)) bcmsg = bcmsg.replace(Ultrabans.REASON, reason);
-            if (bcmsg.contains(Ultrabans.VICTIM)) bcmsg = bcmsg.replace(Ultrabans.VICTIM, name);
+            if (bcmsg.contains(Formatting.ADMIN)) bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
+            if (bcmsg.contains(Formatting.REASON)) bcmsg = bcmsg.replace(Formatting.REASON, reason);
+            if (bcmsg.contains(Formatting.VICTIM)) bcmsg = bcmsg.replace(Formatting.VICTIM, name);
             if (broadcast) {
                 plugin.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', bcmsg));
             } else {
@@ -86,8 +86,8 @@ public class Ipban extends CommandHandler {
         }
         if (victimip == null) {
             String failed = lang.getString("IPBan.IPNotFound");
-            if (failed.contains(Ultrabans.VICTIM))
-                failed = failed.replace(Ultrabans.VICTIM, name);
+            if (failed.contains(Formatting.VICTIM))
+                failed = failed.replace(Formatting.VICTIM, name);
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', failed));
             StringBuilder sb = new StringBuilder();
             sb.append("ban").append(" ").append(name).append(" ");
@@ -99,26 +99,26 @@ public class Ipban extends CommandHandler {
         }
         if (plugin.cacheIP.containsKey(victimip)) {
             String failed = lang.getString("IPBan.Failed");
-            if (failed.contains(Ultrabans.VICTIM))
-                failed = failed.replace(Ultrabans.VICTIM, name);
+            if (failed.contains(Formatting.VICTIM))
+                failed = failed.replace(Formatting.VICTIM, name);
             return failed;
         }
         plugin.getAPI().ipbanPlayer(name, victimip, reason, admin);
         if (victim != null && victim.isOnline()) {
             String msgvic = lang.getString("IPBan.MsgToVictim");
-            if (msgvic.contains(Ultrabans.ADMIN))
-                msgvic = msgvic.replace(Ultrabans.ADMIN, admin);
-            if (msgvic.contains(Ultrabans.REASON))
-                msgvic = msgvic.replace(Ultrabans.REASON, reason);
+            if (msgvic.contains(Formatting.ADMIN))
+                msgvic = msgvic.replace(Formatting.ADMIN, admin);
+            if (msgvic.contains(Formatting.REASON))
+                msgvic = msgvic.replace(Formatting.REASON, reason);
             victim.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', msgvic));
         }
         String bcmsg = ChatColor.translateAlternateColorCodes('&', lang.getString("IPBan.MsgToBroadcast"));
-        if (bcmsg.contains(Ultrabans.ADMIN))
-            bcmsg = bcmsg.replace(Ultrabans.ADMIN, admin);
-        if (bcmsg.contains(Ultrabans.REASON))
-            bcmsg = bcmsg.replace(Ultrabans.REASON, reason);
-        if (bcmsg.contains(Ultrabans.VICTIM))
-            bcmsg = bcmsg.replace(Ultrabans.VICTIM, name);
+        if (bcmsg.contains(Formatting.ADMIN))
+            bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
+        if (bcmsg.contains(Formatting.REASON))
+            bcmsg = bcmsg.replace(Formatting.REASON, reason);
+        if (bcmsg.contains(Formatting.VICTIM))
+            bcmsg = bcmsg.replace(Formatting.VICTIM, name);
         if (config.getBoolean("CleanOnBan"))
             Formatting.deletePlyrdat(name);
         if (config.getBoolean("ClearWarnOnBan", false))

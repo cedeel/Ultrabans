@@ -70,17 +70,17 @@ public class Tempipban extends CommandHandler {
         if (victim != null) {
             if (victim.isOnline()) {
                 if (victim.getPlayer().hasPermission("ultraban.override.tempban") &&
-                        !admin.equalsIgnoreCase(Ultrabans.ADMIN))
+                        !admin.equalsIgnoreCase(Formatting.ADMIN))
                     return lang.getString("Tempban.Denied");
                 String msgvic = lang.getString("TempIpBan.MsgToVictim");
-                if (msgvic.contains(Ultrabans.ADMIN))
-                    msgvic = msgvic.replace(Ultrabans.ADMIN, admin);
-                if (msgvic.contains(Ultrabans.REASON))
-                    msgvic = msgvic.replace(Ultrabans.REASON, reason);
-                if (msgvic.contains(Ultrabans.AMOUNT))
-                    msgvic = msgvic.replace(Ultrabans.AMOUNT, amt);
-                if (msgvic.contains(Ultrabans.MODE))
-                    msgvic = msgvic.replace(Ultrabans.MODE, mode);
+                if (msgvic.contains(Formatting.ADMIN))
+                    msgvic = msgvic.replace(Formatting.ADMIN, admin);
+                if (msgvic.contains(Formatting.REASON))
+                    msgvic = msgvic.replace(Formatting.REASON, reason);
+                if (msgvic.contains(Formatting.AMOUNT))
+                    msgvic = msgvic.replace(Formatting.AMOUNT, amt);
+                if (msgvic.contains(Formatting.MODE))
+                    msgvic = msgvic.replace(Formatting.MODE, mode);
                 victim.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', msgvic));
             }
             name = victim.getName();
@@ -92,8 +92,8 @@ public class Tempipban extends CommandHandler {
                     if (info.getType() == BanType.TEMPBAN.getId()
                             || info.getType() == BanType.BAN.getId()) {
                         String failed = lang.getString("TempIpBan.Failed");
-                        if (failed.contains(Ultrabans.VICTIM))
-                            failed = failed.replace(Ultrabans.VICTIM, name);
+                        if (failed.contains(Formatting.VICTIM))
+                            failed = failed.replace(Formatting.VICTIM, name);
                         return failed;
                     }
                 }
@@ -106,23 +106,23 @@ public class Tempipban extends CommandHandler {
             sb.append(amt).append(" ").append(mode).append(" ").append(reason);
             plugin.getServer().dispatchCommand(sender, sb.toString());
             String failed = lang.getString("TempIpBan.IPNotFound");
-            if (failed.contains(Ultrabans.VICTIM))
-                failed = failed.replace(Ultrabans.VICTIM, name);
+            if (failed.contains(Formatting.VICTIM))
+                failed = failed.replace(Formatting.VICTIM, name);
             return failed;
         }
 
         plugin.getAPI().tempipbanPlayer(name, offlineip, reason, temp, admin);
         String bcmsg = lang.getString("TempIpBan.MsgToBroadcast");
-        if (bcmsg.contains(Ultrabans.ADMIN))
-            bcmsg = bcmsg.replace(Ultrabans.ADMIN, admin);
-        if (bcmsg.contains(Ultrabans.REASON))
-            bcmsg = bcmsg.replace(Ultrabans.REASON, reason);
-        if (bcmsg.contains(Ultrabans.VICTIM))
-            bcmsg = bcmsg.replace(Ultrabans.VICTIM, name);
-        if (bcmsg.contains(Ultrabans.AMOUNT))
-            bcmsg = bcmsg.replace(Ultrabans.AMOUNT, amt);
-        if (bcmsg.contains(Ultrabans.MODE))
-            bcmsg = bcmsg.replace(Ultrabans.MODE, mode);
+        if (bcmsg.contains(Formatting.ADMIN))
+            bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
+        if (bcmsg.contains(Formatting.REASON))
+            bcmsg = bcmsg.replace(Formatting.REASON, reason);
+        if (bcmsg.contains(Formatting.VICTIM))
+            bcmsg = bcmsg.replace(Formatting.VICTIM, name);
+        if (bcmsg.contains(Formatting.AMOUNT))
+            bcmsg = bcmsg.replace(Formatting.AMOUNT, amt);
+        if (bcmsg.contains(Formatting.MODE))
+            bcmsg = bcmsg.replace(Formatting.MODE, mode);
         if (broadcast) {
             plugin.getServer().broadcastMessage(bcmsg);
         } else {

@@ -72,8 +72,8 @@ public class Tempjail extends CommandHandler {
                         || info.getType() == BanType.JAIL.getId()) {
                     String failed = lang.getString("Tempjail." +
                             "Failed");
-                    if (failed.contains(Ultrabans.VICTIM))
-                        failed = failed.replace(Ultrabans.VICTIM, name);
+                    if (failed.contains(Formatting.VICTIM))
+                        failed = failed.replace(Formatting.VICTIM, name);
                     return failed;
                 }
             }
@@ -83,25 +83,25 @@ public class Tempjail extends CommandHandler {
         if (victim != null) {
             if (victim.isOnline()) {
                 if (victim.getPlayer().hasPermission("ultraban.override.tempjail") &&
-                        !admin.equalsIgnoreCase(Ultrabans.ADMIN))
+                        !admin.equalsIgnoreCase(Formatting.ADMIN))
                     return lang.getString("Tempjail.Denied");
                 String vicmsg = lang.getString("Tempjail.MsgToVictim");
-                if (vicmsg.contains(Ultrabans.ADMIN))
-                    vicmsg = vicmsg.replace(Ultrabans.ADMIN, admin);
-                if (vicmsg.contains(Ultrabans.REASON))
-                    vicmsg = vicmsg.replace(Ultrabans.REASON, reason);
+                if (vicmsg.contains(Formatting.ADMIN))
+                    vicmsg = vicmsg.replace(Formatting.ADMIN, admin);
+                if (vicmsg.contains(Formatting.REASON))
+                    vicmsg = vicmsg.replace(Formatting.REASON, reason);
                 //victim.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', vicmsg)); //Teleport
             }
             name = victim.getName();
         }
         plugin.getAPI().tempjailPlayer(name, reason, temp, admin);
         String bcmsg = ChatColor.translateAlternateColorCodes('&', lang.getString("Tempjail.MsgToBroadcast"));
-        if (bcmsg.contains(Ultrabans.ADMIN))
-            bcmsg = bcmsg.replace(Ultrabans.ADMIN, admin);
-        if (bcmsg.contains(Ultrabans.REASON))
-            bcmsg = bcmsg.replace(Ultrabans.REASON, reason);
-        if (bcmsg.contains(Ultrabans.VICTIM))
-            bcmsg = bcmsg.replace(Ultrabans.VICTIM, name);
+        if (bcmsg.contains(Formatting.ADMIN))
+            bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
+        if (bcmsg.contains(Formatting.REASON))
+            bcmsg = bcmsg.replace(Formatting.REASON, reason);
+        if (bcmsg.contains(Formatting.VICTIM))
+            bcmsg = bcmsg.replace(Formatting.VICTIM, name);
         if (broadcast) {
             plugin.getServer().broadcastMessage(bcmsg);
         } else {

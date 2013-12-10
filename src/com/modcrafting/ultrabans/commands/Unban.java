@@ -82,8 +82,8 @@ public class Unban extends CommandHandler {
                     plugin.getLogger().info(admin + " unbanned player " + name + ".");
                     //TODO:
                     String bcmsg = lang.getString("Unban.MsgToBroadcast", "%victim% was unbanned by %admin%!");
-                    bcmsg = bcmsg.replace(Ultrabans.ADMIN, admin);
-                    bcmsg = bcmsg.replace(Ultrabans.VICTIM, name);
+                    bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
+                    bcmsg = bcmsg.replace(Formatting.VICTIM, name);
                     plugin.getServer().broadcastMessage(bcmsg);
                 }
                 return null;
@@ -107,7 +107,7 @@ public class Unban extends CommandHandler {
                     }
                     case PERMA: {
                         String perma = config.getString("Messages.Unban.PermaBanned");
-                        perma = perma.replace(Ultrabans.VICTIM, name);
+                        perma = perma.replace(Formatting.VICTIM, name);
                         if (plugin.getLog())
                             plugin.getLogger().info(perma);
                         return perma;
@@ -140,10 +140,10 @@ public class Unban extends CommandHandler {
             plugin.getUBDatabase().removeFromBanlist(name);
             plugin.cache.put(name.toLowerCase(), lt);
             String bcmsg = ChatColor.translateAlternateColorCodes('&', lang.getString("Unban.MsgToBroadcast"));
-            if (bcmsg.contains(Ultrabans.ADMIN))
-                bcmsg = bcmsg.replace(Ultrabans.ADMIN, admin);
-            if (bcmsg.contains(Ultrabans.VICTIM))
-                bcmsg = bcmsg.replace(Ultrabans.VICTIM, name);
+            if (bcmsg.contains(Formatting.ADMIN))
+                bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
+            if (bcmsg.contains(Formatting.VICTIM))
+                bcmsg = bcmsg.replace(Formatting.VICTIM, name);
             if (broadcast) {
                 plugin.getServer().broadcastMessage(bcmsg);
             } else {
@@ -154,7 +154,7 @@ public class Unban extends CommandHandler {
             return null;
         }
         String failed = config.getString("Messages.Unban.Failed", "%victim% is already unbanned!");
-        failed = failed.replace(Ultrabans.VICTIM, name);
+        failed = failed.replace(Formatting.VICTIM, name);
         return failed;
     }
 }
