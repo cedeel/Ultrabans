@@ -15,6 +15,7 @@
  */
 package com.modcrafting.ultrabans.commands;
 
+import com.modcrafting.ultrabans.Language;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -29,19 +30,19 @@ public class Spawn extends CommandHandler {
 
     public String command(final CommandSender sender, Command command, String[] args) {
         if (args.length < 1)
-            return lang.getString("Spawn.Arguments");
+            return plugin.getString(Language.SPAWN_ARGUMENTS);
         String admin = Ultrabans.DEFAULT_ADMIN;
         if (sender instanceof Player)
             admin = sender.getName();
         String name = Formatting.expandName(args[0]);
         Player victim = plugin.getServer().getPlayer(name);
         if (victim == null) {
-            return lang.getString("Spawn.Failed");
+            return plugin.getString(Language.SPAWN_FAILED);
         }
-        victim.sendMessage(ChatColor.translateAlternateColorCodes('&', lang.getString("Spawn.MsgToVictim")));
+        victim.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.SPAWN_MSGTOVICTIM)));
         victim.teleport(victim.getWorld().getSpawnLocation());
 
-        String bcmsg = lang.getString("Spawn.MsgToSender");
+        String bcmsg = plugin.getString(Language.SPAWN_MSGTOSENDER);
         if (bcmsg.contains(Formatting.ADMIN))
             bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
         if (bcmsg.contains(Formatting.VICTIM))

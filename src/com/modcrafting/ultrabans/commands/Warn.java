@@ -15,6 +15,7 @@
  */
 package com.modcrafting.ultrabans.commands;
 
+import com.modcrafting.ultrabans.Language;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -30,7 +31,7 @@ public class Warn extends CommandHandler {
 
     public String command(CommandSender sender, Command command, String[] args) {
         if (args.length < 1)
-            return lang.getString("Warn.Arguments");
+            return plugin.getString(Language.WARN_ARGUMENTS);
         boolean broadcast = true;
         String admin = Ultrabans.DEFAULT_ADMIN;
         String reason = Ultrabans.DEFAULT_REASON;
@@ -38,7 +39,7 @@ public class Warn extends CommandHandler {
             admin = sender.getName();
         String name = Formatting.expandName(args[0]);
         if (name.equalsIgnoreCase(admin))
-            return lang.getString("Warn.Emo");
+            return plugin.getString(Language.WARN_EMO);
         if (args.length > 1) {
             if (args[1].equalsIgnoreCase("-s")) {
                 if (sender.hasPermission(command.getPermission() + ".silent"))
@@ -57,8 +58,8 @@ public class Warn extends CommandHandler {
             if (victim.isOnline()) {
                 if (victim.getPlayer().hasPermission("ultraban.override.warn") &&
                         !admin.equalsIgnoreCase(Formatting.ADMIN))
-                    return lang.getString("Warn.Denied");
-                String vicmsg = lang.getString("Warn.MsgToVictim");
+                    return plugin.getString(Language.WARN_DENIED);
+                String vicmsg = plugin.getString(Language.WARN_MSGTOVICTIM);
                 if (vicmsg.contains(Formatting.ADMIN))
                     vicmsg = vicmsg.replace(Formatting.ADMIN, admin);
                 if (vicmsg.contains(Formatting.REASON))
@@ -104,7 +105,7 @@ public class Warn extends CommandHandler {
             }
         }
         plugin.getAPI().warnPlayer(name, reason, admin);
-        String bcmsg = ChatColor.translateAlternateColorCodes('&', lang.getString("Warn.MsgToBroadcast"));
+        String bcmsg = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.WARN_MSGTOBROADCAST));
         if (bcmsg.contains(Formatting.ADMIN))
             bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
         if (bcmsg.contains(Formatting.REASON))

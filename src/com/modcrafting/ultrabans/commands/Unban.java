@@ -18,6 +18,7 @@ package com.modcrafting.ultrabans.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.modcrafting.ultrabans.Language;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -36,7 +37,7 @@ public class Unban extends CommandHandler {
 
     public String command(CommandSender sender, Command command, String[] args) {
         if (args.length < 1)
-            return lang.getString("Unban.Arguments");
+            return plugin.getString(Language.UNBAN_ARGUMENTS);
         boolean broadcast = true;
         String admin = Ultrabans.DEFAULT_ADMIN;
         String reason;
@@ -81,7 +82,7 @@ public class Unban extends CommandHandler {
                     plugin.getUBDatabase().addPlayer(name, "Unbanned: " + reason, admin, 0, 5);
                     plugin.getLogger().info(admin + " unbanned player " + name + ".");
                     //TODO:
-                    String bcmsg = lang.getString("Unban.MsgToBroadcast", "%victim% was unbanned by %admin%!");
+                    String bcmsg = plugin.getString(Language.UNBAN_MSGTOBROADCAST);
                     bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
                     bcmsg = bcmsg.replace(Formatting.VICTIM, name);
                     plugin.getServer().broadcastMessage(bcmsg);
@@ -139,7 +140,7 @@ public class Unban extends CommandHandler {
             }
             plugin.getUBDatabase().removeFromBanlist(name);
             plugin.cache.put(name.toLowerCase(), lt);
-            String bcmsg = ChatColor.translateAlternateColorCodes('&', lang.getString("Unban.MsgToBroadcast"));
+            String bcmsg = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.UNBAN_MSGTOBROADCAST));
             if (bcmsg.contains(Formatting.ADMIN))
                 bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
             if (bcmsg.contains(Formatting.VICTIM))

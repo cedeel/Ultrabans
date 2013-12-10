@@ -15,6 +15,7 @@
  */
 package com.modcrafting.ultrabans.commands;
 
+import com.modcrafting.ultrabans.Language;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -30,7 +31,7 @@ public class Ipban extends CommandHandler {
 
     public String command(CommandSender sender, Command command, String[] args) {
         if (args.length < 1)
-            return lang.getString("IPBan.Arguments");
+            return plugin.getString(Language.IPBAN_ARGUMENTS);
         boolean broadcast = true;
         String admin = Ultrabans.DEFAULT_ADMIN;
         String reason = Ultrabans.DEFAULT_REASON;
@@ -38,7 +39,7 @@ public class Ipban extends CommandHandler {
             admin = sender.getName();
         String name = Formatting.expandName(args[0]);
         if (name.equalsIgnoreCase(admin))
-            return lang.getString("IPBan.Emo");
+            return plugin.getString(Language.IPBAN_EMO);
         if (args.length > 1) {
             if (args[1].equalsIgnoreCase("-s")) {
                 if (sender.hasPermission(command.getPermission() + ".silent"))
@@ -57,7 +58,7 @@ public class Ipban extends CommandHandler {
             if (pname == null)
                 pname = name;
             plugin.getAPI().ipbanPlayer(pname, name, reason, admin);
-            String bcmsg = lang.getString("IPBan.MsgToBroadcast");
+            String bcmsg = plugin.getString(Language.IPBAN_MSGTOBROADCAST);
             if (bcmsg.contains(Formatting.ADMIN)) bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
             if (bcmsg.contains(Formatting.REASON)) bcmsg = bcmsg.replace(Formatting.REASON, reason);
             if (bcmsg.contains(Formatting.VICTIM)) bcmsg = bcmsg.replace(Formatting.VICTIM, name);
@@ -76,7 +77,7 @@ public class Ipban extends CommandHandler {
             if (victim.isOnline()) {
                 if (victim.getPlayer().hasPermission("ultraban.override.ipban")
                         && !admin.equalsIgnoreCase(Ultrabans.DEFAULT_ADMIN))
-                    return lang.getString("IPBan.Denied");
+                    return plugin.getString(Language.IPBAN_DENIED);
                 victimip = victim.getPlayer().getAddress().getAddress().getHostAddress();
                 plugin.getUBDatabase().setAddress(victim.getName(), victimip);
             }
@@ -85,7 +86,7 @@ public class Ipban extends CommandHandler {
                 victimip = plugin.getUBDatabase().getAddress(victim.getName());
         }
         if (victimip == null) {
-            String failed = lang.getString("IPBan.IPNotFound");
+            String failed = plugin.getString(Language.IPBAN_IPNOTFOUND);
             if (failed.contains(Formatting.VICTIM))
                 failed = failed.replace(Formatting.VICTIM, name);
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', failed));
@@ -98,21 +99,21 @@ public class Ipban extends CommandHandler {
             return null;
         }
         if (plugin.cacheIP.containsKey(victimip)) {
-            String failed = lang.getString("IPBan.Failed");
+            String failed = plugin.getString(Language.IPBAN_FAILED);
             if (failed.contains(Formatting.VICTIM))
                 failed = failed.replace(Formatting.VICTIM, name);
             return failed;
         }
         plugin.getAPI().ipbanPlayer(name, victimip, reason, admin);
         if (victim != null && victim.isOnline()) {
-            String msgvic = lang.getString("IPBan.MsgToVictim");
+            String msgvic = plugin.getString(Language.IPBAN_MSGTOVICTIM);
             if (msgvic.contains(Formatting.ADMIN))
                 msgvic = msgvic.replace(Formatting.ADMIN, admin);
             if (msgvic.contains(Formatting.REASON))
                 msgvic = msgvic.replace(Formatting.REASON, reason);
             victim.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', msgvic));
         }
-        String bcmsg = ChatColor.translateAlternateColorCodes('&', lang.getString("IPBan.MsgToBroadcast"));
+        String bcmsg = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.IPBAN_MSGTOBROADCAST));
         if (bcmsg.contains(Formatting.ADMIN))
             bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
         if (bcmsg.contains(Formatting.REASON))

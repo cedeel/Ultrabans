@@ -15,6 +15,7 @@
  */
 package com.modcrafting.ultrabans.commands;
 
+import com.modcrafting.ultrabans.Language;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -32,7 +33,7 @@ public class Pardon extends CommandHandler {
 
     public String command(CommandSender sender, Command command, String[] args) {
         if (args.length < 1)
-            return lang.getString("Pardon.Arguments");
+            return plugin.getString(Language.PARDON_ARGUMENTS);
         String admin = Ultrabans.DEFAULT_ADMIN;
         if (sender instanceof Player)
             admin = sender.getName();
@@ -41,7 +42,7 @@ public class Pardon extends CommandHandler {
             for (BanInfo info : plugin.cache.get(name.toLowerCase())) {
                 if (info.getType() == BanType.JAIL.getId()) {
                     plugin.cache.remove(name.toLowerCase());
-                    String bcmsg = lang.getString("Pardon.Msg");
+                    String bcmsg = plugin.getString(Language.PARDON_MSG);
                     if (bcmsg.contains(Formatting.ADMIN))
                         bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
                     if (bcmsg.contains(Formatting.VICTIM))
@@ -61,6 +62,6 @@ public class Pardon extends CommandHandler {
                 }
             }
         }
-        return lang.getString("Pardon.Failed");
+        return plugin.getString(Language.PARDON_FAILED);
     }
 }

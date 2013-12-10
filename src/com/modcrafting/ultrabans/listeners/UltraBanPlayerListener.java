@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import com.modcrafting.ultrabans.Language;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -43,12 +44,12 @@ public class UltraBanPlayerListener implements Listener {
     String spamcheck = null;
     int spamCount = 0;
     FileConfiguration config;
-    YamlConfiguration lang;
+    //YamlConfiguration lang;
 
     public UltraBanPlayerListener(Ultrabans ultraBans) {
         plugin = ultraBans;
         config = ultraBans.getConfig();
-        lang = ultraBans.getLangConfig();
+        //lang = ultraBans.getLangConfig();
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -68,7 +69,7 @@ public class UltraBanPlayerListener implements Listener {
                         admin = info.getAdmin();
                     if (reason.equals(info.getReason()))
                         reason = info.getReason();
-                    String bcmsg = lang.getString("IPBan.Login");
+                    String bcmsg = plugin.getString(Language.IPBAN_LOGIN);
                     if (bcmsg.contains(Formatting.ADMIN))
                         bcmsg = bcmsg.replaceAll(Formatting.ADMIN, admin);
                     if (bcmsg.contains(Formatting.REASON))
@@ -88,7 +89,7 @@ public class UltraBanPlayerListener implements Listener {
                         admin = info.getAdmin();
                     if (reason.equals(info.getReason()))
                         reason = info.getReason();
-                    String bcmsg = lang.getString("Ban.Login");
+                    String bcmsg = plugin.getString(Language.BAN_LOGIN);
                     if (bcmsg.contains(Formatting.ADMIN))
                         bcmsg = bcmsg.replaceAll(Formatting.ADMIN, admin);
                     if (bcmsg.contains(Formatting.REASON))
@@ -99,7 +100,7 @@ public class UltraBanPlayerListener implements Listener {
             }
         }
         if (config.getBoolean("Lockdown", false) && !player.hasPermission("ultraban.override.lockdown")) {
-            String lockMsgLogin = lang.getString("Lockdown.LoginMsg", "Server is under a lockdown, Try again later!");
+            String lockMsgLogin = plugin.getString(Language.LOCKDOWN_LOGINMSG);
             event.disallow(PlayerLoginEvent.Result.KICK_OTHER, ChatColor.translateAlternateColorCodes('&', lockMsgLogin));
             plugin.getLogger().info(player.getName() + " attempted to join during lockdown.");
         }
@@ -139,7 +140,7 @@ public class UltraBanPlayerListener implements Listener {
                         admin = info.getAdmin();
                     if (reason.equals(info.getReason()))
                         reason = info.getReason();
-                    String bcmsg = lang.getString("IPBan.Login");
+                    String bcmsg = plugin.getString(Language.IPBAN_LOGIN);
                     if (bcmsg.contains(Formatting.ADMIN))
                         bcmsg = bcmsg.replaceAll(Formatting.ADMIN, admin);
                     if (bcmsg.contains(Formatting.REASON))

@@ -15,6 +15,7 @@
  */
 package com.modcrafting.ultrabans.commands;
 
+import com.modcrafting.ultrabans.Language;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -33,7 +34,7 @@ public class Ban extends CommandHandler {
 
     public String command(CommandSender sender, Command command, String[] args) {
         if (args.length < 1)
-            return lang.getString("Ban.Arguments");
+            return plugin.getString(Language.BAN_ARGUMENTS);
         boolean broadcast = true;
         String admin = Ultrabans.DEFAULT_ADMIN;
         String reason = Ultrabans.DEFAULT_REASON;
@@ -41,7 +42,7 @@ public class Ban extends CommandHandler {
             admin = sender.getName();
         String name = Formatting.expandName(args[0]);
         if (name.equalsIgnoreCase(admin))
-            return lang.getString("Ban.Emo");
+            return plugin.getString(Language.BAN_EMO);
         if (args.length > 1) {
             if (args[1].equalsIgnoreCase("-s")) {
                 if (sender.hasPermission(command.getPermission() + ".silent"))
@@ -58,7 +59,7 @@ public class Ban extends CommandHandler {
         if (plugin.cache.containsKey(name.toLowerCase())) {
             for (BanInfo info : plugin.cache.get(name.toLowerCase())) {
                 if (info.getType() == BanType.BAN.getId()) {
-                    String failed = lang.getString("Ban.Failed");
+                    String failed = plugin.getString(Language.BAN_FAILED);
                     if (failed.contains(Formatting.VICTIM))
                         failed = failed.replace(Formatting.VICTIM, name);
                     return failed;
@@ -70,8 +71,8 @@ public class Ban extends CommandHandler {
             if (victim.isOnline()) {
                 if (victim.getPlayer().hasPermission("ultraban.override.ban") &&
                         !(sender instanceof ConsoleCommandSender))
-                    return lang.getString("Ban.Denied");
-                String vicmsg = lang.getString("Ban.MsgToVictim");
+                    return plugin.getString(Language.BAN_DENIED);
+                String vicmsg = plugin.getString(Language.BAN_MSGTOVICTIM);
                 if (vicmsg.contains(Formatting.ADMIN))
                     vicmsg = vicmsg.replace(Formatting.ADMIN, admin);
                 if (vicmsg.contains(Formatting.REASON))
@@ -81,7 +82,7 @@ public class Ban extends CommandHandler {
             name = victim.getName();
         }
         plugin.getAPI().banPlayer(name, reason, admin);
-        String bcmsg = ChatColor.translateAlternateColorCodes('&', lang.getString("Ban.MsgToBroadcast"));
+        String bcmsg = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.BAN_MSGTOBROADCAST));
         if (bcmsg.contains(Formatting.ADMIN))
             bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
         if (bcmsg.contains(Formatting.REASON))

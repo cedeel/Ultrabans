@@ -15,6 +15,7 @@
  */
 package com.modcrafting.ultrabans.commands;
 
+import com.modcrafting.ultrabans.Language;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -32,7 +33,7 @@ public class Perma extends CommandHandler {
 
     public String command(CommandSender sender, Command command, String[] args) {
         if (args.length < 1)
-            return lang.getString("PermaBan.Arguments");
+            return plugin.getString(Language.PERMABAN_ARGUMENTS);
         boolean broadcast = true;
         String admin = Ultrabans.DEFAULT_ADMIN;
         String reason = Ultrabans.DEFAULT_REASON;
@@ -41,7 +42,7 @@ public class Perma extends CommandHandler {
         String name = args[0];
         name = Formatting.expandName(name);
         if (name.equalsIgnoreCase(admin))
-            return lang.getString("PermaBan.Emo");
+            return plugin.getString(Language.PERMABAN_EMO);
         if (args.length > 1) {
             if (args[1].equalsIgnoreCase("-s")) {
                 if (sender.hasPermission(command.getPermission() + ".silent"))
@@ -58,7 +59,7 @@ public class Perma extends CommandHandler {
         if (plugin.cache.containsKey(name.toLowerCase())) {
             for (BanInfo info : plugin.cache.get(name.toLowerCase())) {
                 if (info.getType() == BanType.BAN.getId()) {
-                    String failed = lang.getString("PermaBan.Failed");
+                    String failed = plugin.getString(Language.PERMABAN_FAILED);
                     if (failed.contains(Formatting.VICTIM))
                         failed = failed.replace(Formatting.VICTIM, name);
                     return failed;
@@ -70,8 +71,8 @@ public class Perma extends CommandHandler {
             if (victim.isOnline()) {
                 if (victim.getPlayer().hasPermission("ultraban.override.permaban") &&
                         !admin.equalsIgnoreCase(Formatting.ADMIN))
-                    return lang.getString("PermaBan.Denied");
-                String vicmsg = lang.getString("PermaBan.MsgToVictim");
+                    return plugin.getString(Language.PERMABAN_DENIED);
+                String vicmsg = plugin.getString(Language.PERMABAN_MSGTOVICTIM);
                 if (vicmsg.contains(Formatting.ADMIN))
                     vicmsg = vicmsg.replace(Formatting.ADMIN, admin);
                 if (vicmsg.contains(Formatting.REASON))
@@ -81,7 +82,7 @@ public class Perma extends CommandHandler {
             name = victim.getName();
         }
         plugin.getAPI().permabanPlayer(name, reason, admin);
-        String bcmsg = ChatColor.translateAlternateColorCodes('&', lang.getString("PermaBan.MsgToBroadcast"));
+        String bcmsg = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.PERMABAN_MSGTOBROADCAST));
         if (bcmsg.contains(Formatting.ADMIN))
             bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
         if (bcmsg.contains(Formatting.REASON))

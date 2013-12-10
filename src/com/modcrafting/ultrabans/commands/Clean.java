@@ -15,6 +15,7 @@
  */
 package com.modcrafting.ultrabans.commands;
 
+import com.modcrafting.ultrabans.Language;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -33,7 +34,8 @@ public class Clean extends CommandHandler {
             if (of != null && Formatting.deletePlyrdat(of.getName()))
                 count++;
         }
-        String msg = lang.getString("Clean.Complete");
+
+        String msg = plugin.getString(Language.CLEAN_COMPLETE);
         if (msg.contains(Formatting.AMOUNT))
             msg = msg.replace(Formatting.AMOUNT, String.valueOf(count));
         return msg;

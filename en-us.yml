@@ -85,6 +85,7 @@ Mute:
   Denied: '&cYour mute has been denied!'
   Emo: '&cYou cannot mute yourself!'
   Chat: '&cYour cry falls on deaf ears.'
+  Failed: '&c%victim% is already muted.'
 Pardon:
   Arguments: '&f/pardon {player} &4Not Enough Arguments'
   Msg: '&7%victim%&6 was released from jail by &7%admin%&6!'
@@ -125,6 +126,7 @@ Tempban:
   Denied: '&cYour tempban has been denied!'
   Emo: '&cYou cannot tempban yourself!'
   Login: '&6You have been tempbanned by &7%admin%&6 for &7%time%&6. Reason: &7%reason%&6!'
+  TimeFail: 'Invalid time'
 TempIpBan:
   Arguments: '&f/tempipban {player} (-s/-a) {amt} {sec/min/hour/day} {Reason} &4Not Enough Arguments'
   MsgToVictim: '&6You have been tempipbanned by &7%admin%&6 for &7%amt% %mode%s.&6 Reason: &7%reason%&6!'

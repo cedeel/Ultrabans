@@ -15,6 +15,7 @@
  */
 package com.modcrafting.ultrabans.commands;
 
+import com.modcrafting.ultrabans.Language;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -32,7 +33,7 @@ public class Tempjail extends CommandHandler {
 
     public String command(CommandSender sender, Command command, String[] args) {
         if (args.length < 3)
-            return lang.getString("Tempjail.Arguments");
+            return plugin.getString(Language.TEMPJAIL_ARGUMENTS);
         boolean broadcast = true;
         String admin = Ultrabans.DEFAULT_ADMIN;
         String reason = Ultrabans.DEFAULT_REASON;
@@ -41,7 +42,7 @@ public class Tempjail extends CommandHandler {
         String name = args[0];
         name = Formatting.expandName(name);
         if (name.equalsIgnoreCase(admin))
-            return lang.getString("Tempjail.Emo");
+            return plugin.getString(Language.TEMPJAIL_EMO);
         long tempTime = 0;
         String amt;
         String mode;
@@ -63,15 +64,14 @@ public class Tempjail extends CommandHandler {
             reason = Formatting.combineSplit(3, args);
         }
         if (tempTime == 0)
-            return lang.getString("Tempjail.TimeFail");
+            return plugin.getString(Language.TEMPBAN_TIMEFAIL);
         long temp = System.currentTimeMillis() / 1000 + tempTime;
 
         if (plugin.cache.containsKey(name.toLowerCase())) {
             for (BanInfo info : plugin.cache.get(name.toLowerCase())) {
                 if (info.getType() == BanType.TEMPJAIL.getId()
                         || info.getType() == BanType.JAIL.getId()) {
-                    String failed = lang.getString("Tempjail." +
-                            "Failed");
+                    String failed = plugin.getString(Language.TEMPJAIL_FAILED);
                     if (failed.contains(Formatting.VICTIM))
                         failed = failed.replace(Formatting.VICTIM, name);
                     return failed;
@@ -84,8 +84,8 @@ public class Tempjail extends CommandHandler {
             if (victim.isOnline()) {
                 if (victim.getPlayer().hasPermission("ultraban.override.tempjail") &&
                         !admin.equalsIgnoreCase(Formatting.ADMIN))
-                    return lang.getString("Tempjail.Denied");
-                String vicmsg = lang.getString("Tempjail.MsgToVictim");
+                    return plugin.getString(Language.TEMPJAIL_DENIED);
+                String vicmsg = plugin.getString(Language.TEMPJAIL_MSGTOVICTIM);
                 if (vicmsg.contains(Formatting.ADMIN))
                     vicmsg = vicmsg.replace(Formatting.ADMIN, admin);
                 if (vicmsg.contains(Formatting.REASON))
@@ -95,7 +95,7 @@ public class Tempjail extends CommandHandler {
             name = victim.getName();
         }
         plugin.getAPI().tempjailPlayer(name, reason, temp, admin);
-        String bcmsg = ChatColor.translateAlternateColorCodes('&', lang.getString("Tempjail.MsgToBroadcast"));
+        String bcmsg = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.TEMPJAIL_MSGTOBROADCAST));
         if (bcmsg.contains(Formatting.ADMIN))
             bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
         if (bcmsg.contains(Formatting.REASON))

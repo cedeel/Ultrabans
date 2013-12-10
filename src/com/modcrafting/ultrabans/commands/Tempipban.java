@@ -15,6 +15,7 @@
  */
 package com.modcrafting.ultrabans.commands;
 
+import com.modcrafting.ultrabans.Language;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -33,7 +34,7 @@ public class Tempipban extends CommandHandler {
 
     public String command(CommandSender sender, Command command, String[] args) {
         if (args.length < 3)
-            return lang.getString("Tempban.Arguments");
+            return plugin.getString(Language.TEMPIPBAN_ARGUMENTS);
         boolean broadcast = true;
         String admin = Ultrabans.DEFAULT_ADMIN;
         String reason = Ultrabans.DEFAULT_REASON;
@@ -42,7 +43,7 @@ public class Tempipban extends CommandHandler {
         String name = args[0];
         name = Formatting.expandName(name);
         if (name.equalsIgnoreCase(admin))
-            return lang.getString("Tempban.Emo");
+            return plugin.getString(Language.TEMPIPBAN_EMO);
         long tempTime = 0;
         String amt = "";
         String mode = "";
@@ -64,15 +65,15 @@ public class Tempipban extends CommandHandler {
             reason = Formatting.combineSplit(3, args);
         }
         if (tempTime == 0)
-            return lang.getString("Tempban.TimeFail");
+            return plugin.getString(Language.TEMPBAN_TIMEFAIL);
         long temp = System.currentTimeMillis() / 1000 + tempTime;
         OfflinePlayer victim = plugin.getServer().getOfflinePlayer(name);
         if (victim != null) {
             if (victim.isOnline()) {
                 if (victim.getPlayer().hasPermission("ultraban.override.tempban") &&
                         !admin.equalsIgnoreCase(Formatting.ADMIN))
-                    return lang.getString("Tempban.Denied");
-                String msgvic = lang.getString("TempIpBan.MsgToVictim");
+                    return plugin.getString(Language.TEMPIPBAN_DENIED);
+                String msgvic = plugin.getString(Language.TEMPIPBAN_MSGTOVICTIM);
                 if (msgvic.contains(Formatting.ADMIN))
                     msgvic = msgvic.replace(Formatting.ADMIN, admin);
                 if (msgvic.contains(Formatting.REASON))
@@ -91,7 +92,7 @@ public class Tempipban extends CommandHandler {
                 for (BanInfo info : plugin.cache.get(offlineip)) {
                     if (info.getType() == BanType.TEMPBAN.getId()
                             || info.getType() == BanType.BAN.getId()) {
-                        String failed = lang.getString("TempIpBan.Failed");
+                        String failed = plugin.getString(Language.TEMPIPBAN_FAILED);
                         if (failed.contains(Formatting.VICTIM))
                             failed = failed.replace(Formatting.VICTIM, name);
                         return failed;
@@ -105,14 +106,14 @@ public class Tempipban extends CommandHandler {
                 sb.append("-s ");
             sb.append(amt).append(" ").append(mode).append(" ").append(reason);
             plugin.getServer().dispatchCommand(sender, sb.toString());
-            String failed = lang.getString("TempIpBan.IPNotFound");
+            String failed = plugin.getString(Language.TEMPIPBAN_IPNOTFOUND);
             if (failed.contains(Formatting.VICTIM))
                 failed = failed.replace(Formatting.VICTIM, name);
             return failed;
         }
 
         plugin.getAPI().tempipbanPlayer(name, offlineip, reason, temp, admin);
-        String bcmsg = lang.getString("TempIpBan.MsgToBroadcast");
+        String bcmsg = plugin.getString(Language.TEMPIPBAN_MSGTOBROADCAST);
         if (bcmsg.contains(Formatting.ADMIN))
             bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
         if (bcmsg.contains(Formatting.REASON))

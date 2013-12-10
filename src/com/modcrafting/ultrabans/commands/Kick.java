@@ -15,6 +15,7 @@
  */
 package com.modcrafting.ultrabans.commands;
 
+import com.modcrafting.ultrabans.Language;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -29,7 +30,7 @@ public class Kick extends CommandHandler {
 
     public String command(CommandSender sender, Command command, String[] args) {
         if (args.length < 1)
-            return lang.getString("Kick.Arguments");
+            return plugin.getString(Language.KICK_ARGUMENTS);
         String admin = Ultrabans.DEFAULT_ADMIN;
         String reason = Ultrabans.DEFAULT_REASON;
         boolean broadcast = true;
@@ -38,7 +39,7 @@ public class Kick extends CommandHandler {
         if ((args[0].equals("*") || args[0].equals("all")) && sender.hasPermission("ultrabans.kick.all")) {
             if (args.length > 1)
                 reason = Formatting.combineSplit(1, args);
-            String adminMsg = ChatColor.translateAlternateColorCodes('&', lang.getString("Kick.MsgToAll"));
+            String adminMsg = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.KICK_MSGTOALL));
             if (adminMsg.contains(Formatting.ADMIN))
                 adminMsg = adminMsg.replace(Formatting.ADMIN, admin);
             if (adminMsg.contains(Formatting.REASON))
@@ -68,19 +69,19 @@ public class Kick extends CommandHandler {
         }
         Player victim = plugin.getServer().getPlayer(name);
         if (victim == null)
-            return lang.getString("Kick.Online");
+            return plugin.getString(Language.KICK_ONLINE);
         if (victim.getName().equalsIgnoreCase(admin))
-            return lang.getString("Kick.Emo");
+            return plugin.getString(Language.KICK_EMO);
         if (victim.hasPermission("ultraban.override.kick"))
-            return lang.getString("Kick.Denied");
+            return plugin.getString(Language.KICK_DENIED);
         plugin.getAPI().kickPlayer(name, reason, admin);
-        String msgvic = ChatColor.translateAlternateColorCodes('&', lang.getString("Kick.MsgToVictim"));
+        String msgvic = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.KICK_MSGTOVICTIM));
         if (msgvic.contains(Formatting.ADMIN))
             msgvic = msgvic.replace(Formatting.ADMIN, admin);
         if (msgvic.contains(Formatting.REASON))
             msgvic = msgvic.replace(Formatting.REASON, reason);
         victim.kickPlayer(msgvic);
-        String bcmsg = ChatColor.translateAlternateColorCodes('&', lang.getString("Kick.MsgToBroadcast"));
+        String bcmsg = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.KICK_MSGTOBROADCAST));
         if (bcmsg.contains(Formatting.ADMIN))
             bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
         if (bcmsg.contains(Formatting.REASON))

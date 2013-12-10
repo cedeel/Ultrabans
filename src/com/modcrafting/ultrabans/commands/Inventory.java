@@ -1,5 +1,6 @@
 package com.modcrafting.ultrabans.commands;
 
+import com.modcrafting.ultrabans.Language;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -16,14 +17,14 @@ public class Inventory extends CommandHandler {
     public String command(CommandSender sender, Command command, String[] args) {
         if (sender instanceof Player) {
             if (args.length < 1)
-                return lang.getString("InvOf.Arguments");
+                return plugin.getString(Language.INVOF_ARGUMENTS);
             OfflinePlayer victim = plugin.getServer().getOfflinePlayer(args[0]);
             if (victim == null || !victim.isOnline()) {
-                return ChatColor.translateAlternateColorCodes('&', lang.getString("InvOf.Failed"));
+                return ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.INVOF_FAILED));
             }
             ((Player) sender).openInventory(victim.getPlayer().getInventory());
             return null;
         }
-        return ChatColor.translateAlternateColorCodes('&', lang.getString("InvOf.Console"));
+        return ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.INVOF_CONSOLE));
     }
 }

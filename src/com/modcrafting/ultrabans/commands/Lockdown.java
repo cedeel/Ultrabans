@@ -15,6 +15,7 @@
  */
 package com.modcrafting.ultrabans.commands;
 
+import com.modcrafting.ultrabans.Language;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -27,7 +28,7 @@ public class Lockdown extends CommandHandler {
 
     public String command(CommandSender sender, Command command, String[] args) {
         if (args.length < 1)
-            return lang.getString("Lockdown.Arguments");
+            return plugin.getString(Language.LOCKDOWN_ARGUMENTS);
         String admin = Ultrabans.DEFAULT_ADMIN;
         if (sender instanceof Player)
             admin = sender.getName();
@@ -39,9 +40,9 @@ public class Lockdown extends CommandHandler {
                 plugin.saveConfig();
                 if (plugin.getLog())
                     plugin.getLogger().info(admin + " initiated lockdown.");
-                return lang.getString("Lockdown.Start");
+                return plugin.getString(Language.LOCKDOWN_START);
             }
-            return lang.getString("Lockdown.LoginMsg");
+            return plugin.getString(Language.LOCKDOWN_LOGINMSG);
         }
         if (toggle.equalsIgnoreCase("off")) {
             if (locked) {
@@ -49,10 +50,10 @@ public class Lockdown extends CommandHandler {
                 plugin.saveConfig();
                 if (plugin.getLog())
                     plugin.getLogger().info(admin + " disabled lockdown.");
-                return lang.getString("Lockdown.End");
+                return plugin.getString(Language.LOCKDOWN_END);
             }
-            return lang.getString("Lockdown.Status");
+            return plugin.getString(Language.LOCKDOWN_STATUS);
         }
-        return locked ? lang.getString("Lockdown.LoginMsg") : lang.getString("Lockdown.Status");
+        return locked ? plugin.getString(Language.LOCKDOWN_LOGINMSG) : plugin.getString(Language.LOCKDOWN_STATUS);
     }
 }

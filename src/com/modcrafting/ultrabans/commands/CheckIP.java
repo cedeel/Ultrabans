@@ -18,6 +18,7 @@ package com.modcrafting.ultrabans.commands;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import com.modcrafting.ultrabans.Language;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -31,7 +32,7 @@ public class CheckIP extends CommandHandler {
 
     public String command(final CommandSender sender, Command command, final String[] args) {
         if (args.length < 1)
-            return lang.getString("CheckIP.Arguments");
+            return plugin.getString(Language.CHECKIP_ARGUMENTS);
         try {
             String p = args[0];
             String ip = plugin.getUBDatabase().getAddress(p);
@@ -45,16 +46,16 @@ public class CheckIP extends CommandHandler {
                     ip = inet.getHostAddress();
                     plugin.getUBDatabase().setAddress(n.getName().toLowerCase(), ip);
                 } else {
-                    return lang.getString("CheckIP.NoPlayer");
+                    return plugin.getString(Language.CHECKIP_NOPLAYER);
                 }
             }
             sender.sendMessage(ChatColor.YELLOW + "------[" + p + "]------");
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lang.getString("CheckIP.MSG1"))
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.CHECKIP_MSG1))
                     + ChatColor.GRAY + ip);
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lang.getString("CheckIP.MSG2"))
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.CHECKIP_MSG2))
                     + ChatColor.GRAY + inet.getHostName());
         } catch (UnknownHostException e) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lang.getString("CheckIP.Exception")));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.CHECKIP_EXCEPTION)));
         }
 
         return null;

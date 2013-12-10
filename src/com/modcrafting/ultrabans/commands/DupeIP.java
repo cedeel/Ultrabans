@@ -17,6 +17,7 @@ package com.modcrafting.ultrabans.commands;
 
 import java.util.List;
 
+import com.modcrafting.ultrabans.Language;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -31,7 +32,7 @@ public class DupeIP extends CommandHandler {
 
     public String command(final CommandSender sender, Command command, final String[] args) {
         if (args.length < 1)
-            return lang.getString("DupeIP.Argument");
+            return plugin.getString(Language.DUPEIP_ARGUMENTS);
         String name = Formatting.expandName(args[0]);
         String ip = plugin.getUBDatabase().getAddress(name);
         if (ip == null) {
@@ -40,11 +41,11 @@ public class DupeIP extends CommandHandler {
                 ip = n.getPlayer().getAddress().getAddress().getHostAddress();
                 plugin.getUBDatabase().setAddress(n.getName().toLowerCase(), ip);
             } else {
-                return lang.getString("DupeIP.NoPlayer");
+                return plugin.getString(Language.DUPEIP_NOPLAYER);
             }
         }
         List<String> list = plugin.getUBDatabase().listPlayers(ip);
-        String msg = lang.getString("DupeIP.Header");
+        String msg = plugin.getString(Language.DUPEIP_HEADER);
         if (msg.contains(Formatting.VICTIM))
             msg = msg.replace(Formatting.VICTIM, name);
         if (msg.contains("%ip%"))
@@ -58,6 +59,6 @@ public class DupeIP extends CommandHandler {
         }
         if (sb.toString().length() > 0)
             sender.sendMessage(ChatColor.GRAY + sb.toString());
-        return lang.getString("DupeIP.Completed");
+        return plugin.getString(Language.DUPEIP_COMPLETED);
     }
 }

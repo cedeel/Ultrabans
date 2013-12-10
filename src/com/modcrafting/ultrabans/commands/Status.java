@@ -15,6 +15,7 @@
  */
 package com.modcrafting.ultrabans.commands;
 
+import com.modcrafting.ultrabans.Language;
 import com.modcrafting.ultrabans.util.Formatting;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -27,14 +28,14 @@ public class Status extends CommandHandler {
     }
 
     public String command(final CommandSender sender, Command command, String[] args) {
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lang.getString("Status.CacheHeader")));
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lang.getString("Status.CacheBans")
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.STATUS_CACHEHEADER)));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.STATUS_CACHEBANS)
                 .replace(Formatting.AMOUNT, String.valueOf(plugin.cache.size()))));
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lang.getString("Status.CacheIPBans")
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.STATUS_CACHEIPBANS)
                 .replace(Formatting.AMOUNT, String.valueOf(plugin.cacheIP.size()))));
         int counter = 0;
         counter = counter + plugin.cache.toString().getBytes().length;
         counter = counter + plugin.cacheIP.toString().getBytes().length;
-        return lang.getString("Status.Usage").replace(Formatting.AMOUNT, String.valueOf(counter));
+        return plugin.getString(Language.STATUS_USAGE).replace(Formatting.AMOUNT, String.valueOf(counter));
     }
 }

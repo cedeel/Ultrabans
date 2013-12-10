@@ -27,12 +27,12 @@ import com.modcrafting.ultrabans.Ultrabans;
 public abstract class CommandHandler implements CommandExecutor {
     Ultrabans plugin;
     FileConfiguration config;
-    YamlConfiguration lang;
+    //YamlConfiguration lang;
 
     public CommandHandler(Ultrabans instance) {
         plugin = instance;
         config = instance.getConfig();
-        lang = instance.getLangConfig();
+        //lang = instance.getLangConfig();
     }
 
     public boolean onCommand(final CommandSender sender, final Command command, String label, final String[] args) {

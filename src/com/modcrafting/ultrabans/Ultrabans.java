@@ -15,24 +15,6 @@
  */
 package com.modcrafting.ultrabans;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-
-import net.h31ix.updater.Updater;
-import net.h31ix.updater.Updater.UpdateResult;
-import net.h31ix.updater.Updater.UpdateType;
-
-import org.bukkit.ChatColor;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import com.modcrafting.ultrabans.commands.*;
 import com.modcrafting.ultrabans.db.Database;
 import com.modcrafting.ultrabans.db.SQL;
@@ -41,23 +23,34 @@ import com.modcrafting.ultrabans.listeners.UltraBanBlockListener;
 import com.modcrafting.ultrabans.listeners.UltraBanPlayerListener;
 import com.modcrafting.ultrabans.util.BanInfo;
 import com.modcrafting.ultrabans.util.Jailtools;
+import net.h31ix.updater.Updater;
+import net.h31ix.updater.Updater.UpdateResult;
+import net.h31ix.updater.Updater.UpdateType;
+import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 public class Ultrabans extends JavaPlugin {
+    public static String DEFAULT_ADMIN;
+    public static String DEFAULT_REASON;
+    public static String DEFAULT_DENY_MESSAGE;
     public HashSet<String> muted = new HashSet<String>();
     public Map<String, List<BanInfo>> cache = new HashMap<String, List<BanInfo>>();
     public Map<String, List<BanInfo>> cacheIP = new HashMap<String, List<BanInfo>>();
     public Jailtools jail = new Jailtools(this);
     public UltrabansAPI api = new UltrabansAPI(this);
-
-    public YamlConfiguration lang;
+    private YamlConfiguration lang;
     private Database db;
-
-
-
-    public static String DEFAULT_ADMIN;
-    public static String DEFAULT_REASON;
-    public static String DEFAULT_DENY_MESSAGE;
-
     private boolean log;
 
     public void onDisable() {
@@ -69,32 +62,31 @@ public class Ultrabans extends JavaPlugin {
 
     public void onEnable() {
         long time = System.currentTimeMillis();
-//        setConstant(this);
         this.getDataFolder().mkdir();
         this.saveDefaultConfig();
         FileConfiguration config = getConfig();
         log = config.getBoolean("Log.Enabled", true);
 
-        String la = config.getString("Language", "en-us");
-        File fls = new File(this.getDataFolder(), "./lang/");
-        fls.mkdir();
-        File fl = new File(fls, "/" + la + ".yml");
-        if (!fl.exists()) {
+        String language = config.getString("Language", "en-us");
+        File langFolder = new File(this.getDataFolder(), "lang");
+        langFolder.mkdir();
+        File langFile = new File(langFolder, language + ".yml");
+        if (!langFile.exists()) {
             try {
-                fl.createNewFile();
-                BufferedInputStream in = new BufferedInputStream(this.getResource(la + ".yml"));
-                FileOutputStream fout = new FileOutputStream(fl);
+                langFile.createNewFile();
+                BufferedInputStream in = new BufferedInputStream(this.getResource(language + ".yml"));
+                FileOutputStream fileOutputStream = new FileOutputStream(langFile);
                 byte[] data = new byte[1024];
                 int c;
                 while ((c = in.read(data, 0, 1024)) != -1)
-                    fout.write(data, 0, c);
+                    fileOutputStream.write(data, 0, c);
                 in.close();
-                fout.close();
+                fileOutputStream.close();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
-        lang = YamlConfiguration.loadConfiguration(fl);
+        lang = YamlConfiguration.loadConfiguration(langFile);
 
         DEFAULT_ADMIN = config.getString("Label.Console", "Server");
         DEFAULT_REASON = config.getString("Label.Reason", "Unsure");
@@ -113,24 +105,28 @@ public class Ultrabans extends JavaPlugin {
             db = new SQLite(this);
         }
         db.load();
-        //Updater
-        if (config.getBoolean("AutoUpdater.Enabled", true)) {
-            Updater up = new Updater(this, this.getDescription().getName().toLowerCase(), this.getFile(), UpdateType.DEFAULT, true);
-            if (!up.getResult().equals(UpdateResult.SUCCESS) || up.pluginFile(this.getFile().getName())) {
-                if (up.getResult().equals(UpdateResult.FAIL_NOVERSION)) {
-                    this.getLogger().info("Unable to connect to dev.bukkit.org.");
-                } else {
-                    this.getLogger().info("No Updates found on dev.bukkit.org.");
-                }
-            } else {
-                this.getLogger().info("Update " + up.getLatestVersionString() + " found please restart your server.");
-            }
-        }
+
+        if (config.getBoolean("AutoUpdater.Enabled", true))
+            loadUpdater(config);
 
         this.getLogger().info("Loaded. " + ((System.currentTimeMillis() - time) / 1000) + " secs.");
     }
 
-    public void loadCommands() {
+    private void loadUpdater(FileConfiguration config) {
+        //Updater
+        Updater updater = new Updater(this, this.getDescription().getName().toLowerCase(), this.getFile(), UpdateType.DEFAULT, true);
+        if (!updater.getResult().equals(UpdateResult.SUCCESS) || updater.pluginFile(this.getFile().getName())) {
+            if (updater.getResult().equals(UpdateResult.FAIL_NOVERSION)) {
+                this.getLogger().info("Unable to connect to dev.bukkit.org.");
+            } else {
+                this.getLogger().info("No Updates found on dev.bukkit.org.");
+            }
+        } else {
+            this.getLogger().info("Update " + updater.getLatestVersionString() + " found please restart your server.");
+        }
+    }
+
+    private void loadCommands() {
         getCommand("ban").setExecutor(new Ban(this));
         getCommand("checkban").setExecutor(new Checkban(this));
         getCommand("checkip").setExecutor(new CheckIP(this));
@@ -169,8 +165,12 @@ public class Ultrabans extends JavaPlugin {
         return log;
     }
 
-    public YamlConfiguration getLangConfig() {
+    /*public YamlConfiguration getLangConfig() {
         return lang;
+    }*/
+
+    public String getString(Language piece) {
+        return lang.getString(piece.getLocation());
     }
 
     public UltrabansAPI getAPI() {

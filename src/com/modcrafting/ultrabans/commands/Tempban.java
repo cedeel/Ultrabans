@@ -15,6 +15,7 @@
  */
 package com.modcrafting.ultrabans.commands;
 
+import com.modcrafting.ultrabans.Language;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -32,7 +33,7 @@ public class Tempban extends CommandHandler {
 
     public String command(CommandSender sender, Command command, String[] args) {
         if (args.length < 3)
-            return lang.getString("Tempban.Arguments");
+            return plugin.getString(Language.TEMPBAN_ARGUMENTS);
         boolean broadcast = true;
         String admin = Ultrabans.DEFAULT_ADMIN;
         String reason = Ultrabans.DEFAULT_REASON;
@@ -41,7 +42,7 @@ public class Tempban extends CommandHandler {
         String name = args[0];
         name = Formatting.expandName(name);
         if (name.equalsIgnoreCase(admin))
-            return lang.getString("Tempban.Emo");
+            return plugin.getString(Language.TEMPBAN_EMO);
         long tempTime = 0;
         String amt;
         String mode;
@@ -63,14 +64,14 @@ public class Tempban extends CommandHandler {
             reason = Formatting.combineSplit(3, args);
         }
         if (tempTime == 0)
-            return lang.getString("Tempban.TimeFail");
+            return plugin.getString(Language.TEMPBAN_TIMEFAIL);
         long temp = System.currentTimeMillis() / 1000 + tempTime;
 
         if (plugin.cache.containsKey(name.toLowerCase())) {
             for (BanInfo info : plugin.cache.get(name.toLowerCase())) {
                 if (info.getType() == BanType.TEMPBAN.getId()
                         || info.getType() == BanType.BAN.getId()) {
-                    String failed = lang.getString("Tempban.Failed");
+                    String failed = plugin.getString(Language.TEMPBAN_FAILED);
                     if (failed.contains(Formatting.VICTIM))
                         failed = failed.replace(Formatting.VICTIM, name);
                     return failed;
@@ -84,8 +85,8 @@ public class Tempban extends CommandHandler {
             if (victim.isOnline()) {
                 if (victim.getPlayer().hasPermission("ultraban.override.tempban") &&
                         !admin.equalsIgnoreCase(Formatting.ADMIN))
-                    return lang.getString("Tempban.Denied");
-                String vicmsg = lang.getString("Tempban.MsgToVictim");
+                    return plugin.getString(Language.TEMPBAN_DENIED);
+                String vicmsg = plugin.getString(Language.TEMPBAN_MSGTOVICTIM);
                 if (vicmsg.contains(Formatting.ADMIN))
                     vicmsg = vicmsg.replace(Formatting.ADMIN, admin);
                 if (vicmsg.contains(Formatting.REASON))
@@ -95,7 +96,7 @@ public class Tempban extends CommandHandler {
             name = victim.getName();
         }
         plugin.getAPI().tempbanPlayer(name, reason, temp, admin);
-        String bcmsg = ChatColor.translateAlternateColorCodes('&', lang.getString("Tempban.MsgToBroadcast"));
+        String bcmsg = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.TEMPBAN_MSGTOBROADCAST));
         if (bcmsg.contains(Formatting.ADMIN))
             bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
         if (bcmsg.contains(Formatting.REASON))

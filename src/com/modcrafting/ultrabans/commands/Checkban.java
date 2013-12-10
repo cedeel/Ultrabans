@@ -17,6 +17,7 @@ package com.modcrafting.ultrabans.commands;
 
 import java.util.List;
 
+import com.modcrafting.ultrabans.Language;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -33,7 +34,7 @@ public class Checkban extends CommandHandler {
 
     public String command(final CommandSender sender, Command command, String[] args) {
         if (args.length < 1)
-            return lang.getString("CheckBan.Arguments");
+            return plugin.getString(Language.CHECKBAN_ARGUMENTS);
         String name = args[0];
         name = Formatting.expandName(name);
         OfflinePlayer check = plugin.getServer().getOfflinePlayer(name);
@@ -41,14 +42,14 @@ public class Checkban extends CommandHandler {
             name = check.getName();
         List<BanInfo> bans = plugin.getUBDatabase().listRecords(name);
         if (bans.isEmpty()) {
-            String msg = lang.getString("CheckBan.None");
+            String msg = plugin.getString(Language.CHECKBAN_NONE);
             if (msg.contains(Formatting.AMOUNT))
                 msg = msg.replace(Formatting.AMOUNT, String.valueOf(bans.size()));
             if (msg.contains(Formatting.VICTIM))
                 msg = msg.replace(Formatting.VICTIM, name);
             return msg;
         }
-        String msg = lang.getString("CheckBan.Header");
+        String msg = plugin.getString(Language.CHECKBAN_HEADER);
         if (msg.contains(Formatting.AMOUNT)) msg = msg.replace(Formatting.AMOUNT, String.valueOf(bans.size()));
         if (msg.contains(Formatting.VICTIM)) msg = msg.replace(Formatting.VICTIM, bans.get(0).getName());
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));

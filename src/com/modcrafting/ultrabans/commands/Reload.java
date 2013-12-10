@@ -15,6 +15,7 @@
  */
 package com.modcrafting.ultrabans.commands;
 
+import com.modcrafting.ultrabans.Language;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import com.modcrafting.ultrabans.Ultrabans;
@@ -30,6 +31,6 @@ public class Reload extends CommandHandler {
         plugin.getServer().getPluginManager().enablePlugin(plugin);
         if (plugin.getLog())
             plugin.getLogger().info("Reloaded.");
-        return lang.getString("Reload");
+        return plugin.getString(Language.RELOAD);
     }
 }

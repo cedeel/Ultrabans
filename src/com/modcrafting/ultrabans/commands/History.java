@@ -18,6 +18,7 @@ package com.modcrafting.ultrabans.commands;
 import java.util.Date;
 import java.util.List;
 
+import com.modcrafting.ultrabans.Language;
 import com.modcrafting.ultrabans.util.Formatting;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -37,8 +38,8 @@ public class History extends CommandHandler {
             size = args[0];
         List<BanInfo> bans = plugin.getUBDatabase().listRecent(size);
         if (bans.size() < 1)
-            return lang.getString("History.Failed");
-        String msg = lang.getString("History.Header");
+            return plugin.getString(Language.HISTORY_FAILED);
+        String msg = plugin.getString(Language.HISTORY_HEADER);
         if (msg.contains(Formatting.AMOUNT))
             msg = msg.replace(Formatting.AMOUNT, args[0]);
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));

@@ -15,6 +15,7 @@
  */
 package com.modcrafting.ultrabans.commands;
 
+import com.modcrafting.ultrabans.Language;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -32,18 +33,18 @@ public class Jail extends CommandHandler {
 
     public String command(final CommandSender sender, final Command command, final String[] args) {
         if (args.length < 1)
-            return lang.getString("Jail.Arguments");
+            return plugin.getString(Language.JAIL_ARGUMENTS);
         if (args[0].equalsIgnoreCase("setjail")) {
             if (!(sender instanceof Player))
-                return lang.getString("Jail.SetFail");
+                return plugin.getString(Language.JAIL_SETFAIL);
             plugin.jail.setJail(((Player) sender).getLocation(), "jail");
-            return lang.getString("Jail.SetJail");
+            return plugin.getString(Language.JAIL_SETJAIL);
         }
         if (args[0].equalsIgnoreCase("setrelease")) {
             if (!(sender instanceof Player))
-                return lang.getString("Jail.SetFail");
+                return plugin.getString(Language.JAIL_SETJAIL);
             plugin.jail.setJail(((Player) sender).getLocation(), "release");
-            return lang.getString("Jail.SetRelease");
+            return plugin.getString(Language.JAIL_SETRELEASE);
         }
         boolean broadcast = true;
         String admin = Ultrabans.DEFAULT_ADMIN;
@@ -65,11 +66,11 @@ public class Jail extends CommandHandler {
             }
         }
         if (name.equalsIgnoreCase(admin))
-            return lang.getString("Jail.Emo");
+            return plugin.getString(Language.JAIL_EMO);
         if (plugin.cache.containsKey(name.toLowerCase())) {
             for (BanInfo info : plugin.cache.get(name.toLowerCase())) {
                 if (info.getType() == BanType.JAIL.getId()) {
-                    String msg = lang.getString("Jail.Failed");
+                    String msg = plugin.getString(Language.JAIL_FAILED);
                     if (msg.contains(Formatting.VICTIM))
                         msg = msg.replace(Formatting.VICTIM, name);
                     return msg;
@@ -81,8 +82,8 @@ public class Jail extends CommandHandler {
             name = victim.getName();
             if (victim.isOnline()) {
                 if (victim.getPlayer().hasPermission("ultraban.override.jail"))
-                    return lang.getString("Jail.Denied");
-                String msgvic = lang.getString("Jail.MsgToVictim");
+                    return plugin.getString(Language.JAIL_DENIED);
+                String msgvic = plugin.getString(Language.JAIL_MSGTOVICTIM);
                 if (msgvic.contains(Formatting.ADMIN))
                     msgvic = msgvic.replace(Formatting.ADMIN, admin);
                 if (msgvic.contains(Formatting.REASON))
@@ -91,7 +92,7 @@ public class Jail extends CommandHandler {
                 victim.getPlayer().teleport(plugin.jail.getJail("jail"));
             }
         }
-        String bcmsg = lang.getString("Jail.MsgToBroadcast");
+        String bcmsg = plugin.getString(Language.JAIL_MSGTOBROADCAST);
         if (bcmsg.contains(Formatting.ADMIN))
             bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
         if (bcmsg.contains(Formatting.REASON))

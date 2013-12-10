@@ -15,6 +15,7 @@
  */
 package com.modcrafting.ultrabans.commands;
 
+import com.modcrafting.ultrabans.Language;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -29,7 +30,7 @@ public class Mute extends CommandHandler {
 
     public String command(CommandSender sender, Command command, String[] args) {
         if (args.length < 1)
-            return lang.getString("Mute.Arguments");
+            return plugin.getString(Language.MUTE_ARGUMENTS);
         String admin = Ultrabans.DEFAULT_ADMIN;
         String reason = Ultrabans.DEFAULT_REASON;
         if (sender instanceof Player)
@@ -39,22 +40,22 @@ public class Mute extends CommandHandler {
             reason = Formatting.combineSplit(1, args);
         }
         if (name.equalsIgnoreCase(admin))
-            return lang.getString("Mute.Emo");
+            return plugin.getString(Language.MUTE_EMO);
         Player victim = plugin.getServer().getPlayer(name);
         if (victim != null) {
             if (victim.hasPermission("ultraban.override.mute"))
-                return lang.getString("Messages.Mute.Denied");
+                return plugin.getString(Language.MUTE_DENIED);
             if (plugin.muted.contains(name.toLowerCase())) {
                 plugin.muted.remove(name.toLowerCase());
-                victim.sendMessage(ChatColor.translateAlternateColorCodes('&', lang.getString("Mute.UnmuteMsgToVictim")));
-                String adminMsgs = lang.getString("Messages.Mute.UnmuteMsgToSender", "You have unmuted %victim%.");
+                victim.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.MUTE_UNMUTEMSGTOVICTIM)));
+                String adminMsgs = plugin.getString(Language.MUTE_UNMUTEMSGTOSENDER);
                 if (adminMsgs.contains(Formatting.VICTIM))
                     adminMsgs = adminMsgs.replace(Formatting.VICTIM, name);
                 return adminMsgs;
             }
             plugin.getAPI().mutePlayer(name, reason, admin);
-            victim.sendMessage(ChatColor.translateAlternateColorCodes('&', lang.getString("Mute.MuteMsgToVictim")));
-            String adminMsgs = ChatColor.translateAlternateColorCodes('&', lang.getString("Mute.MuteMsgToSender"));
+            victim.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.MUTE_MUTEMSGTOVICTIM)));
+            String adminMsgs = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.MUTE_MUTEMSGTOSENDER));
             if (adminMsgs.contains(Formatting.VICTIM))
                 adminMsgs = adminMsgs.replace(Formatting.VICTIM, name);
             plugin.getLogger().info(ChatColor.stripColor(adminMsgs));
@@ -62,12 +63,12 @@ public class Mute extends CommandHandler {
         }
         if (plugin.muted.contains(name.toLowerCase())) {
             plugin.muted.remove(name.toLowerCase());
-            String adminMsgs = lang.getString("Mute.UnmuteMsgToSender");
+            String adminMsgs = plugin.getString(Language.MUTE_UNMUTEMSGTOSENDER);
             if (adminMsgs.contains(Formatting.VICTIM))
                 adminMsgs = adminMsgs.replace(Formatting.VICTIM, name);
             return adminMsgs;
         }
-        return lang.getString("Mute.Failed");
+        return plugin.getString(Language.MUTE_FAILED);
     }
 
 }

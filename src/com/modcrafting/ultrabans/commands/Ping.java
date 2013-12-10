@@ -18,6 +18,7 @@ package com.modcrafting.ultrabans.commands;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import com.modcrafting.ultrabans.Language;
 import com.modcrafting.ultrabans.util.Formatting;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -47,14 +48,14 @@ public class Ping extends CommandHandler {
                         }
                     }
                 }
-                String msg = lang.getString("Ping.Personal");
+                String msg = plugin.getString(Language.PING_PERSONAL);
                 if (msg.contains(Formatting.VICTIM))
                     msg.replace(Formatting.VICTIM, p.getName());
                 if (msg.contains(Formatting.AMOUNT))
                     msg.replace(Formatting.AMOUNT, String.valueOf(ping));
                 return msg;
             }
-            return lang.getString("Ping.Failed");
+            return plugin.getString(Language.PING_FAILED);
         }
         if (sender instanceof Player) {
             Player p = (Player) sender;
@@ -71,11 +72,11 @@ public class Ping extends CommandHandler {
                     }
                 }
             }
-            String msg = lang.getString("Ping.Personal");
+            String msg = plugin.getString(Language.PING_PERSONAL);
             if (msg.contains(Formatting.AMOUNT))
                 msg.replace(Formatting.AMOUNT, String.valueOf(ping));
             return msg;
         }
-        return lang.getString("Ping.Failed");
+        return plugin.getString(Language.PING_FAILED);
     }
 }
