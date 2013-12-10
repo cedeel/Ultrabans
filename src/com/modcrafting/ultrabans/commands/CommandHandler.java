@@ -15,14 +15,12 @@
  */
 package com.modcrafting.ultrabans.commands;
 
+import com.modcrafting.ultrabans.Ultrabans;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-
-import com.modcrafting.ultrabans.Ultrabans;
 
 public abstract class CommandHandler implements CommandExecutor {
     Ultrabans plugin;

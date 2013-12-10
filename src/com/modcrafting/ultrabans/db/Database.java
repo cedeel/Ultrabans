@@ -80,6 +80,19 @@ public abstract class Database {
         }
     }
 
+    /*public void updateAddress(String p, String ip) {
+        try {
+            connection = getSQLConnection();
+            PreparedStatement ps = connection.prepareStatement("UPDATE " + iptable + " SET lastip = ? WHERE name = ?");
+            ps.setString(1, ip);
+            ps.setString(2, p);
+            ps.executeUpdate();
+            close(ps, null);
+        } catch (SQLException ex) {
+            Error.execute(plugin, ex);
+        }
+    }*/
+
     public String getAddress(String pName) {
         try {
             connection = getSQLConnection();
@@ -97,6 +110,25 @@ public abstract class Database {
         }
         return null;
     }
+
+    /*public boolean matchAddress(String player, String ip) {
+        try {
+            connection = getSQLConnection();
+            PreparedStatement ps = connection.prepareStatement("SELECT lastip FROM " + iptable + " WHERE name = ? AND lastip = ?");
+            ps.setString(1, player);
+            ps.setString(2, ip);
+            ResultSet rs = ps.executeQuery();
+            boolean set = false;
+            while (rs.next()) {
+                set = true;
+            }
+            close(ps, rs);
+            return set;
+        } catch (SQLException ex) {
+            Error.execute(plugin, ex);
+        }
+        return false;
+    }*/
 
     public String getName(String ip) {
         try {
@@ -116,31 +148,16 @@ public abstract class Database {
         return null;
     }
 
-    public boolean matchAddress(String player, String ip) {
+    public void importPlayer(String player, String reason, String admin, long tempTime, long time, int type) {
         try {
             connection = getSQLConnection();
-            PreparedStatement ps = connection.prepareStatement("SELECT lastip FROM " + iptable + " WHERE name = ? AND lastip = ?");
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO " + bantable + " (name,reason,admin,time,temptime,type) VALUES(?,?,?,?,?,?)");
             ps.setString(1, player);
-            ps.setString(2, ip);
-            ResultSet rs = ps.executeQuery();
-            boolean set = false;
-            while (rs.next()) {
-                set = true;
-            }
-            close(ps, rs);
-            return set;
-        } catch (SQLException ex) {
-            Error.execute(plugin, ex);
-        }
-        return false;
-    }
-
-    public void updateAddress(String p, String ip) {
-        try {
-            connection = getSQLConnection();
-            PreparedStatement ps = connection.prepareStatement("UPDATE " + iptable + " SET lastip = ? WHERE name = ?");
-            ps.setString(1, ip);
-            ps.setString(2, p);
+            ps.setString(2, reason);
+            ps.setString(3, admin);
+            ps.setLong(4, time);
+            ps.setLong(5, tempTime);
+            ps.setLong(6, type);
             ps.executeUpdate();
             close(ps, null);
         } catch (SQLException ex) {
@@ -149,37 +166,7 @@ public abstract class Database {
     }
 
     public void addPlayer(String player, String reason, String admin, long tempTime, int type) {
-        try {
-            connection = getSQLConnection();
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO " + bantable + " (name,reason,admin,time,temptime,type) VALUES(?,?,?,?,?,?)");
-            ps.setLong(5, tempTime);
-            ps.setString(1, player);
-            ps.setString(2, reason);
-            ps.setString(3, admin);
-            ps.setLong(4, System.currentTimeMillis() / 1000);
-            ps.setLong(6, type);
-            ps.executeUpdate();
-            close(ps, null);
-        } catch (SQLException ex) {
-            Error.execute(plugin, ex);
-        }
-    }
-
-    public void importPlayer(String player, String reason, String admin, long tempTime, long time, int type) {
-        try {
-            connection = getSQLConnection();
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO " + bantable + " (name,reason,admin,time,temptime,type) VALUES(?,?,?,?,?,?)");
-            ps.setLong(5, tempTime);
-            ps.setString(1, player);
-            ps.setString(2, reason);
-            ps.setString(3, admin);
-            ps.setLong(4, time);
-            ps.setLong(6, type);
-            ps.executeUpdate();
-            close(ps, null);
-        } catch (SQLException ex) {
-            Error.execute(plugin, ex);
-        }
+        importPlayer(player, reason, admin, tempTime, System.currentTimeMillis() / 1000, type);
     }
 
     public boolean removeFromBanlist(String player) {
@@ -298,7 +285,7 @@ public abstract class Database {
         }
     }
 
-    public void close(PreparedStatement ps, ResultSet rs) {
+    private void close(PreparedStatement ps, ResultSet rs) {
         try {
             if (ps != null)
                 ps.close();

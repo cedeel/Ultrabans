@@ -48,7 +48,7 @@ public class Ultrabans extends JavaPlugin {
     public Map<String, List<BanInfo>> cache = new HashMap<String, List<BanInfo>>();
     public Map<String, List<BanInfo>> cacheIP = new HashMap<String, List<BanInfo>>();
     public Jailtools jail = new Jailtools(this);
-    public UltrabansAPI api = new UltrabansAPI(this);
+    private UltrabansAPI api = new UltrabansAPI(this);
     private YamlConfiguration lang;
     private Database db;
     private boolean log;
@@ -107,12 +107,12 @@ public class Ultrabans extends JavaPlugin {
         db.load();
 
         if (config.getBoolean("AutoUpdater.Enabled", true))
-            loadUpdater(config);
+            loadUpdater();
 
         this.getLogger().info("Loaded. " + ((System.currentTimeMillis() - time) / 1000) + " secs.");
     }
 
-    private void loadUpdater(FileConfiguration config) {
+    private void loadUpdater() {
         //Updater
         Updater updater = new Updater(this, this.getDescription().getName().toLowerCase(), this.getFile(), UpdateType.DEFAULT, true);
         if (!updater.getResult().equals(UpdateResult.SUCCESS) || updater.pluginFile(this.getFile().getName())) {

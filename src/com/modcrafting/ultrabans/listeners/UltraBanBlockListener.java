@@ -32,7 +32,7 @@ import com.modcrafting.ultrabans.util.BanInfo;
 import com.modcrafting.ultrabans.util.BanType;
 
 public class UltraBanBlockListener implements Listener {
-    Ultrabans plugin;
+    private Ultrabans plugin;
 
     public UltraBanBlockListener(Ultrabans instance) {
         plugin = instance;

@@ -21,7 +21,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import com.modcrafting.ultrabans.Ultrabans;
 
 public class Jailtools {
-    Ultrabans plugin;
+    private Ultrabans plugin;
 
     public Jailtools(Ultrabans ultraBan) {
         this.plugin = ultraBan;

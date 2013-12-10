@@ -190,7 +190,7 @@ public enum Language {
     // MaxWarn
     MAXWARN_MSGTOBROADCAST("MaxWarn.MsgToBroadcast");
 
-    String location;
+    private String location;
 
     private Language(String loc) {
         location = loc;

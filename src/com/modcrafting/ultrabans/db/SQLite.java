@@ -26,7 +26,7 @@ import java.util.logging.Level;
 import com.modcrafting.ultrabans.Ultrabans;
 
 public class SQLite extends Database {
-    String dbname;
+    private String dbname;
 
     public SQLite(Ultrabans instance) {
         super(instance);

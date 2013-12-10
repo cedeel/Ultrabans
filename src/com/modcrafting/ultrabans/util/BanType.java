@@ -28,7 +28,7 @@ public enum BanType {
     TEMPBAN(10),
     TEMPIPBAN(11),
     TEMPJAIL(12);
-    int id;
+    private int id;
 
     private BanType(int i) {
         id = i;

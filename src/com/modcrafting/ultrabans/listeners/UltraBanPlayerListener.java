@@ -15,41 +15,33 @@
  */
 package com.modcrafting.ultrabans.listeners;
 
-import java.util.Date;
-import java.util.List;
-import java.util.regex.Pattern;
-
 import com.modcrafting.ultrabans.Language;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
-
 import com.modcrafting.ultrabans.Ultrabans;
 import com.modcrafting.ultrabans.util.BanInfo;
 import com.modcrafting.ultrabans.util.BanType;
 import com.modcrafting.ultrabans.util.Formatting;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.*;
+
+import java.util.Date;
+import java.util.List;
+import java.util.regex.Pattern;
 
 public class UltraBanPlayerListener implements Listener {
-    Ultrabans plugin;
-    String spamcheck = null;
-    int spamCount = 0;
-    FileConfiguration config;
-    //YamlConfiguration lang;
+    private Ultrabans plugin;
+    private String spamcheck = null;
+    private int spamCount = 0;
+    private FileConfiguration config;
 
     public UltraBanPlayerListener(Ultrabans ultraBans) {
         plugin = ultraBans;
         config = ultraBans.getConfig();
-        //lang = ultraBans.getLangConfig();
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)

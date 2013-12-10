@@ -22,7 +22,7 @@ import com.modcrafting.ultrabans.util.BanInfo;
 import com.modcrafting.ultrabans.util.BanType;
 
 public class UltrabansAPI {
-    Ultrabans plugin;
+    private Ultrabans plugin;
 
     public UltrabansAPI(Ultrabans instance) {
         plugin = instance;

@@ -90,7 +90,7 @@ public class Tempjail extends CommandHandler {
                     vicmsg = vicmsg.replace(Formatting.ADMIN, admin);
                 if (vicmsg.contains(Formatting.REASON))
                     vicmsg = vicmsg.replace(Formatting.REASON, reason);
-                //victim.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', vicmsg)); //Teleport
+                victim.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', vicmsg)); //Teleport
             }
             name = victim.getName();
         }

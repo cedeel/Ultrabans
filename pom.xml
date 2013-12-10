@@ -41,11 +41,11 @@
   <name>Ultrabans</name>
   <description>Bukkit Administration Plugin</description>
   <build>
-    <sourceDirectory>.\src</sourceDirectory>
-    <outputDirectory>.\dist</outputDirectory>
+    <sourceDirectory>src</sourceDirectory>
+    <outputDirectory>dist</outputDirectory>
     <resources>
       <resource>
-        <directory>.\</directory>
+        <directory>.</directory>
         <filtering>true</filtering>
         <includes>
           <include>config.yml</include>
@@ -54,7 +54,7 @@
         </includes>
       </resource>
     </resources>
-    <directory>.\target</directory>
+    <directory>target</directory>
     <finalName>Ultrabans</finalName> 
     <pluginManagement>
       <plugins>
