@@ -86,7 +86,8 @@ public class Ultrabans extends JavaPlugin {
         db.load();
 
         if (config.getBoolean("AutoUpdater.Enabled", true))
-            loadUpdater();
+            // loadUpdater();
+        // Disabled since project is not on Bukkit dev
 
         this.getLogger().info("Loaded. " + ((System.currentTimeMillis() - time) / 1000) + " secs.");
     }
@@ -116,15 +117,15 @@ public class Ultrabans extends JavaPlugin {
 
     private void loadUpdater() {
         //Updater
-        Updater updater = new Updater(this, this.getDescription().getName().toLowerCase(), this.getFile(), UpdateType.DEFAULT, true);
-        if (!updater.getResult().equals(UpdateResult.SUCCESS) || updater.pluginFile(this.getFile().getName())) {
+        Updater updater = new Updater(this, 10, this.getFile(), UpdateType.DEFAULT, true);
+        if (!updater.getResult().equals(UpdateResult.SUCCESS)) {
             if (updater.getResult().equals(UpdateResult.FAIL_NOVERSION)) {
                 this.getLogger().info("Unable to connect to dev.bukkit.org.");
             } else {
                 this.getLogger().info("No Updates found on dev.bukkit.org.");
             }
         } else {
-            this.getLogger().info("Update " + updater.getLatestVersionString() + " found please restart your server.");
+            this.getLogger().info("Update " + updater.getLatestName() + " found please restart your server.");
         }
     }
 
