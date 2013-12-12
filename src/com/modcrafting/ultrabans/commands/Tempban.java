@@ -83,7 +83,6 @@ public class Tempban extends CommandHandler {
                     if (failed.contains(Formatting.VICTIM))
                         failed = failed.replace(Formatting.VICTIM, name);
                     return failed;
-
                 }
             }
         }

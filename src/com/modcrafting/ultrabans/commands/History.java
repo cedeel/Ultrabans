@@ -33,9 +33,11 @@ public class History extends CommandHandler {
     }
 
     public String command(CommandSender sender, Command command, String[] args) {
-        String size = "5";
+        int size = 5;
         if (args.length > 0)
-            size = args[0];
+            try {
+                size = Integer.parseInt(args[0].trim());
+            } catch (NumberFormatException ignored) {}
         List<BanInfo> bans = plugin.getUBDatabase().listRecent(size);
         if (bans.size() < 1)
             return plugin.getString(Language.HISTORY_FAILED);

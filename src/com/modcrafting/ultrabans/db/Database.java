@@ -206,12 +206,11 @@ public abstract class Database {
         return null;
     }
 
-    public List<BanInfo> listRecent(String number) {
-        Integer num = Integer.parseInt(number.trim());
+    public List<BanInfo> listRecent(int number) {
         try {
             connection = getSQLConnection();
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM " + bantable + " ORDER BY time DESC LIMIT ?");
-            ps.setInt(1, num);
+            ps.setInt(1, number);
             ResultSet rs = ps.executeQuery();
             List<BanInfo> bans = new ArrayList<BanInfo>();
             while (rs.next()) {
@@ -286,6 +285,7 @@ public abstract class Database {
             PreparedStatement ps = connection.prepareStatement("DELETE FROM " + bantable + " WHERE name = ? AND type = ?");
             ps.setString(1, player);
             ps.setInt(2, BanType.WARN.getId());
+            ps.executeUpdate();
             close(ps, null);
         } catch (SQLException ex) {
             Error.execute(plugin, ex);

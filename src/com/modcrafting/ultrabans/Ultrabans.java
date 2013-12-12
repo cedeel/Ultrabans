@@ -116,7 +116,6 @@ public class Ultrabans extends JavaPlugin {
     }
 
     private void loadUpdater() {
-        //Updater
         Updater updater = new Updater(this, 10, this.getFile(), UpdateType.DEFAULT, true);
         if (!updater.getResult().equals(UpdateResult.SUCCESS)) {
             if (updater.getResult().equals(UpdateResult.FAIL_NOVERSION)) {
