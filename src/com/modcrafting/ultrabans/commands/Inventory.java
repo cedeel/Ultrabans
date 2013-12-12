@@ -1,7 +1,7 @@
 package com.modcrafting.ultrabans.commands;
 
 import com.modcrafting.ultrabans.Language;
-import org.bukkit.ChatColor;
+import com.modcrafting.ultrabans.util.Formatting;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -20,11 +20,11 @@ public class Inventory extends CommandHandler {
                 return plugin.getString(Language.INVOF_ARGUMENTS);
             OfflinePlayer victim = plugin.getServer().getOfflinePlayer(args[0]);
             if (victim == null || !victim.isOnline()) {
-                return ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.INVOF_FAILED));
+                return Formatting.replaceAmpersand(plugin.getString(Language.INVOF_FAILED));
             }
             ((Player) sender).openInventory(victim.getPlayer().getInventory());
             return null;
         }
-        return ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.INVOF_CONSOLE));
+        return Formatting.replaceAmpersand(plugin.getString(Language.INVOF_CONSOLE));
     }
 }

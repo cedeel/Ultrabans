@@ -69,7 +69,7 @@ public class Perma extends CommandHandler {
         OfflinePlayer victim = plugin.getServer().getOfflinePlayer(name);
         if (victim != null) {
             if (victim.isOnline()) {
-                if (victim.getPlayer().hasPermission("ultraban.override.permaban") &&
+                if (victim.getPlayer().hasPermission("ultrabans.override.permaban") &&
                         !admin.equalsIgnoreCase(Formatting.ADMIN))
                     return plugin.getString(Language.PERMABAN_DENIED);
                 String vicmsg = plugin.getString(Language.PERMABAN_MSGTOVICTIM);
@@ -82,7 +82,7 @@ public class Perma extends CommandHandler {
             name = victim.getName();
         }
         plugin.getAPI().permabanPlayer(name, reason, admin);
-        String bcmsg = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.PERMABAN_MSGTOBROADCAST));
+        String bcmsg = Formatting.replaceAmpersand(plugin.getString(Language.PERMABAN_MSGTOBROADCAST));
         if (bcmsg.contains(Formatting.ADMIN))
             bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
         if (bcmsg.contains(Formatting.REASON))

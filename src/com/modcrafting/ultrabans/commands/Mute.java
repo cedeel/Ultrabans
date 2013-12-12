@@ -43,19 +43,19 @@ public class Mute extends CommandHandler {
             return plugin.getString(Language.MUTE_EMO);
         Player victim = plugin.getServer().getPlayer(name);
         if (victim != null) {
-            if (victim.hasPermission("ultraban.override.mute"))
+            if (victim.hasPermission("ultrabans.override.mute"))
                 return plugin.getString(Language.MUTE_DENIED);
             if (plugin.muted.contains(name.toLowerCase())) {
                 plugin.muted.remove(name.toLowerCase());
-                victim.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.MUTE_UNMUTEMSGTOVICTIM)));
+                victim.sendMessage(Formatting.replaceAmpersand(plugin.getString(Language.MUTE_UNMUTEMSGTOVICTIM)));
                 String adminMsgs = plugin.getString(Language.MUTE_UNMUTEMSGTOSENDER);
                 if (adminMsgs.contains(Formatting.VICTIM))
                     adminMsgs = adminMsgs.replace(Formatting.VICTIM, name);
                 return adminMsgs;
             }
             plugin.getAPI().mutePlayer(name, reason, admin);
-            victim.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.MUTE_MUTEMSGTOVICTIM)));
-            String adminMsgs = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.MUTE_MUTEMSGTOSENDER));
+            victim.sendMessage(Formatting.replaceAmpersand(plugin.getString(Language.MUTE_MUTEMSGTOVICTIM)));
+            String adminMsgs = Formatting.replaceAmpersand(plugin.getString(Language.MUTE_MUTEMSGTOSENDER));
             if (adminMsgs.contains(Formatting.VICTIM))
                 adminMsgs = adminMsgs.replace(Formatting.VICTIM, name);
             plugin.getLogger().info(ChatColor.stripColor(adminMsgs));

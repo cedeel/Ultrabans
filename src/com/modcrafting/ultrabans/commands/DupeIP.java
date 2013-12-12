@@ -50,7 +50,7 @@ public class DupeIP extends CommandHandler {
             msg = msg.replace(Formatting.VICTIM, name);
         if (msg.contains("%ip%"))
             msg = msg.replace("%ip%", ip);
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+        sender.sendMessage(Formatting.replaceAmpersand(msg));
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < (list.size() - 1); i++) {
             if (!list.get(i).equalsIgnoreCase(name)) {

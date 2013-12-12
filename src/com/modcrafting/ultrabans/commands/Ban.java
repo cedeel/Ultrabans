@@ -69,20 +69,20 @@ public class Ban extends CommandHandler {
         OfflinePlayer victim = plugin.getServer().getOfflinePlayer(name);
         if (victim != null) {
             if (victim.isOnline()) {
-                if (victim.getPlayer().hasPermission("ultraban.override.ban") &&
+                if (victim.getPlayer().hasPermission("ultrabans.override.ban") &&
                         !(sender instanceof ConsoleCommandSender))
                     return plugin.getString(Language.BAN_DENIED);
-                String vicmsg = plugin.getString(Language.BAN_MSGTOVICTIM);
+                String vicmsg = Formatting.replaceAmpersand(plugin.getString(Language.BAN_MSGTOVICTIM));
                 if (vicmsg.contains(Formatting.ADMIN))
                     vicmsg = vicmsg.replace(Formatting.ADMIN, admin);
                 if (vicmsg.contains(Formatting.REASON))
                     vicmsg = vicmsg.replace(Formatting.REASON, reason);
-                victim.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', vicmsg));
+                victim.getPlayer().kickPlayer(vicmsg);
             }
             name = victim.getName();
         }
         plugin.getAPI().banPlayer(name, reason, admin);
-        String bcmsg = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.BAN_MSGTOBROADCAST));
+        String bcmsg = Formatting.replaceAmpersand(plugin.getString(Language.BAN_MSGTOBROADCAST));
         if (bcmsg.contains(Formatting.ADMIN))
             bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
         if (bcmsg.contains(Formatting.REASON))

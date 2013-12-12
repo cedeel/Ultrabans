@@ -39,7 +39,7 @@ public class Starve extends CommandHandler {
         if (victim == null) {
             return plugin.getString(Language.STARVE_FAILED);
         }
-        victim.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.STARVE_MSGTOVICTIM)));
+        victim.sendMessage(Formatting.replaceAmpersand(plugin.getString(Language.STARVE_MSGTOVICTIM)));
         victim.setFoodLevel(0);
 
         String bcmsg = plugin.getString(Language.STARVE_MSGTOSENDER);

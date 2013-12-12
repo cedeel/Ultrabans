@@ -67,6 +67,31 @@ public class Ultrabans extends JavaPlugin {
         FileConfiguration config = getConfig();
         log = config.getBoolean("Log.Enabled", true);
 
+        DEFAULT_ADMIN = config.getString("Label.Console", "Server");
+        DEFAULT_REASON = config.getString("Label.Reason", "Unsure");
+        DEFAULT_DENY_MESSAGE = ChatColor.RED + this.getString(Language.PERMISSION);
+
+        PluginManager pm = getServer().getPluginManager();
+        pm.registerEvents(new UltraBanPlayerListener(this), this);
+        pm.registerEvents(new UltraBanBlockListener(this), this);
+
+        loadCommands();
+
+        //Storage
+        if (config.getString("Database").equalsIgnoreCase("mysql")) {
+            db = new SQL(this);
+        } else {
+            db = new SQLite(this);
+        }
+        db.load();
+
+        if (config.getBoolean("AutoUpdater.Enabled", true))
+            loadUpdater();
+
+        this.getLogger().info("Loaded. " + ((System.currentTimeMillis() - time) / 1000) + " secs.");
+    }
+
+    private void initLang(FileConfiguration config) {
         String language = config.getString("Language", "en-us");
         File langFolder = new File(this.getDataFolder(), "lang");
         langFolder.mkdir();
@@ -87,29 +112,6 @@ public class Ultrabans extends JavaPlugin {
             }
         }
         lang = YamlConfiguration.loadConfiguration(langFile);
-
-        DEFAULT_ADMIN = config.getString("Label.Console", "Server");
-        DEFAULT_REASON = config.getString("Label.Reason", "Unsure");
-        DEFAULT_DENY_MESSAGE = ChatColor.RED + lang.getString("Permission");
-
-        PluginManager pm = getServer().getPluginManager();
-        pm.registerEvents(new UltraBanPlayerListener(this), this);
-        pm.registerEvents(new UltraBanBlockListener(this), this);
-
-        loadCommands();
-
-        //Storage
-        if (config.getString("Database").equalsIgnoreCase("mysql")) {
-            db = new SQL(this);
-        } else {
-            db = new SQLite(this);
-        }
-        db.load();
-
-        if (config.getBoolean("AutoUpdater.Enabled", true))
-            loadUpdater();
-
-        this.getLogger().info("Loaded. " + ((System.currentTimeMillis() - time) / 1000) + " secs.");
     }
 
     private void loadUpdater() {
@@ -165,11 +167,9 @@ public class Ultrabans extends JavaPlugin {
         return log;
     }
 
-    /*public YamlConfiguration getLangConfig() {
-        return lang;
-    }*/
-
     public String getString(Language piece) {
+        if(lang == null)
+            initLang(getConfig());
         return lang.getString(piece.getLocation());
     }
 

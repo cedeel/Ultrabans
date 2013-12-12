@@ -39,7 +39,7 @@ public class Spawn extends CommandHandler {
         if (victim == null) {
             return plugin.getString(Language.SPAWN_FAILED);
         }
-        victim.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.SPAWN_MSGTOVICTIM)));
+        victim.sendMessage(Formatting.replaceAmpersand(plugin.getString(Language.SPAWN_MSGTOVICTIM)));
         victim.teleport(victim.getWorld().getSpawnLocation());
 
         String bcmsg = plugin.getString(Language.SPAWN_MSGTOSENDER);

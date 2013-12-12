@@ -22,6 +22,7 @@ import java.util.regex.PatternSyntaxException;
 
 import org.bukkit.Bukkit;
 import com.modcrafting.ultrabans.Ultrabans;
+import org.bukkit.ChatColor;
 
 public class Formatting {
 
@@ -109,7 +110,6 @@ public class Formatting {
             default:
                 break;
         }
-
         return sec;
 
         /*if (unit.toLowerCase().startsWith(Ultrabans.getPlugin().getConfig().getString("Mode.Hour", "h").substring(0, 1).toLowerCase())) {
@@ -128,6 +128,9 @@ public class Formatting {
         return sec;*/
     }
 
+    public static String replaceAmpersand(String s) {
+        return ChatColor.translateAlternateColorCodes('&', s);
+    }
 
     public static boolean deletePlyrdat(String name) {
         if (Bukkit.getServer().getOfflinePlayer(name) != null && !Bukkit.getServer().getOfflinePlayer(name).isOnline()) {

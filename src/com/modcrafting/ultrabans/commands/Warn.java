@@ -56,7 +56,7 @@ public class Warn extends CommandHandler {
         OfflinePlayer victim = plugin.getServer().getOfflinePlayer(name);
         if (victim != null) {
             if (victim.isOnline()) {
-                if (victim.getPlayer().hasPermission("ultraban.override.warn") &&
+                if (victim.getPlayer().hasPermission("ultrabans.override.warn") &&
                         !admin.equalsIgnoreCase(Formatting.ADMIN))
                     return plugin.getString(Language.WARN_DENIED);
                 String vicmsg = plugin.getString(Language.WARN_MSGTOVICTIM);
@@ -64,7 +64,7 @@ public class Warn extends CommandHandler {
                     vicmsg = vicmsg.replace(Formatting.ADMIN, admin);
                 if (vicmsg.contains(Formatting.REASON))
                     vicmsg = vicmsg.replace(Formatting.REASON, reason);
-                victim.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', vicmsg));
+                victim.getPlayer().sendMessage(Formatting.replaceAmpersand(vicmsg));
 
             }
             name = victim.getName();
@@ -105,7 +105,7 @@ public class Warn extends CommandHandler {
             }
         }
         plugin.getAPI().warnPlayer(name, reason, admin);
-        String bcmsg = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.WARN_MSGTOBROADCAST));
+        String bcmsg = Formatting.replaceAmpersand(plugin.getString(Language.WARN_MSGTOBROADCAST));
         if (bcmsg.contains(Formatting.ADMIN))
             bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
         if (bcmsg.contains(Formatting.REASON))

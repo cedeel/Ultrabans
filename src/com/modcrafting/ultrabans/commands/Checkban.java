@@ -49,10 +49,10 @@ public class Checkban extends CommandHandler {
                 msg = msg.replace(Formatting.VICTIM, name);
             return msg;
         }
-        String msg = plugin.getString(Language.CHECKBAN_HEADER);
+        String msg = Formatting.replaceAmpersand(plugin.getString(Language.CHECKBAN_HEADER));
         if (msg.contains(Formatting.AMOUNT)) msg = msg.replace(Formatting.AMOUNT, String.valueOf(bans.size()));
         if (msg.contains(Formatting.VICTIM)) msg = msg.replace(Formatting.VICTIM, bans.get(0).getName());
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+        sender.sendMessage(msg);
         for (BanInfo ban : bans) {
             sender.sendMessage(ChatColor.RED + BanType.toCode(ban.getType()) + ": " + ChatColor.GREEN + ban.getReason() + ChatColor.AQUA + " by " + ban.getAdmin());
         }

@@ -16,7 +16,7 @@
 package com.modcrafting.ultrabans.commands;
 
 import com.modcrafting.ultrabans.Ultrabans;
-import org.bukkit.ChatColor;
+import com.modcrafting.ultrabans.util.Formatting;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -44,7 +44,7 @@ public abstract class CommandHandler implements CommandExecutor {
             public void run() {
                 String message = command(sender, command, args);
                 if (message != null) {
-                    message = ChatColor.translateAlternateColorCodes('&', message);
+                    message = Formatting.replaceAmpersand(message);
                     if (message.contains("%n%")) {
                         for (String m : message.split("%n%"))
                             sender.sendMessage(m);

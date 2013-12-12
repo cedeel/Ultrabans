@@ -17,7 +17,6 @@ package com.modcrafting.ultrabans.commands;
 
 import com.modcrafting.ultrabans.Language;
 import com.modcrafting.ultrabans.util.Formatting;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import com.modcrafting.ultrabans.Ultrabans;
@@ -28,10 +27,10 @@ public class Status extends CommandHandler {
     }
 
     public String command(final CommandSender sender, Command command, String[] args) {
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.STATUS_CACHEHEADER)));
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.STATUS_CACHEBANS)
+        sender.sendMessage(Formatting.replaceAmpersand(plugin.getString(Language.STATUS_CACHEHEADER)));
+        sender.sendMessage(Formatting.replaceAmpersand(plugin.getString(Language.STATUS_CACHEBANS)
                 .replace(Formatting.AMOUNT, String.valueOf(plugin.cache.size()))));
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.STATUS_CACHEIPBANS)
+        sender.sendMessage(Formatting.replaceAmpersand(plugin.getString(Language.STATUS_CACHEIPBANS)
                 .replace(Formatting.AMOUNT, String.valueOf(plugin.cacheIP.size()))));
         int counter = 0;
         counter = counter + plugin.cache.toString().getBytes().length;

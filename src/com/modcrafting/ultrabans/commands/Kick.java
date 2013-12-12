@@ -45,7 +45,7 @@ public class Kick extends CommandHandler {
             if (adminMsg.contains(Formatting.REASON))
                 adminMsg = adminMsg.replace(Formatting.REASON, reason);
             for (Player players : plugin.getServer().getOnlinePlayers()) {
-                if (!players.hasPermission("ultraban.override.kick.all")) {
+                if (!players.hasPermission("ultrabans.override.kick.all")) {
                     players.kickPlayer(adminMsg);
                 }
             }
@@ -72,7 +72,7 @@ public class Kick extends CommandHandler {
             return plugin.getString(Language.KICK_ONLINE);
         if (victim.getName().equalsIgnoreCase(admin))
             return plugin.getString(Language.KICK_EMO);
-        if (victim.hasPermission("ultraban.override.kick"))
+        if (victim.hasPermission("ultrabans.override.kick"))
             return plugin.getString(Language.KICK_DENIED);
         plugin.getAPI().kickPlayer(name, reason, admin);
         String msgvic = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.KICK_MSGTOVICTIM));

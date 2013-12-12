@@ -82,7 +82,7 @@ public class Tempjail extends CommandHandler {
         OfflinePlayer victim = plugin.getServer().getOfflinePlayer(name);
         if (victim != null) {
             if (victim.isOnline()) {
-                if (victim.getPlayer().hasPermission("ultraban.override.tempjail") &&
+                if (victim.getPlayer().hasPermission("ultrabans.override.tempjail") &&
                         !admin.equalsIgnoreCase(Formatting.ADMIN))
                     return plugin.getString(Language.TEMPJAIL_DENIED);
                 String vicmsg = plugin.getString(Language.TEMPJAIL_MSGTOVICTIM);
@@ -90,12 +90,12 @@ public class Tempjail extends CommandHandler {
                     vicmsg = vicmsg.replace(Formatting.ADMIN, admin);
                 if (vicmsg.contains(Formatting.REASON))
                     vicmsg = vicmsg.replace(Formatting.REASON, reason);
-                victim.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', vicmsg)); //Teleport
+                victim.getPlayer().kickPlayer(Formatting.replaceAmpersand(vicmsg)); //Teleport
             }
             name = victim.getName();
         }
         plugin.getAPI().tempjailPlayer(name, reason, temp, admin);
-        String bcmsg = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.TEMPJAIL_MSGTOBROADCAST));
+        String bcmsg = Formatting.replaceAmpersand(plugin.getString(Language.TEMPJAIL_MSGTOBROADCAST));
         if (bcmsg.contains(Formatting.ADMIN))
             bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
         if (bcmsg.contains(Formatting.REASON))

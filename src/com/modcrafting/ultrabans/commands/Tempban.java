@@ -39,25 +39,33 @@ public class Tempban extends CommandHandler {
         String reason = Ultrabans.DEFAULT_REASON;
         if (sender instanceof Player)
             admin = sender.getName();
-        String name = args[0];
-        name = Formatting.expandName(name);
+        String name = Formatting.expandName(args[0]);
         if (name.equalsIgnoreCase(admin))
             return plugin.getString(Language.TEMPBAN_EMO);
         long tempTime = 0;
-        String amt;
-        String mode;
-        if (args.length > 3) {
-            if (args[1].equalsIgnoreCase("-s")
-                    && sender.hasPermission(command.getPermission() + ".silent"))
-                broadcast = false;
-            if (args[1].equalsIgnoreCase("-a")
-                    && sender.hasPermission(command.getPermission() + ".anon"))
-                admin = Ultrabans.DEFAULT_ADMIN;
-            amt = args[2];
-            mode = args[3];
-            reason = Formatting.combineSplit(4, args);
+        String amt = "";
+        String mode = "";
+        if (args.length >= 4) {
+            if (args[1].charAt(0) == '-') {
+                if (args[1].equalsIgnoreCase("-s")
+                        && sender.hasPermission(command.getPermission() + ".silent")) {
+                    broadcast = false;
+                }
+                if (args[1].equalsIgnoreCase("-a")
+                        && sender.hasPermission(command.getPermission() + ".anon")) {
+                    admin = Ultrabans.DEFAULT_ADMIN;
+                }
+                amt = args[2];
+                mode = args[3];
+                reason = Formatting.combineSplit(4, args);
+            } else {
+                amt = args[1];
+                mode = args[2];
+                reason = Formatting.combineSplit(3, args);
+            }
+
             tempTime = Formatting.parseTimeSpec(amt, mode);
-        } else if (args.length > 2) {
+        } else if (args.length == 3) {
             amt = args[1];
             mode = args[2];
             tempTime = Formatting.parseTimeSpec(amt, mode);
@@ -83,26 +91,34 @@ public class Tempban extends CommandHandler {
         OfflinePlayer victim = plugin.getServer().getOfflinePlayer(name);
         if (victim != null) {
             if (victim.isOnline()) {
-                if (victim.getPlayer().hasPermission("ultraban.override.tempban") &&
+                if (victim.getPlayer().hasPermission("ultrabans.override.tempban") &&
                         !admin.equalsIgnoreCase(Formatting.ADMIN))
                     return plugin.getString(Language.TEMPBAN_DENIED);
-                String vicmsg = plugin.getString(Language.TEMPBAN_MSGTOVICTIM);
+                String vicmsg = Formatting.replaceAmpersand(plugin.getString(Language.TEMPBAN_MSGTOVICTIM));
                 if (vicmsg.contains(Formatting.ADMIN))
                     vicmsg = vicmsg.replace(Formatting.ADMIN, admin);
                 if (vicmsg.contains(Formatting.REASON))
                     vicmsg = vicmsg.replace(Formatting.REASON, reason);
-                victim.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', vicmsg));
+                if (vicmsg.contains(Formatting.AMOUNT))
+                    vicmsg = vicmsg.replace(Formatting.AMOUNT, amt);
+                if (vicmsg.contains(Formatting.MODE))
+                    vicmsg = vicmsg.replace(Formatting.MODE, mode);
+                victim.getPlayer().kickPlayer(vicmsg);
             }
             name = victim.getName();
         }
         plugin.getAPI().tempbanPlayer(name, reason, temp, admin);
-        String bcmsg = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.TEMPBAN_MSGTOBROADCAST));
+        String bcmsg = Formatting.replaceAmpersand(plugin.getString(Language.TEMPBAN_MSGTOBROADCAST));
         if (bcmsg.contains(Formatting.ADMIN))
             bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
         if (bcmsg.contains(Formatting.REASON))
             bcmsg = bcmsg.replace(Formatting.REASON, reason);
         if (bcmsg.contains(Formatting.VICTIM))
             bcmsg = bcmsg.replace(Formatting.VICTIM, name);
+        if (bcmsg.contains(Formatting.AMOUNT))
+            bcmsg = bcmsg.replace(Formatting.AMOUNT, amt);
+        if (bcmsg.contains(Formatting.MODE))
+            bcmsg = bcmsg.replace(Formatting.MODE, mode);
         if (broadcast) {
             plugin.getServer().broadcastMessage(bcmsg);
         } else {

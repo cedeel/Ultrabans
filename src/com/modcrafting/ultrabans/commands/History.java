@@ -42,7 +42,7 @@ public class History extends CommandHandler {
         String msg = plugin.getString(Language.HISTORY_HEADER);
         if (msg.contains(Formatting.AMOUNT))
             msg = msg.replace(Formatting.AMOUNT, args[0]);
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+        sender.sendMessage(Formatting.replaceAmpersand(msg));
         for (BanInfo ban : bans) {
             Date date = new Date();
             date.setTime(ban.getEndTime() * 1000);

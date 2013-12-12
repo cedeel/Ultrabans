@@ -40,25 +40,33 @@ public class Tempipban extends CommandHandler {
         String reason = Ultrabans.DEFAULT_REASON;
         if (sender instanceof Player)
             admin = sender.getName();
-        String name = args[0];
-        name = Formatting.expandName(name);
+        String name = Formatting.expandName(args[0]);
         if (name.equalsIgnoreCase(admin))
             return plugin.getString(Language.TEMPIPBAN_EMO);
         long tempTime = 0;
         String amt = "";
         String mode = "";
-        if (args.length > 3) {
-            if (args[1].equalsIgnoreCase("-s")
-                    && sender.hasPermission(command.getPermission() + ".silent"))
-                broadcast = false;
-            if (args[1].equalsIgnoreCase("-a")
-                    && sender.hasPermission(command.getPermission() + ".anon"))
-                admin = Ultrabans.DEFAULT_ADMIN;
-            amt = args[2];
-            mode = args[3];
-            reason = Formatting.combineSplit(4, args);
+        if (args.length >= 4) {
+            if (args[1].charAt(0) == '-') {
+                if (args[1].equalsIgnoreCase("-s")
+                        && sender.hasPermission(command.getPermission() + ".silent")) {
+                    broadcast = false;
+                }
+                if (args[1].equalsIgnoreCase("-a")
+                        && sender.hasPermission(command.getPermission() + ".anon")) {
+                    admin = Ultrabans.DEFAULT_ADMIN;
+                }
+                amt = args[2];
+                mode = args[3];
+                reason = Formatting.combineSplit(4, args);
+            } else {
+                amt = args[1];
+                mode = args[2];
+                reason = Formatting.combineSplit(3, args);
+            }
+
             tempTime = Formatting.parseTimeSpec(amt, mode);
-        } else if (args.length > 2) {
+        } else if (args.length == 3) {
             amt = args[1];
             mode = args[2];
             tempTime = Formatting.parseTimeSpec(amt, mode);
@@ -70,7 +78,7 @@ public class Tempipban extends CommandHandler {
         OfflinePlayer victim = plugin.getServer().getOfflinePlayer(name);
         if (victim != null) {
             if (victim.isOnline()) {
-                if (victim.getPlayer().hasPermission("ultraban.override.tempban") &&
+                if (victim.getPlayer().hasPermission("ultrabans.override.tempban") &&
                         !admin.equalsIgnoreCase(Formatting.ADMIN))
                     return plugin.getString(Language.TEMPIPBAN_DENIED);
                 String msgvic = plugin.getString(Language.TEMPIPBAN_MSGTOVICTIM);
@@ -82,7 +90,7 @@ public class Tempipban extends CommandHandler {
                     msgvic = msgvic.replace(Formatting.AMOUNT, amt);
                 if (msgvic.contains(Formatting.MODE))
                     msgvic = msgvic.replace(Formatting.MODE, mode);
-                victim.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', msgvic));
+                victim.getPlayer().kickPlayer(Formatting.replaceAmpersand(msgvic));
             }
             name = victim.getName();
         }

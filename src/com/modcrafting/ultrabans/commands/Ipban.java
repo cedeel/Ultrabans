@@ -75,7 +75,7 @@ public class Ipban extends CommandHandler {
         OfflinePlayer victim = plugin.getServer().getOfflinePlayer(name);
         if (victim != null) {
             if (victim.isOnline()) {
-                if (victim.getPlayer().hasPermission("ultraban.override.ipban")
+                if (victim.getPlayer().hasPermission("ultrabans.override.ipban")
                         && !admin.equalsIgnoreCase(Ultrabans.DEFAULT_ADMIN))
                     return plugin.getString(Language.IPBAN_DENIED);
                 victimip = victim.getPlayer().getAddress().getAddress().getHostAddress();
@@ -113,7 +113,7 @@ public class Ipban extends CommandHandler {
                 msgvic = msgvic.replace(Formatting.REASON, reason);
             victim.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', msgvic));
         }
-        String bcmsg = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.IPBAN_MSGTOBROADCAST));
+        String bcmsg = Formatting.replaceAmpersand(plugin.getString(Language.IPBAN_MSGTOBROADCAST));
         if (bcmsg.contains(Formatting.ADMIN))
             bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
         if (bcmsg.contains(Formatting.REASON))

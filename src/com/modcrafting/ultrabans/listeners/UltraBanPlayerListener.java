@@ -91,13 +91,13 @@ public class UltraBanPlayerListener implements Listener {
 
             }
         }
-        if (config.getBoolean("Lockdown", false) && !player.hasPermission("ultraban.override.lockdown")) {
+        if (config.getBoolean("Lockdown", false) && !player.hasPermission("ultrabans.override.lockdown")) {
             String lockMsgLogin = plugin.getString(Language.LOCKDOWN_LOGINMSG);
             event.disallow(PlayerLoginEvent.Result.KICK_OTHER, ChatColor.translateAlternateColorCodes('&', lockMsgLogin));
             plugin.getLogger().info(player.getName() + " attempted to join during lockdown.");
         }
 
-        if (!player.hasPermission("ultraban.override.dupeip") && config.getBoolean("Login.DupeCheck.Enable", true)) {
+        if (!player.hasPermission("ultrabans.override.dupeip") && config.getBoolean("Login.DupeCheck.Enable", true)) {
             plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
                 @Override
                 public void run() {
@@ -105,7 +105,7 @@ public class UltraBanPlayerListener implements Listener {
                     if (ip != null) {
                         List<String> list = plugin.getUBDatabase().listPlayers(ip);
                         for (Player admin : plugin.getServer().getOnlinePlayers()) {
-                            if (admin.hasPermission("ultraban.dupeip")) {
+                            if (admin.hasPermission("ultrabans.dupeip")) {
                                 for (String name : list) {
                                     if (!name.equalsIgnoreCase(player.getName()))
                                         admin.sendMessage(ChatColor.GRAY + "Player: " + name + " duplicates player: " + player.getName() + "!");

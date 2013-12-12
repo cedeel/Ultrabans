@@ -19,6 +19,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import com.modcrafting.ultrabans.Language;
+import com.modcrafting.ultrabans.util.Formatting;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -50,12 +51,12 @@ public class CheckIP extends CommandHandler {
                 }
             }
             sender.sendMessage(ChatColor.YELLOW + "------[" + p + "]------");
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.CHECKIP_MSG1))
+            sender.sendMessage(Formatting.replaceAmpersand(plugin.getString(Language.CHECKIP_MSG1))
                     + ChatColor.GRAY + ip);
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.CHECKIP_MSG2))
+            sender.sendMessage(Formatting.replaceAmpersand(plugin.getString(Language.CHECKIP_MSG2))
                     + ChatColor.GRAY + inet.getHostName());
         } catch (UnknownHostException e) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.CHECKIP_EXCEPTION)));
+            sender.sendMessage(Formatting.replaceAmpersand(plugin.getString(Language.CHECKIP_EXCEPTION)));
         }
 
         return null;

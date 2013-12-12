@@ -81,31 +81,32 @@ public class Jail extends CommandHandler {
         if (victim != null) {
             name = victim.getName();
             if (victim.isOnline()) {
-                if (victim.getPlayer().hasPermission("ultraban.override.jail"))
+                if (victim.getPlayer().hasPermission("ultrabans.override.jail"))
                     return plugin.getString(Language.JAIL_DENIED);
-                String msgvic = plugin.getString(Language.JAIL_MSGTOVICTIM);
-                if (msgvic.contains(Formatting.ADMIN))
-                    msgvic = msgvic.replace(Formatting.ADMIN, admin);
-                if (msgvic.contains(Formatting.REASON))
-                    msgvic = msgvic.replace(Formatting.REASON, reason);
-                victim.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', msgvic));
+                String msgToVictim = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.JAIL_MSGTOVICTIM));
+                if (msgToVictim.contains(Formatting.ADMIN))
+                    msgToVictim = msgToVictim.replace(Formatting.ADMIN, admin);
+                if (msgToVictim.contains(Formatting.REASON))
+                    msgToVictim = msgToVictim.replace(Formatting.REASON, reason);
+                victim.getPlayer().sendMessage(msgToVictim);
                 victim.getPlayer().teleport(plugin.jail.getJail("jail"));
             }
         }
-        String bcmsg = plugin.getString(Language.JAIL_MSGTOBROADCAST);
-        if (bcmsg.contains(Formatting.ADMIN))
-            bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
-        if (bcmsg.contains(Formatting.REASON))
-            bcmsg = bcmsg.replace(Formatting.REASON, reason);
-        if (bcmsg.contains(Formatting.VICTIM))
-            bcmsg = bcmsg.replace(Formatting.VICTIM, name);
+        plugin.getAPI().jailPlayer(name, reason, admin);
+        String broadcastMsg = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.JAIL_MSGTOBROADCAST));
+        if (broadcastMsg.contains(Formatting.ADMIN))
+            broadcastMsg = broadcastMsg.replace(Formatting.ADMIN, admin);
+        if (broadcastMsg.contains(Formatting.REASON))
+            broadcastMsg = broadcastMsg.replace(Formatting.REASON, reason);
+        if (broadcastMsg.contains(Formatting.VICTIM))
+            broadcastMsg = broadcastMsg.replace(Formatting.VICTIM, name);
         if (broadcast) {
-            plugin.getServer().broadcastMessage(bcmsg);
+            plugin.getServer().broadcastMessage(broadcastMsg);
         } else {
-            sender.sendMessage(ChatColor.ITALIC + "Silent: " + bcmsg);
+            sender.sendMessage(ChatColor.ITALIC + "Silent: " + broadcastMsg);
         }
         if (plugin.getLog())
-            plugin.getLogger().info(ChatColor.stripColor(bcmsg));
+            plugin.getLogger().info(ChatColor.stripColor(broadcastMsg));
         return null;
     }
 
