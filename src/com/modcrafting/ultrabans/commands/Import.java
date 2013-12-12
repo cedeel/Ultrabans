@@ -22,6 +22,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import com.modcrafting.ultrabans.Language;
+import com.modcrafting.ultrabans.util.Formatting;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -34,7 +35,7 @@ public class Import extends CommandHandler {
     }
 
     public String command(final CommandSender sender, Command command, String[] args) {
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.IMPORT_LOADING)));
+        sender.sendMessage(Formatting.replaceAmpersand(plugin.getString(Language.IMPORT_LOADING)));
         try {
             BufferedReader banlist = new BufferedReader(new FileReader("banned-players.txt"));
             String p;
@@ -58,12 +59,12 @@ public class Import extends CommandHandler {
             }
             bannedIP.close();
         } catch (IOException e) {
-            String msg = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.IMPORT_FAILED));
+            String msg = Formatting.replaceAmpersand(plugin.getString(Language.IMPORT_FAILED));
             sender.sendMessage(msg);
             if (plugin.getLog())
                 plugin.getLogger().severe(ChatColor.stripColor(msg));
         }
-        String msg = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.IMPORT_COMPLETED));
+        String msg = Formatting.replaceAmpersand(plugin.getString(Language.IMPORT_COMPLETED));
         if (plugin.getLog())
             plugin.getLogger().severe(ChatColor.stripColor(msg));
         return msg;

@@ -140,7 +140,7 @@ public class Unban extends CommandHandler {
             }
             plugin.getUBDatabase().removeFromBanlist(name);
             plugin.cache.put(name.toLowerCase(), lt);
-            String bcmsg = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.UNBAN_MSGTOBROADCAST));
+            String bcmsg = Formatting.replaceAmpersand(plugin.getString(Language.UNBAN_MSGTOBROADCAST));
             if (bcmsg.contains(Formatting.ADMIN))
                 bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
             if (bcmsg.contains(Formatting.VICTIM))

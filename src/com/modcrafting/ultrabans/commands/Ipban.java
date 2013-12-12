@@ -63,9 +63,9 @@ public class Ipban extends CommandHandler {
             if (bcmsg.contains(Formatting.REASON)) bcmsg = bcmsg.replace(Formatting.REASON, reason);
             if (bcmsg.contains(Formatting.VICTIM)) bcmsg = bcmsg.replace(Formatting.VICTIM, name);
             if (broadcast) {
-                plugin.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', bcmsg));
+                plugin.getServer().broadcastMessage(Formatting.replaceAmpersand(bcmsg));
             } else {
-                sender.sendMessage(ChatColor.ITALIC + "Silent: " + ChatColor.translateAlternateColorCodes('&', bcmsg));
+                sender.sendMessage(ChatColor.ITALIC + "Silent: " + Formatting.replaceAmpersand(bcmsg));
             }
             if (plugin.getLog())
                 plugin.getLogger().info(admin + " banned player " + name + ".");
@@ -89,7 +89,7 @@ public class Ipban extends CommandHandler {
             String failed = plugin.getString(Language.IPBAN_IPNOTFOUND);
             if (failed.contains(Formatting.VICTIM))
                 failed = failed.replace(Formatting.VICTIM, name);
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', failed));
+            sender.sendMessage(Formatting.replaceAmpersand(failed));
             StringBuilder sb = new StringBuilder();
             sb.append("ban").append(" ").append(name).append(" ");
             if (!broadcast)
@@ -111,7 +111,7 @@ public class Ipban extends CommandHandler {
                 msgvic = msgvic.replace(Formatting.ADMIN, admin);
             if (msgvic.contains(Formatting.REASON))
                 msgvic = msgvic.replace(Formatting.REASON, reason);
-            victim.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', msgvic));
+            victim.getPlayer().kickPlayer(Formatting.replaceAmpersand(msgvic));
         }
         String bcmsg = Formatting.replaceAmpersand(plugin.getString(Language.IPBAN_MSGTOBROADCAST));
         if (bcmsg.contains(Formatting.ADMIN))

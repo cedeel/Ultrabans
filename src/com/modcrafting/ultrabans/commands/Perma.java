@@ -77,7 +77,7 @@ public class Perma extends CommandHandler {
                     vicmsg = vicmsg.replace(Formatting.ADMIN, admin);
                 if (vicmsg.contains(Formatting.REASON))
                     vicmsg = vicmsg.replace(Formatting.REASON, reason);
-                victim.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', vicmsg));
+                victim.getPlayer().kickPlayer(Formatting.replaceAmpersand(vicmsg));
             }
             name = victim.getName();
         }

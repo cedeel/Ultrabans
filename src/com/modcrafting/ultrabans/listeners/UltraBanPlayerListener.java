@@ -66,7 +66,7 @@ public class UltraBanPlayerListener implements Listener {
                         bcmsg = bcmsg.replaceAll(Formatting.ADMIN, admin);
                     if (bcmsg.contains(Formatting.REASON))
                         bcmsg = bcmsg.replaceAll(Formatting.REASON, reason);
-                    event.disallow(PlayerLoginEvent.Result.KICK_BANNED, ChatColor.translateAlternateColorCodes('&', bcmsg));
+                    event.disallow(PlayerLoginEvent.Result.KICK_BANNED, Formatting.replaceAmpersand(bcmsg));
                 }
             }
         }
@@ -86,14 +86,14 @@ public class UltraBanPlayerListener implements Listener {
                         bcmsg = bcmsg.replaceAll(Formatting.ADMIN, admin);
                     if (bcmsg.contains(Formatting.REASON))
                         bcmsg = bcmsg.replaceAll(Formatting.REASON, reason);
-                    event.disallow(PlayerLoginEvent.Result.KICK_BANNED, ChatColor.translateAlternateColorCodes('&', bcmsg));
+                    event.disallow(PlayerLoginEvent.Result.KICK_BANNED, Formatting.replaceAmpersand(bcmsg));
                 }
 
             }
         }
         if (config.getBoolean("Lockdown", false) && !player.hasPermission("ultrabans.override.lockdown")) {
             String lockMsgLogin = plugin.getString(Language.LOCKDOWN_LOGINMSG);
-            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, ChatColor.translateAlternateColorCodes('&', lockMsgLogin));
+            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, Formatting.replaceAmpersand(lockMsgLogin));
             plugin.getLogger().info(player.getName() + " attempted to join during lockdown.");
         }
 
@@ -137,7 +137,7 @@ public class UltraBanPlayerListener implements Listener {
                         bcmsg = bcmsg.replaceAll(Formatting.ADMIN, admin);
                     if (bcmsg.contains(Formatting.REASON))
                         bcmsg = bcmsg.replaceAll(Formatting.REASON, reason);
-                    event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED, ChatColor.translateAlternateColorCodes('&', bcmsg));
+                    event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED, Formatting.replaceAmpersand(bcmsg));
                 }
             }
         }
@@ -156,7 +156,7 @@ public class UltraBanPlayerListener implements Listener {
                     if (tempjailCheck(player, info) &&
                             config.getStringList("Jail.AllowedCommands").contains(args[0]))
                         return;
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', adminMsg));
+                    player.sendMessage(Formatting.replaceAmpersand(adminMsg));
                     event.setCancelled(true);
                 }
             }
@@ -164,7 +164,7 @@ public class UltraBanPlayerListener implements Listener {
 
         if (plugin.muted.contains(player.getName().toLowerCase()) && config.getBoolean("Muted.Vanilla", true)) {
             if (config.getStringList("Mute.AllowedCommands").contains(args[0])) return;
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', adminMsg));
+            player.sendMessage(Formatting.replaceAmpersand(adminMsg));
             event.setCancelled(true);
         }
 
@@ -186,7 +186,7 @@ public class UltraBanPlayerListener implements Listener {
                 if (info.getType() == BanType.TEMPJAIL.getId() || info.getType() == BanType.JAIL.getId()) {
                     if (tempjailCheck(player, info))
                         return;
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', adminMsg));
+                    player.sendMessage(Formatting.replaceAmpersand(adminMsg));
                     event.setCancelled(true);
                 }
             }
@@ -216,7 +216,7 @@ public class UltraBanPlayerListener implements Listener {
             String bcmsg = plugin.getConfig().getString("Messages.Pardon.Msg", "%victim% was released from jail by %admin%!");
             if (bcmsg.contains(Formatting.ADMIN)) bcmsg = bcmsg.replaceAll(Formatting.ADMIN, Ultrabans.DEFAULT_ADMIN);
             if (bcmsg.contains(Formatting.VICTIM)) bcmsg = bcmsg.replaceAll(Formatting.VICTIM, player.getName());
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', bcmsg));
+            player.sendMessage(Formatting.replaceAmpersand(bcmsg));
             return true;
         }
         Date date = new Date();

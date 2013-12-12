@@ -39,7 +39,7 @@ public class Kick extends CommandHandler {
         if ((args[0].equals("*") || args[0].equals("all")) && sender.hasPermission("ultrabans.kick.all")) {
             if (args.length > 1)
                 reason = Formatting.combineSplit(1, args);
-            String adminMsg = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.KICK_MSGTOALL));
+            String adminMsg = Formatting.replaceAmpersand(plugin.getString(Language.KICK_MSGTOALL));
             if (adminMsg.contains(Formatting.ADMIN))
                 adminMsg = adminMsg.replace(Formatting.ADMIN, admin);
             if (adminMsg.contains(Formatting.REASON))
@@ -75,13 +75,13 @@ public class Kick extends CommandHandler {
         if (victim.hasPermission("ultrabans.override.kick"))
             return plugin.getString(Language.KICK_DENIED);
         plugin.getAPI().kickPlayer(name, reason, admin);
-        String msgvic = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.KICK_MSGTOVICTIM));
+        String msgvic = Formatting.replaceAmpersand(plugin.getString(Language.KICK_MSGTOVICTIM));
         if (msgvic.contains(Formatting.ADMIN))
             msgvic = msgvic.replace(Formatting.ADMIN, admin);
         if (msgvic.contains(Formatting.REASON))
             msgvic = msgvic.replace(Formatting.REASON, reason);
         victim.kickPlayer(msgvic);
-        String bcmsg = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.KICK_MSGTOBROADCAST));
+        String bcmsg = Formatting.replaceAmpersand(plugin.getString(Language.KICK_MSGTOBROADCAST));
         if (bcmsg.contains(Formatting.ADMIN))
             bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
         if (bcmsg.contains(Formatting.REASON))

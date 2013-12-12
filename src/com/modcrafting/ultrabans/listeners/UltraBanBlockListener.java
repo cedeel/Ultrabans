@@ -85,7 +85,7 @@ public class UltraBanBlockListener implements Listener {
             String bcmsg = plugin.getConfig().getString("Messages.Pardon.Msg", "%victim% was released from jail by %admin%!");
             if (bcmsg.contains(Formatting.ADMIN)) bcmsg = bcmsg.replaceAll(Formatting.ADMIN, Ultrabans.DEFAULT_ADMIN);
             if (bcmsg.contains(Formatting.VICTIM)) bcmsg = bcmsg.replaceAll(Formatting.VICTIM, player.getName());
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', bcmsg));
+            player.sendMessage(Formatting.replaceAmpersand(bcmsg));
             return true;
         }
         Date date = new Date();

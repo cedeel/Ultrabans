@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.modcrafting.ultrabans.Language;
+import com.modcrafting.ultrabans.util.Formatting;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -57,13 +58,13 @@ public class Export extends CommandHandler {
             }
             iplist.close();
         } catch (IOException e) {
-            String msg = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.EXPORT_FAILED));
+            String msg = Formatting.replaceAmpersand(plugin.getString(Language.EXPORT_FAILED));
             if (plugin.getLog())
                 plugin.getLogger().severe(ChatColor.stripColor(msg));
             e.printStackTrace();
             return msg;
         }
-        String msg = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.EXPORT_COMPLETED));
+        String msg = Formatting.replaceAmpersand(plugin.getString(Language.EXPORT_COMPLETED));
         if (plugin.getLog())
             plugin.getLogger().info(ChatColor.stripColor(msg));
         return msg;

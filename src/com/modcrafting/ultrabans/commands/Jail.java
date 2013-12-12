@@ -83,7 +83,7 @@ public class Jail extends CommandHandler {
             if (victim.isOnline()) {
                 if (victim.getPlayer().hasPermission("ultrabans.override.jail"))
                     return plugin.getString(Language.JAIL_DENIED);
-                String msgToVictim = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.JAIL_MSGTOVICTIM));
+                String msgToVictim = Formatting.replaceAmpersand(plugin.getString(Language.JAIL_MSGTOVICTIM));
                 if (msgToVictim.contains(Formatting.ADMIN))
                     msgToVictim = msgToVictim.replace(Formatting.ADMIN, admin);
                 if (msgToVictim.contains(Formatting.REASON))
@@ -93,7 +93,7 @@ public class Jail extends CommandHandler {
             }
         }
         plugin.getAPI().jailPlayer(name, reason, admin);
-        String broadcastMsg = ChatColor.translateAlternateColorCodes('&', plugin.getString(Language.JAIL_MSGTOBROADCAST));
+        String broadcastMsg = Formatting.replaceAmpersand(plugin.getString(Language.JAIL_MSGTOBROADCAST));
         if (broadcastMsg.contains(Formatting.ADMIN))
             broadcastMsg = broadcastMsg.replace(Formatting.ADMIN, admin);
         if (broadcastMsg.contains(Formatting.REASON))
