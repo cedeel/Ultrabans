@@ -25,12 +25,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 public abstract class CommandHandler implements CommandExecutor {
     Ultrabans plugin;
     FileConfiguration config;
-    //YamlConfiguration lang;
 
     public CommandHandler(Ultrabans instance) {
         plugin = instance;
         config = instance.getConfig();
-        //lang = instance.getLangConfig();
     }
 
     public boolean onCommand(final CommandSender sender, final Command command, String label, final String[] args) {

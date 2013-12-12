@@ -43,8 +43,8 @@ public class UltraBanBlockListener implements Listener {
         Player player = event.getPlayer();
         if (plugin.cache.containsKey(player.getName().toLowerCase())) {
             for (BanInfo info : plugin.cache.get(player.getName().toLowerCase())) {
-                if (info.getType() == BanType.TEMPJAIL.getId() || info.getType() == BanType.JAIL.getId()) {
-                    if (info.getType() == BanType.TEMPJAIL.getId() && tempjailCheck(player, info))
+                if (info.getType() == BanType.TEMPJAIL || info.getType() == BanType.JAIL) {
+                    if (info.getType() == BanType.TEMPJAIL && tempjailCheck(player, info))
                         return;
                     String adminMsg = plugin.getConfig().getString("Messages.Jail.PlaceMsg", "You cannot place blocks while you are jailed!");
                     player.sendMessage(ChatColor.GRAY + adminMsg);
@@ -60,8 +60,8 @@ public class UltraBanBlockListener implements Listener {
         if (plugin.cache.containsKey(player.getName().toLowerCase())) {
             List<BanInfo> list = plugin.cache.get(player.getName().toLowerCase());
             for (BanInfo info : list) {
-                if (info.getType() == BanType.TEMPJAIL.getId() || info.getType() == BanType.JAIL.getId()) {
-                    if (info.getType() == BanType.TEMPJAIL.getId() && tempjailCheck(player, info))
+                if (info.getType() == BanType.TEMPJAIL || info.getType() == BanType.JAIL) {
+                    if (info.getType() == BanType.TEMPJAIL && tempjailCheck(player, info))
                         return;
                     String adminMsg = plugin.getConfig().getString("Messages.Jail.BreakMsg", "You cannot break blocks while you are jailed!");
                     player.sendMessage(ChatColor.GRAY + adminMsg);

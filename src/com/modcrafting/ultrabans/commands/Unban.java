@@ -27,7 +27,6 @@ import org.bukkit.entity.Player;
 
 import com.modcrafting.ultrabans.Ultrabans;
 import com.modcrafting.ultrabans.util.BanInfo;
-import com.modcrafting.ultrabans.util.BanType;
 import com.modcrafting.ultrabans.util.Formatting;
 
 public class Unban extends CommandHandler {
@@ -68,8 +67,7 @@ public class Unban extends CommandHandler {
         if (ip != null && plugin.cacheIP.containsKey(ip)) {
             count++;
             plugin.cacheIP.remove(ip);
-            if (plugin.getLog())
-                plugin.getLogger().info("Removed IP ban!");
+            plugin.log("Removed IP ban: " + ip);
         }
 
         if (Formatting.validIP(name)) {
@@ -97,7 +95,7 @@ public class Unban extends CommandHandler {
         List<BanInfo> list = new ArrayList<BanInfo>();
         if (plugin.cache.containsKey(name.toLowerCase())) {
             for (BanInfo info : plugin.cache.get(name.toLowerCase())) {
-                switch (BanType.fromID(info.getType())) {
+                switch (info.getType()) {
                     case BAN:
                     case IPBAN:
                     case TEMPBAN:
@@ -109,8 +107,7 @@ public class Unban extends CommandHandler {
                     case PERMA: {
                         String perma = config.getString("Messages.Unban.PermaBanned");
                         perma = perma.replace(Formatting.VICTIM, name);
-                        if (plugin.getLog())
-                            plugin.getLogger().info(perma);
+                        plugin.log(perma);
                         return perma;
                     }
                     case INFO:
@@ -149,9 +146,8 @@ public class Unban extends CommandHandler {
                 plugin.getServer().broadcastMessage(bcmsg);
             } else {
                 sender.sendMessage(ChatColor.ITALIC + "Silent: " + bcmsg);
+                plugin.log(bcmsg);
             }
-            if (plugin.getLog())
-                plugin.getLogger().info(ChatColor.stripColor(bcmsg));
             return null;
         }
         String failed = config.getString("Messages.Unban.Failed", "%victim% is already unbanned!");

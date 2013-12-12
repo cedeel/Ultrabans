@@ -69,7 +69,7 @@ public class Jail extends CommandHandler {
             return plugin.getString(Language.JAIL_EMO);
         if (plugin.cache.containsKey(name.toLowerCase())) {
             for (BanInfo info : plugin.cache.get(name.toLowerCase())) {
-                if (info.getType() == BanType.JAIL.getId()) {
+                if (info.getType() == BanType.JAIL) {
                     String msg = plugin.getString(Language.JAIL_FAILED);
                     if (msg.contains(Formatting.VICTIM))
                         msg = msg.replace(Formatting.VICTIM, name);
@@ -104,9 +104,8 @@ public class Jail extends CommandHandler {
             plugin.getServer().broadcastMessage(broadcastMsg);
         } else {
             sender.sendMessage(ChatColor.ITALIC + "Silent: " + broadcastMsg);
+            plugin.log(broadcastMsg);
         }
-        if (plugin.getLog())
-            plugin.getLogger().info(ChatColor.stripColor(broadcastMsg));
         return null;
     }
 

@@ -58,7 +58,7 @@ public class Perma extends CommandHandler {
         }
         if (plugin.cache.containsKey(name.toLowerCase())) {
             for (BanInfo info : plugin.cache.get(name.toLowerCase())) {
-                if (info.getType() == BanType.BAN.getId()) {
+                if (info.getType() == BanType.BAN) {
                     String failed = plugin.getString(Language.PERMABAN_FAILED);
                     if (failed.contains(Formatting.VICTIM))
                         failed = failed.replace(Formatting.VICTIM, name);
@@ -97,9 +97,8 @@ public class Perma extends CommandHandler {
             plugin.getServer().broadcastMessage(bcmsg);
         } else {
             sender.sendMessage(ChatColor.ITALIC + "Silent: " + bcmsg);
+            plugin.log(bcmsg);
         }
-        if (plugin.getLog())
-            plugin.getLogger().info(ChatColor.stripColor(bcmsg));
         return null;
     }
 }

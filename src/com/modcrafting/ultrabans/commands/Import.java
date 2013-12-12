@@ -23,7 +23,6 @@ import java.text.SimpleDateFormat;
 
 import com.modcrafting.ultrabans.Language;
 import com.modcrafting.ultrabans.util.Formatting;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import com.modcrafting.ultrabans.Ultrabans;
@@ -61,12 +60,10 @@ public class Import extends CommandHandler {
         } catch (IOException e) {
             String msg = Formatting.replaceAmpersand(plugin.getString(Language.IMPORT_FAILED));
             sender.sendMessage(msg);
-            if (plugin.getLog())
-                plugin.getLogger().severe(ChatColor.stripColor(msg));
+            plugin.log(msg);
         }
         String msg = Formatting.replaceAmpersand(plugin.getString(Language.IMPORT_COMPLETED));
-        if (plugin.getLog())
-            plugin.getLogger().severe(ChatColor.stripColor(msg));
+        plugin.log(msg);
         return msg;
     }
 

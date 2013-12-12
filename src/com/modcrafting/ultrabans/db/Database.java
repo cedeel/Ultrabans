@@ -25,6 +25,7 @@ import java.util.logging.Level;
 
 import com.modcrafting.ultrabans.Ultrabans;
 import com.modcrafting.ultrabans.util.BanInfo;
+import com.modcrafting.ultrabans.util.BanType;
 
 public abstract class Database {
     Ultrabans plugin;
@@ -43,21 +44,23 @@ public abstract class Database {
     public void initialize() {
         connection = getSQLConnection();
         try {
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM " + bantable + " WHERE type != 8 AND type != 5");
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM " + bantable + " WHERE type != ? AND type != ?");
+            ps.setInt(1, BanType.INFO.getId());
+            ps.setInt(2, BanType.UNBAN.getId());
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 String pName = rs.getString("name");
                 List<BanInfo> list = new ArrayList<BanInfo>();
                 if (plugin.cache.containsKey(pName.toLowerCase()))
                     list = plugin.cache.get(pName.toLowerCase());
-                list.add(new BanInfo(rs.getString("name"), rs.getString("reason"), rs.getString("admin"), rs.getLong("temptime"), rs.getInt("type")));
+                list.add(new BanInfo(rs.getString("name"), rs.getString("reason"), rs.getString("admin"), rs.getLong("temptime"), BanType.fromID(rs.getInt("type"))));
                 plugin.cache.put(pName.toLowerCase(), list);
-                if (rs.getInt("type") == 1 || rs.getInt("type") == 11) {
+                if (rs.getInt("type") == BanType.IPBAN.getId() || rs.getInt("type") == BanType.TEMPIPBAN.getId()) {
                     list = new ArrayList<BanInfo>();
                     String ip = getAddress(pName);
                     if (ip != null && plugin.cacheIP.containsKey(ip))
                         list = plugin.cacheIP.get(ip);
-                    list.add(new BanInfo(rs.getString("name"), rs.getString("reason"), rs.getString("admin"), rs.getLong("temptime"), rs.getInt("type")));
+                    list.add(new BanInfo(rs.getString("name"), rs.getString("reason"), rs.getString("admin"), rs.getLong("temptime"), BanType.fromID(rs.getInt("type"))));
                     plugin.cacheIP.put(ip, list);
                 }
             }
@@ -172,8 +175,10 @@ public abstract class Database {
     public boolean removeFromBanlist(String player) {
         try {
             connection = getSQLConnection();
-            PreparedStatement ps = connection.prepareStatement("DELETE FROM " + bantable + " WHERE name = ? AND (type = 0 OR type = 1)");
+            PreparedStatement ps = connection.prepareStatement("DELETE FROM " + bantable + " WHERE name = ? AND (type = ? OR type = ?)");
             ps.setString(1, player);
+            ps.setInt(2, BanType.BAN.getId());
+            ps.setInt(3, BanType.IPBAN.getId());
             ps.executeUpdate();
             close(ps, null);
         } catch (SQLException ex) {
@@ -191,7 +196,7 @@ public abstract class Database {
             ResultSet rs = ps.executeQuery();
             List<BanInfo> bans = new ArrayList<BanInfo>();
             while (rs.next()) {
-                bans.add(new BanInfo(rs.getString("name"), rs.getString("reason"), rs.getString("admin"), rs.getLong("temptime"), rs.getInt("type")));
+                bans.add(new BanInfo(rs.getString("name"), rs.getString("reason"), rs.getString("admin"), rs.getLong("temptime"), BanType.fromID(rs.getInt("type"))));
             }
             close(ps, rs);
             return bans;
@@ -210,7 +215,7 @@ public abstract class Database {
             ResultSet rs = ps.executeQuery();
             List<BanInfo> bans = new ArrayList<BanInfo>();
             while (rs.next()) {
-                bans.add(new BanInfo(rs.getString("name"), rs.getString("reason"), rs.getString("admin"), rs.getLong("temptime"), rs.getInt("type")));
+                bans.add(new BanInfo(rs.getString("name"), rs.getString("reason"), rs.getString("admin"), rs.getLong("temptime"), BanType.fromID(rs.getInt("type"))));
             }
             close(ps, rs);
             return bans;
@@ -227,11 +232,11 @@ public abstract class Database {
             connection = getSQLConnection();
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM " + bantable + " WHERE name = ? AND type = ?");
             ps.setString(1, Name);
-            ps.setInt(2, 2);
+            ps.setInt(2, BanType.WARN.getId());
             ResultSet rs = ps.executeQuery();
             List<BanInfo> bans = new ArrayList<BanInfo>();
             while (rs.next()) {
-                bans.add(new BanInfo(rs.getString("name"), rs.getString("reason"), rs.getString("admin"), rs.getLong("temptime"), rs.getInt("type")));
+                bans.add(new BanInfo(rs.getString("name"), rs.getString("reason"), rs.getString("admin"), rs.getLong("temptime"), BanType.fromID(rs.getInt("type"))));
             }
             close(ps, rs);
             return bans;
@@ -244,8 +249,9 @@ public abstract class Database {
     public boolean removeFromJaillist(String player) {
         try {
             connection = getSQLConnection();
-            PreparedStatement ps = connection.prepareStatement("DELETE FROM " + bantable + " WHERE name = ? AND type = 6");
+            PreparedStatement ps = connection.prepareStatement("DELETE FROM " + bantable + " WHERE name = ? AND type = ?");
             ps.setString(1, player);
+            ps.setInt(2, BanType.JAIL.getId());
             ps.executeUpdate();
             close(ps, null);
         } catch (SQLException ex) {
@@ -277,8 +283,9 @@ public abstract class Database {
     public void clearWarns(String player) {
         try {
             connection = getSQLConnection();
-            PreparedStatement ps = connection.prepareStatement("DELETE FROM " + bantable + " WHERE name = ? AND type = 2");
+            PreparedStatement ps = connection.prepareStatement("DELETE FROM " + bantable + " WHERE name = ? AND type = ?");
             ps.setString(1, player);
+            ps.setInt(2, BanType.WARN.getId());
             close(ps, null);
         } catch (SQLException ex) {
             Error.execute(plugin, ex);

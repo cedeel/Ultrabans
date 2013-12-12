@@ -98,8 +98,8 @@ public class Tempipban extends CommandHandler {
         if (offlineip != null) {
             if (plugin.cacheIP.containsKey(offlineip)) {
                 for (BanInfo info : plugin.cache.get(offlineip)) {
-                    if (info.getType() == BanType.TEMPBAN.getId()
-                            || info.getType() == BanType.BAN.getId()) {
+                    if (info.getType() == BanType.TEMPBAN
+                            || info.getType() == BanType.BAN) {
                         String failed = plugin.getString(Language.TEMPIPBAN_FAILED);
                         if (failed.contains(Formatting.VICTIM))
                             failed = failed.replace(Formatting.VICTIM, name);
@@ -136,9 +136,8 @@ public class Tempipban extends CommandHandler {
             plugin.getServer().broadcastMessage(bcmsg);
         } else {
             sender.sendMessage(ChatColor.ITALIC + "Silent: " + bcmsg);
+            plugin.log(bcmsg);
         }
-        if (plugin.getLog())
-            plugin.getLogger().info(bcmsg);
         return bcmsg;
     }
 }

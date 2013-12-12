@@ -40,7 +40,7 @@ public class Pardon extends CommandHandler {
         String name = Formatting.expandName(args[0]);
         if (plugin.cache.containsKey(name.toLowerCase())) {
             for (BanInfo info : plugin.cache.get(name.toLowerCase())) {
-                if (info.getType() == BanType.JAIL.getId()) {
+                if (info.getType() == BanType.JAIL) {
                     plugin.cache.remove(name.toLowerCase());
                     String bcmsg = plugin.getString(Language.PARDON_MSG);
                     if (bcmsg.contains(Formatting.ADMIN))
@@ -58,6 +58,7 @@ public class Pardon extends CommandHandler {
                         }
                         victim.sendMessage(bcmsg);
                     }
+                    plugin.log(bcmsg);
                     return bcmsg;
                 }
             }

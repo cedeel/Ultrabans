@@ -49,8 +49,7 @@ public class Kick extends CommandHandler {
                     players.kickPlayer(adminMsg);
                 }
             }
-            if (plugin.getLog())
-                plugin.getLogger().info(ChatColor.stripColor(adminMsg));
+            plugin.log(adminMsg);
             return adminMsg;
         }
         String name = Formatting.expandName(args[0]);
@@ -92,9 +91,8 @@ public class Kick extends CommandHandler {
             plugin.getServer().broadcastMessage(bcmsg);
         } else {
             sender.sendMessage(ChatColor.ITALIC + "Silent: " + bcmsg);
+            plugin.log(bcmsg);
         }
-        if (plugin.getLog())
-            plugin.getLogger().info(ChatColor.stripColor(bcmsg));
         return null;
     }
 }

@@ -67,8 +67,7 @@ public class Ipban extends CommandHandler {
             } else {
                 sender.sendMessage(ChatColor.ITALIC + "Silent: " + Formatting.replaceAmpersand(bcmsg));
             }
-            if (plugin.getLog())
-                plugin.getLogger().info(admin + " banned player " + name + ".");
+            plugin.log(admin + " banned player " + name);
             return null;
         }
         String victimip = plugin.getUBDatabase().getAddress(name);
@@ -128,9 +127,8 @@ public class Ipban extends CommandHandler {
             plugin.getServer().broadcastMessage(bcmsg);
         } else {
             sender.sendMessage(ChatColor.ITALIC + "Silent: " + bcmsg);
+            plugin.log(bcmsg);
         }
-        if (plugin.getLog())
-            plugin.getLogger().info(ChatColor.stripColor(bcmsg));
         return null;
     }
 }

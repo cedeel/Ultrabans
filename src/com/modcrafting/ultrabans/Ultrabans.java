@@ -164,8 +164,10 @@ public class Ultrabans extends JavaPlugin {
         return db;
     }
 
-    public boolean getLog() {
-        return log;
+    public void log(String s) {
+        if (log) {
+            getLogger().info(ChatColor.stripColor(s));
+        }
     }
 
     public String getString(Language piece) {

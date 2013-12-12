@@ -58,7 +58,7 @@ public class Ban extends CommandHandler {
         }
         if (plugin.cache.containsKey(name.toLowerCase())) {
             for (BanInfo info : plugin.cache.get(name.toLowerCase())) {
-                if (info.getType() == BanType.BAN.getId()) {
+                if (info.getType() == BanType.BAN) {
                     String failed = plugin.getString(Language.BAN_FAILED);
                     if (failed.contains(Formatting.VICTIM))
                         failed = failed.replace(Formatting.VICTIM, name);
@@ -93,12 +93,11 @@ public class Ban extends CommandHandler {
             Formatting.deletePlyrdat(name);
         if (config.getBoolean("ClearWarnOnBan", false))
             plugin.getAPI().clearWarn(name);
-        if (plugin.getLog())
-            plugin.getLogger().info(ChatColor.stripColor(bcmsg));
         if (broadcast) {
             plugin.getServer().broadcastMessage(bcmsg);
         } else {
             sender.sendMessage(ChatColor.ITALIC + "Silent: " + bcmsg);
+            plugin.log(bcmsg);
         }
         return null;
     }

@@ -54,12 +54,12 @@ public class UltraBanPlayerListener implements Listener {
         plugin.getUBDatabase().setAddress(player.getName().toLowerCase(), ip);
         if (plugin.cacheIP.containsKey(ip)) {
             for (BanInfo info : plugin.cacheIP.get(player.getName().toLowerCase())) {
-                if (info.getType() == BanType.IPBAN.getId() || info.getType() == BanType.TEMPIPBAN.getId()) {
+                if (info.getType() == BanType.IPBAN || info.getType() == BanType.TEMPIPBAN) {
                     //TODO:TempCheck via Type
 
-                    if (admin.equals(info.getAdmin()))
+                    if (!admin.equals(info.getAdmin()))
                         admin = info.getAdmin();
-                    if (reason.equals(info.getReason()))
+                    if (!reason.equals(info.getReason()))
                         reason = info.getReason();
                     String bcmsg = plugin.getString(Language.IPBAN_LOGIN);
                     if (bcmsg.contains(Formatting.ADMIN))
@@ -73,13 +73,13 @@ public class UltraBanPlayerListener implements Listener {
 
         if (plugin.cache.containsKey(player.getName().toLowerCase())) {
             for (BanInfo info : plugin.cache.get(player.getName().toLowerCase())) {
-                if (info.getType() == BanType.BAN.getId() || info.getType() == BanType.TEMPBAN.getId()) {
+                if (info.getType() == BanType.BAN || info.getType() == BanType.TEMPBAN) {
 
                     //TODO:TempCheck via Type
 
-                    if (admin.equals(info.getAdmin()))
+                    if (!admin.equals(info.getAdmin()))
                         admin = info.getAdmin();
-                    if (reason.equals(info.getReason()))
+                    if (!reason.equals(info.getReason()))
                         reason = info.getReason();
                     String bcmsg = plugin.getString(Language.BAN_LOGIN);
                     if (bcmsg.contains(Formatting.ADMIN))
@@ -125,7 +125,7 @@ public class UltraBanPlayerListener implements Listener {
         String admin = Ultrabans.DEFAULT_REASON;
         if (plugin.cacheIP.containsKey(ip)) {
             for (BanInfo info : plugin.cacheIP.get(ip)) {
-                if (info.getType() == BanType.IPBAN.getId() || info.getType() == BanType.TEMPIPBAN.getId()) {
+                if (info.getType() == BanType.IPBAN || info.getType() == BanType.TEMPIPBAN) {
                     //TODO:TempCheck via Type
 
                     if (admin.equals(info.getAdmin()))
@@ -152,7 +152,7 @@ public class UltraBanPlayerListener implements Listener {
         if (config.getBoolean("Jail.Vanilla", true) && plugin.cache.containsKey(player.getName().toLowerCase())) {
             List<BanInfo> list = plugin.cache.get(player.getName().toLowerCase());
             for (BanInfo info : list) {
-                if (info.getType() == BanType.TEMPJAIL.getId() || info.getType() == BanType.JAIL.getId()) {
+                if (info.getType() == BanType.TEMPJAIL || info.getType() == BanType.JAIL) {
                     if (tempjailCheck(player, info) &&
                             config.getStringList("Jail.AllowedCommands").contains(args[0]))
                         return;
@@ -183,7 +183,7 @@ public class UltraBanPlayerListener implements Listener {
                 && config.getBoolean("Jail.Mute", true)) {
             List<BanInfo> list = plugin.cache.get(player.getName().toLowerCase());
             for (BanInfo info : list) {
-                if (info.getType() == BanType.TEMPJAIL.getId() || info.getType() == BanType.JAIL.getId()) {
+                if (info.getType() == BanType.TEMPJAIL || info.getType() == BanType.JAIL) {
                     if (tempjailCheck(player, info))
                         return;
                     player.sendMessage(Formatting.replaceAmpersand(adminMsg));
@@ -326,7 +326,7 @@ public class UltraBanPlayerListener implements Listener {
         if (plugin.cache.containsKey(player.getName().toLowerCase())) {
             List<BanInfo> list = plugin.cache.get(player.getName().toLowerCase());
             for (BanInfo info : list) {
-                if (info.getType() == BanType.TEMPJAIL.getId() || info.getType() == BanType.JAIL.getId()) {
+                if (info.getType() == BanType.TEMPJAIL || info.getType() == BanType.JAIL) {
                     if (tempjailCheck(player, info))
                         return;
                     event.setRespawnLocation(plugin.jail.getJail("jail"));

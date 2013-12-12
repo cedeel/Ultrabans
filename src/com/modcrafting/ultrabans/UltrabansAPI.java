@@ -41,13 +41,13 @@ public class UltrabansAPI {
         List<BanInfo> list = new ArrayList<BanInfo>();
         if (plugin.cache.containsKey(playerName))
             list = plugin.cache.get(playerName);
-        list.add(new BanInfo(playerName, reason, admin, 0, BanType.BAN.getId()));
+        list.add(new BanInfo(playerName, reason, admin, 0, BanType.BAN));
         plugin.cache.put(playerName.toLowerCase(), list);
         addPlayer(playerName, reason, admin, 0, BanType.BAN);
     }
 
     public void ipbanPlayer(final String playerName, final String ip, final String reason, final String admin) {
-        BanInfo info = new BanInfo(playerName, reason, admin, 0, BanType.IPBAN.getId());
+        BanInfo info = new BanInfo(playerName, reason, admin, 0, BanType.IPBAN);
         List<BanInfo> list = new ArrayList<BanInfo>();
         if (plugin.cacheIP.containsKey(playerName))
             list = plugin.cache.get(playerName);
@@ -63,7 +63,7 @@ public class UltrabansAPI {
         List<BanInfo> list = new ArrayList<BanInfo>();
         if (plugin.cache.containsKey(playerName))
             list = plugin.cache.get(playerName);
-        list.add(new BanInfo(playerName, reason, admin, 0, BanType.JAIL.getId()));
+        list.add(new BanInfo(playerName, reason, admin, 0, BanType.JAIL));
         plugin.cache.put(playerName.toLowerCase(), list);
         addPlayer(playerName, reason, admin, 0, BanType.JAIL);
     }
@@ -95,7 +95,7 @@ public class UltrabansAPI {
         List<BanInfo> list = new ArrayList<BanInfo>();
         if (plugin.cache.containsKey(playerName))
             list = plugin.cache.get(playerName);
-        list.add(new BanInfo(playerName, reason, admin, 0, BanType.PERMA.getId()));
+        list.add(new BanInfo(playerName, reason, admin, 0, BanType.PERMA));
         plugin.cache.put(playerName.toLowerCase(), list);
         addPlayer(playerName, reason, admin, 0, BanType.PERMA);
     }
@@ -104,13 +104,13 @@ public class UltrabansAPI {
         List<BanInfo> list = new ArrayList<BanInfo>();
         if (plugin.cache.containsKey(playerName))
             list = plugin.cache.get(playerName);
-        list.add(new BanInfo(playerName, reason, admin, 0, BanType.TEMPBAN.getId()));
+        list.add(new BanInfo(playerName, reason, admin, 0, BanType.TEMPBAN));
         plugin.cache.put(playerName.toLowerCase(), list);
         addPlayer(playerName, reason, admin, temp, BanType.TEMPBAN);
     }
 
     public void tempipbanPlayer(final String playerName, final String ip, final String reason, final long temp, final String admin) {
-        BanInfo info = new BanInfo(playerName, reason, admin, 0, BanType.TEMPIPBAN.getId());
+        BanInfo info = new BanInfo(playerName, reason, admin, 0, BanType.TEMPIPBAN);
         List<BanInfo> list = new ArrayList<BanInfo>();
         if (plugin.cacheIP.containsKey(playerName))
             list = plugin.cache.get(playerName);
@@ -126,7 +126,7 @@ public class UltrabansAPI {
         List<BanInfo> list = new ArrayList<BanInfo>();
         if (plugin.cache.containsKey(playerName))
             list = plugin.cache.get(playerName);
-        list.add(new BanInfo(playerName, reason, admin, 0, BanType.TEMPJAIL.getId()));
+        list.add(new BanInfo(playerName, reason, admin, 0, BanType.TEMPJAIL));
         addPlayer(playerName, reason, admin, temp, BanType.TEMPJAIL);
     }
 

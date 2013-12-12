@@ -54,7 +54,7 @@ public class SQL extends Database {
             connection = DriverManager.getConnection(database, info);
             return connection;
         } catch (SQLException ex) {
-            plugin.getLogger().log(Level.SEVERE, "Unable to retreive connection", ex);
+            plugin.getLogger().log(Level.SEVERE, "Unable to retrieve connection", ex);
         }
         return null;
     }

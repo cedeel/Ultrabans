@@ -16,7 +16,6 @@
 package com.modcrafting.ultrabans.commands;
 
 import com.modcrafting.ultrabans.Language;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -42,11 +41,12 @@ public class Starve extends CommandHandler {
         victim.sendMessage(Formatting.replaceAmpersand(plugin.getString(Language.STARVE_MSGTOVICTIM)));
         victim.setFoodLevel(0);
 
-        String bcmsg = plugin.getString(Language.STARVE_MSGTOSENDER);
-        if (bcmsg.contains(Formatting.ADMIN))
-            bcmsg = bcmsg.replace(Formatting.ADMIN, admin);
-        if (bcmsg.contains(Formatting.VICTIM))
-            bcmsg = bcmsg.replace(Formatting.VICTIM, name);
-        return bcmsg;
+        String vicmsg = plugin.getString(Language.STARVE_MSGTOSENDER);
+        if (vicmsg.contains(Formatting.ADMIN))
+            vicmsg = vicmsg.replace(Formatting.ADMIN, admin);
+        if (vicmsg.contains(Formatting.VICTIM))
+            vicmsg = vicmsg.replace(Formatting.VICTIM, name);
+        plugin.log(vicmsg);
+        return vicmsg;
     }
 }

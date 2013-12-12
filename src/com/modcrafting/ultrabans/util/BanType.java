@@ -28,7 +28,7 @@ public enum BanType {
     TEMPBAN(10),
     TEMPIPBAN(11),
     TEMPJAIL(12);
-    private int id;
+    private final int id;
 
     private BanType(int i) {
         id = i;
@@ -38,10 +38,6 @@ public enum BanType {
         return id;
     }
 
-    public String toCode() {
-        return toCode(id);
-    }
-
     public static BanType fromID(int type) {
         for (BanType tp : BanType.values())
             if (tp.getId() == type)
@@ -49,8 +45,8 @@ public enum BanType {
         return BAN;
     }
 
-    public static String toCode(int num) {
-        switch (fromID(num)) {
+    public static String toCode(BanType input) {
+        switch (input) {
             case BAN:
                 return "B";
             case IPBAN:
@@ -72,5 +68,9 @@ public enum BanType {
             default:
                 return "?";
         }
+    }
+
+    public String toCode() {
+        return toCode(this);
     }
 }

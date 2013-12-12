@@ -20,14 +20,19 @@ public class BanInfo {
     private String reason;
     private String admin;
     private long endTime;
-    private int type;
+    private BanType type;
 
+    public BanInfo(String name, String reason, String admin, long endTime, BanType type) {
+        this.name = name;
+        this.reason = reason;
+        this.admin = admin;
+        this.endTime = endTime;
+        this.type = type;
+    }
+
+    @Deprecated
     public BanInfo(String name, String reason, String admin, long endTime, int type) {
-        this.setName(name);
-        this.setReason(reason);
-        this.setAdmin(admin);
-        this.setEndTime(endTime);
-        this.setType(type);
+        this(name, reason, admin, endTime, BanType.fromID(type));
     }
 
     public String getName() {
@@ -62,12 +67,11 @@ public class BanInfo {
         this.endTime = endTime;
     }
 
-    public int getType() {
+    public BanType getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(BanType type) {
         this.type = type;
     }
-
 }

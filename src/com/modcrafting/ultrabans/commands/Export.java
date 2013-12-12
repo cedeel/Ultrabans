@@ -23,7 +23,6 @@ import java.util.Date;
 
 import com.modcrafting.ultrabans.Language;
 import com.modcrafting.ultrabans.util.Formatting;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import com.modcrafting.ultrabans.Ultrabans;
@@ -40,7 +39,7 @@ public class Export extends CommandHandler {
             BufferedWriter banlist = new BufferedWriter(new FileWriter("banned-players.txt", true));
             for (String p : plugin.cache.keySet()) {
                 for (BanInfo info : plugin.cache.get(p)) {
-                    if (info.getType() == BanType.BAN.getId()) {
+                    if (info.getType() == BanType.BAN) {
                         banlist.newLine();
                         banlist.write(g(p, info.getAdmin(), info.getReason()));
                     }
@@ -50,7 +49,7 @@ public class Export extends CommandHandler {
             BufferedWriter iplist = new BufferedWriter(new FileWriter("banned-ips.txt", true));
             for (String p : plugin.cacheIP.keySet()) {
                 for (BanInfo info : plugin.cacheIP.get(p)) {
-                    if (info.getType() == BanType.IPBAN.getId()) {
+                    if (info.getType() == BanType.IPBAN) {
                         iplist.newLine();
                         iplist.write(g(p, info.getAdmin(), info.getReason()));
                     }
@@ -59,14 +58,12 @@ public class Export extends CommandHandler {
             iplist.close();
         } catch (IOException e) {
             String msg = Formatting.replaceAmpersand(plugin.getString(Language.EXPORT_FAILED));
-            if (plugin.getLog())
-                plugin.getLogger().severe(ChatColor.stripColor(msg));
+            plugin.log(msg);
             e.printStackTrace();
             return msg;
         }
         String msg = Formatting.replaceAmpersand(plugin.getString(Language.EXPORT_COMPLETED));
-        if (plugin.getLog())
-            plugin.getLogger().info(ChatColor.stripColor(msg));
+        plugin.log(msg);
         return msg;
     }
 

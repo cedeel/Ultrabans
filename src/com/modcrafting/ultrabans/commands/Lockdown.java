@@ -38,8 +38,7 @@ public class Lockdown extends CommandHandler {
             if (!locked) {
                 plugin.getConfig().set("Lockdown", true);
                 plugin.saveConfig();
-                if (plugin.getLog())
-                    plugin.getLogger().info(admin + " initiated lockdown.");
+                plugin.log(admin + " initiated lockdown");
                 return plugin.getString(Language.LOCKDOWN_START);
             }
             return plugin.getString(Language.LOCKDOWN_LOGINMSG);
@@ -48,8 +47,7 @@ public class Lockdown extends CommandHandler {
             if (locked) {
                 plugin.getConfig().set("Lockdown", false);
                 plugin.saveConfig();
-                if (plugin.getLog())
-                    plugin.getLogger().info(admin + " disabled lockdown.");
+                plugin.log(admin + " disabled lockdown");
                 return plugin.getString(Language.LOCKDOWN_END);
             }
             return plugin.getString(Language.LOCKDOWN_STATUS);

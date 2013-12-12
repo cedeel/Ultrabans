@@ -29,8 +29,7 @@ public class Reload extends CommandHandler {
         plugin.reloadConfig();
         plugin.getServer().getPluginManager().disablePlugin(plugin);
         plugin.getServer().getPluginManager().enablePlugin(plugin);
-        if (plugin.getLog())
-            plugin.getLogger().info("Reloaded.");
+        plugin.log("Reloaded");
         return plugin.getString(Language.RELOAD);
     }
 }

@@ -69,8 +69,8 @@ public class Tempjail extends CommandHandler {
 
         if (plugin.cache.containsKey(name.toLowerCase())) {
             for (BanInfo info : plugin.cache.get(name.toLowerCase())) {
-                if (info.getType() == BanType.TEMPJAIL.getId()
-                        || info.getType() == BanType.JAIL.getId()) {
+                if (info.getType() == BanType.TEMPJAIL
+                        || info.getType() == BanType.JAIL) {
                     String failed = plugin.getString(Language.TEMPJAIL_FAILED);
                     if (failed.contains(Formatting.VICTIM))
                         failed = failed.replace(Formatting.VICTIM, name);
@@ -106,9 +106,8 @@ public class Tempjail extends CommandHandler {
             plugin.getServer().broadcastMessage(bcmsg);
         } else {
             sender.sendMessage(ChatColor.ITALIC + "Silent: " + bcmsg);
+            plugin.log(bcmsg);
         }
-        if (plugin.getLog())
-            plugin.getLogger().info(ChatColor.stripColor(bcmsg));
         return null;
     }
 }

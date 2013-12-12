@@ -47,7 +47,7 @@ public class History extends CommandHandler {
             Date date = new Date();
             date.setTime(ban.getEndTime() * 1000);
             String dateStr = date.toString();
-            switch (BanType.fromID(ban.getType())) {
+            switch (ban.getType()) {
                 case TEMPBAN:
                 case TEMPIPBAN:
                 case TEMPJAIL: {
